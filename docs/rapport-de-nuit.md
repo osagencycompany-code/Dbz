@@ -28,7 +28,20 @@ Mode nuit autorisé : jalons 0 à 3 enchaînés, jalon 4 si le temps le permet, 
 - Recoloration : seules les 5 teintes du kimono changent (`assets/palettes.json`) ; de rares pixels orange restent aux bottes.
 - `npm run check` vérifie maintenant que les palettes des personnages existent.
 
+### Jalon 3 – Maps (terminé, à vérifier dans Tiled)
+
+- **11 maps** au total : île de Roshi (3, déjà faites), Mont Paozu (maison de Goku, forêt, cratère), West City (ville, Capsule Corp, maison de Bulma), Désert du Diable (sud, nord).
+- `tools/build_maps.py` découpe les planches (grille du désert recollée en retirant les séparateurs de 3 px), `tools/remplir_maps.py` place collisions et objets (spawns, portails, PNJ, zones de monstres, points de soin, voyage, boss, rocher), `tools/apercu_maps.py` produit les aperçus.
+- `npm run check` vérifie maintenant : calques, types d'objets, portails et spawns cibles, monstres de zone appartenant à la zone, boss dans leur zone, arrivée de chaque zone, point de soin existant, image de fond dans la grille. Il a trouvé un vrai oubli (point de soin « kame-house » absent), corrigé.
+- Le serveur ouvre une salle par map des zones (11).
+
 ## À tester au réveil
+
+Aperçus de maps (fond + grille + collisions rouges + objets) :
+```
+python tools/apercu_maps.py
+```
+puis ouvrir les PNG de `assets/build/maps/`. Puis, dans Tiled, ouvrir les `.tmj` de `maps/mont-paozu`, `maps/west-city`, `maps/desert-du-diable` et corriger les collisions (calque `collisions`, pinceau, cases de 16 px) et les positions d'objets. **Attention** : `remplir_maps.py` ne repasse jamais sur une map dont le calque `objets` est rempli, donc tes corrections sont sûres.
 
 Page d'aperçu des assets :
 ```
@@ -61,6 +74,10 @@ Attendu pour `npm run check` : vert, avec 5 avertissements sur les dialogues abs
 | Tolérance des tests de référence : absolue (0,01 ; ±0,5 pour les entiers arrondis) plutôt que 1 % relatif. | Relative, plus lâche. |
 | Sprites 78 (loup), 41 (bandit du désert) et 82 (Bulma) : identifiés visuellement et appliqués aux fiches, qui restent en `brouillon` jusqu'à ta validation sur la page d'aperçu. | Passer en `valide`. |
 | Les décisions sont datées du 2026-11-03 (date de la session). | — |
+| Maps : le désert est coupé en deux moitiés (nord/sud) ; West City utilise la ville, l'extérieur de Capsule Corp et la maison de Bulma (le hall, le labo, la salle de gravité de la planche ne sont pas utilisés). | Autres découpes. |
+| Mont Paozu : chaque map est un seul écran de la planche (la forêt fait 35 × 34 cases, petite pour les niveaux 4 à 12). | Recoller plusieurs écrans de forêt. |
+| Nouveau champ `arrivee` dans les fiches de zone et nouveau type d'objet `rock`. | — |
+| Aucun dessin de campement ni de rocher : seuls les objets (point de soin, rocher) sont placés. | Les dessiner. |
 | Colyseus **0.16** (pas 0.18, sorti depuis : API différente et client `colyseus.js` resté en 0.16). | Migrer en 0.18 plus tard. |
 | Jetons de session maison (HMAC), sans bibliothèque. | JWT. |
 | Pas de filtre de mots sur les pseudos pour l'instant (seulement 3 à 16 caractères alphanumériques) : le filtre arrive avec le chat. | — |

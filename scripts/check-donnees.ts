@@ -159,14 +159,16 @@ for (const [, { rel, data: p }] of get("characters"))
   for (const nom of p.palettes_joueur ?? []) if (!palettesDefinies.has(nom)) erreur(rel, `palette « ${nom} » absente de assets/palettes.json`);
 
 // ---------------------------------------------------------------- 5. maps Tiled
-const TYPES_OBJETS = new Set(["spawn", "portal", "npc", "mobzone", "travel", "heal", "boss"]);
+const TYPES_OBJETS = new Set(["spawn", "portal", "npc", "mobzone", "travel", "heal", "boss", "rock"]);
 const cartes = listerFichiers(chemin("maps"), ".tmj");
 const spawnsParCarte = new Map<string, Set<string>>();
 const lireCarte = (abs: string) => lireJson(abs) as Fiche;
+const objetsParCarte = new Map<string, Fiche[]>();
 for (const abs of cartes) {
   const id = relatif(abs).replace(/^maps\//, "").replace(/\.tmj$/, "");
   const calques = lireCarte(abs).layers as Fiche[];
   const objets = calques.find((c) => c.name === "objets")?.objects ?? [];
+  objetsParCarte.set(id, objets);
   spawnsParCarte.set(id, new Set(objets.filter((o: Fiche) => o.type === "spawn").map((o: Fiche) => o.name)));
 }
 for (const abs of cartes) {
@@ -189,13 +191,39 @@ for (const abs of cartes) {
       if (!spawnsParCarte.has(cible)) erreur(rel, `portail « ${o.name} » : map « ${cible} » introuvable`);
       else if (!spawnsParCarte.get(cible)?.has(String(props.spawn))) erreur(rel, `portail « ${o.name} » : spawn « ${props.spawn} » absent de ${cible}`);
     }
-    if (o.type === "mobzone") verifierRef(rel, `mobzone « ${o.name} »`, props.mob, "mobs");
+    if (o.type === "mobzone") {
+      verifierRef(rel, `mobzone « ${o.name} »`, props.mob, "mobs");
+      const zoneId = relatif(abs).split("/")[1];
+      if (!get("mobs").get(String(props.mob))?.data.zones.includes(zoneId)) erreur(rel, `mobzone « ${o.name} » : ${props.mob} n'appartient pas à la zone ${zoneId}`);
+    }
     if (o.type === "npc") {
       verifierRef(rel, `npc « ${o.name} »`, o.name, "npcs");
       const m = /^dbz-online\/characters\/(\d+)$/.exec(String(props.sprite ?? ""));
       if (m) verifierFichier(rel, `npc « ${o.name} » sprite`, `assets/raw/graphics/characters/${m[1]}.png`);
     }
-    if (o.type === "boss") verifierRef(rel, `boss « ${o.name} »`, props.boss, "bosses");
+    if (o.type === "boss") {
+      verifierRef(rel, `boss « ${o.name} »`, props.boss, "bosses");
+      if (get("bosses").get(String(props.boss))?.data.zone !== relatif(abs).split("/")[1]) erreur(rel, `boss « ${o.name} » : zone différente de celle de la map`);
+    }
+  }
+  // Image de fond : pas plus grande que la grille de cases.
+  if (fond?.image && existe(join(dirname(rel), fond.image))) {
+    const { largeur, hauteur } = dimensionsPng(chemin(join(dirname(rel), fond.image)));
+    if (largeur > carte.width * carte.tilewidth || hauteur > carte.height * carte.tileheight) erreur(rel, `image de fond ${largeur}x${hauteur} plus grande que la grille ${carte.width}x${carte.height}`);
+  }
+  if (!get("zones").size || ![...get("zones").values()].some((z) => z.data.maps.includes(rel))) avertir(rel, "map absente de toutes les zones");
+}
+
+// Zones : arrivée et point de soin doivent exister sur leurs maps.
+for (const [, { rel, data: z }] of get("zones")) {
+  if (z.carte_du_monde && !z.arrivee) erreur(rel, "zone sur la carte du monde sans `arrivee`");
+  if (z.arrivee) {
+    if (!z.maps.includes(`maps/${z.arrivee.map}.tmj`)) erreur(rel, `arrivee : map « ${z.arrivee.map} » absente de la zone`);
+    else if (!spawnsParCarte.get(z.arrivee.map)?.has(z.arrivee.spawn)) erreur(rel, `arrivee : spawn « ${z.arrivee.spawn} » absent de ${z.arrivee.map}`);
+  }
+  if (z.point_de_soin) {
+    const trouve = z.maps.some((m: string) => (objetsParCarte.get(m.replace(/^maps\//, "").replace(/\.tmj$/, "")) ?? []).some((o) => o.type === "heal" && o.name === z.point_de_soin));
+    if (!trouve) erreur(rel, `point_de_soin « ${z.point_de_soin} » : aucun objet heal de ce nom dans les maps de la zone`);
   }
 }
 

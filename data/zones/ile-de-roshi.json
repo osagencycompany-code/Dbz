@@ -18,5 +18,10 @@
   ],
   "deblocage": null,
   "point_de_soin": "kame-house",
-  "carte_du_monde": true
+  "carte_du_monde": true,
+  "arrivee": {
+    "map": "ile-de-roshi/exterieur",
+    "spawn": "arrivee"
+  },
+  "a_verifier": "À vérifier dans Tiled : collisions et objets placés à l'estime sur les aperçus (assets/build/maps/). Pas de rocher dessiné : l'objet « rocher-entrainement » marque l'emplacement du Kamehameha d'entraînement."
 }

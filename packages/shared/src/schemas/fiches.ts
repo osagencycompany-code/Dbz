@@ -125,6 +125,8 @@ export const zone = z.strictObject({
   deblocage: z.string().nullable().optional(),
   point_de_soin: z.string().nullable().optional(),
   carte_du_monde: z.boolean().optional(),
+  /** Où le joueur arrive quand il voyage vers la zone : id de map (sans « maps/ » ni « .tmj ») et nom du spawn. */
+  arrivee: z.strictObject({ map: z.string(), spawn: z.string() }).optional(),
 });
 
 // ---------- Quête ----------

@@ -88,14 +88,14 @@ Côté serveur : cadence de 20 mises à jour par seconde, le client prédit ses 
 Détail et état de préparation : `docs/maps-et-histoire.md`. Pour chaque map :
 
 - un fichier Tiled `.tmj` avec les calques `fond` (image), `collisions` (cases de 16 px), `objets` ;
-- types d'objets : `spawn`, `portal` (propriétés `map`, `spawn`), `npc` (`sprite`, `dialogue`), `mobzone` (`mob`, `count`, `level`), `travel` (point de voyage vers la carte du monde), `heal` (point de soin), `boss` (`boss`).
+- types d'objets : `spawn`, `portal` (propriétés `map`, `spawn`), `npc` (`sprite`, `dialogue`), `mobzone` (`mob`, `count`, `level`), `travel` (point de voyage vers la carte du monde), `heal` (point de soin), `boss` (`boss`), `rock` (rocher d'entraînement, décision de design D5). Chaque zone déclare dans sa fiche une `arrivee` (map + spawn) utilisée par le voyage.
 
 | Zone | Map | Niveaux | Contenu |
 | --- | --- | --- | --- |
-| Île de Roshi | Roshi's Island (extérieur + Kame House, 2 intérieurs) | 1 à 5 | Tutoriel, Maître Roshi, Krilin, Tortue, mannequins, crabes |
-| Mont Paozu | Southwest Forest (maison de Goku, forêt, cratère) | 4 à 14 | Loups, sangliers, tigres bandits, dinosaures (élites), Chi-Chi, Raditz au cratère |
-| West City | West City (ville + intérieurs) | hub | Bulma à Capsule Corp, boutique, point de soin, PNJ de quêtes |
-| Désert du Diable | Diablo Desert | 14 à 25 | Saibamen par vagues, bandits, Nappa |
+| Île de Roshi | Roshi's Island (extérieur + Kame House, 2 intérieurs) : 3 maps | 1 à 5 | Tutoriel, Maître Roshi, Krilin, Tortue, mannequins, crabes |
+| Mont Paozu | Southwest Forest : maison de Goku, forêt, cratère (3 maps) | 4 à 14 | Loups, sangliers, tigres bandits, dinosaures (élites), Chi-Chi, Raditz au cratère |
+| West City | West City : ville, extérieur de Capsule Corp, maison de Bulma (3 maps) | hub | Bulma à Capsule Corp, boutique, point de soin, PNJ de quêtes |
+| Désert du Diable | Diablo Desert : moitié sud (campement, rochers de Nappa) et moitié nord (plateau) (2 maps) | 14 à 25 | Saibamen par vagues, bandits, Nappa |
 
 Carte du monde : fenêtre avec les 4 lieux, verrouillés tant qu'ils n'ont pas été débloqués par la quête correspondante ; voyage gratuit dans la bêta depuis un objet `travel`.
 

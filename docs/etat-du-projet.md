@@ -9,12 +9,12 @@ Mis à jour à la fin de chaque session.
 - **Jalon 0 terminé** : monorepo, schémas zod, formules + tests de référence, `npm run check` au vert.
 - **Jalon 1 terminé** : serveur Express + Colyseus, SQLite, comptes avec clé d'invitation, salles de map vides.
 - **Jalon 2 terminé** : palettes, crabe et mannequin « maison », page d'aperçu (`npm run assets:build`).
-- Île de Roshi préparée pour Tiled (3 maps, collisions et objets à vérifier).
+- **Jalon 3 terminé** : 11 maps (collisions et objets à vérifier dans Tiled), contrôles de maps dans `npm run check`.
 - Aucune logique de jeu pour l'instant.
 
 ## Prochaine étape
 
-Jalon 3 : maps (4 zones traitées avec `tools/extract_map_regions.py`, collisions, objets, aperçus). Voir `docs/rapport-de-nuit.md`.
+Jalon 4 : combat en ligne (déplacement, techniques, monstres, IA, XP, niveaux, fenêtre P), jamais au-delà : le jalon 5 attend ta validation du ressenti.
 
 ## À valider par Souleymen
 

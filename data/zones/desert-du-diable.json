@@ -7,7 +7,10 @@
     14,
     25
   ],
-  "maps": [],
+  "maps": [
+    "maps/desert-du-diable/sud.tmj",
+    "maps/desert-du-diable/nord.tmj"
+  ],
   "monstres": [
     "saibaman",
     "bandit-du-desert"
@@ -15,5 +18,9 @@
   "deblocage": "q09-un-an",
   "point_de_soin": "campement-du-desert",
   "carte_du_monde": true,
-  "a_verifier": "Maps à générer depuis Diablo Desert (planche en grille)."
+  "a_verifier": "À vérifier dans Tiled : collisions et objets placés à l'estime sur les aperçus (assets/build/maps/). Le campement n'a pas de dessin : seul le point de soin est placé.",
+  "arrivee": {
+    "map": "desert-du-diable/sud",
+    "spawn": "arrivee"
+  }
 }

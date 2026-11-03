@@ -1,7 +1,7 @@
 import { Client } from "colyseus.js";
 import express from "express";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { creerApplication, nomSalle, type Application } from "./app.js";
+import { creerApplication, mapsDesZones, nomSalle, type Application } from "./app.js";
 import { routesAuth } from "./auth/routes.js";
 import { creerJeton, verifierJeton } from "./auth/jeton.js";
 import { ouvrirBase } from "./db/connexion.js";
@@ -116,6 +116,10 @@ describe("limiteur", () => {
 });
 
 describe("salle de map", () => {
+  it("ouvre une salle par map des zones (11 maps)", () => {
+    expect(mapsDesZones()).toHaveLength(11);
+  });
+
   it("refuse un joueur sans jeton, accepte un joueur connecté", async () => {
     const client = new Client(`ws://localhost:${port}`);
     await expect(client.joinOrCreate(nomSalle("ile-de-roshi/exterieur"), {})).rejects.toThrow();

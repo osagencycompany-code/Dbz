@@ -71,6 +71,22 @@
     },
     "carte_du_monde": {
       "type": "boolean"
+    },
+    "arrivee": {
+      "type": "object",
+      "properties": {
+        "map": {
+          "type": "string"
+        },
+        "spawn": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "map",
+        "spawn"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [

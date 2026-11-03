@@ -7,10 +7,18 @@
     8,
     25
   ],
-  "maps": [],
+  "maps": [
+    "maps/west-city/ville.tmj",
+    "maps/west-city/capsule-corp.tmj",
+    "maps/west-city/maison-de-bulma.tmj"
+  ],
   "monstres": [],
   "deblocage": "q08-capsule-corp",
   "point_de_soin": "capsule-corp",
   "carte_du_monde": true,
-  "a_verifier": "Maps à générer depuis West City."
+  "a_verifier": "À vérifier dans Tiled : collisions et objets placés à l'estime sur les aperçus (assets/build/maps/).",
+  "arrivee": {
+    "map": "west-city/ville",
+    "spawn": "arrivee"
+  }
 }
