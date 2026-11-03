@@ -1,15 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Personnage jouable ou modèle",
   "type": "object",
-  "required": [
-    "id",
-    "nom",
-    "statut",
-    "role",
-    "race",
-    "formes"
-  ],
   "properties": {
     "$schema": {
       "type": "string"
@@ -20,15 +11,15 @@
     },
     "nom": {
       "type": "string",
-      "description": "Nom affiché en jeu, conforme à docs/lore/glossaire.md"
+      "minLength": 1
     },
     "statut": {
+      "type": "string",
       "enum": [
         "brouillon",
         "valide",
         "obsolete"
-      ],
-      "description": "brouillon = en attente de validation par Souleymen"
+      ]
     },
     "a_verifier": {
       "type": "string"
@@ -37,12 +28,14 @@
       "type": "string"
     },
     "role": {
+      "type": "string",
       "enum": [
         "modele-joueur",
         "pnj-combattant"
       ]
     },
     "race": {
+      "type": "string",
       "enum": [
         "saiyan",
         "namek",
@@ -53,13 +46,11 @@
     },
     "formes": {
       "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
       "additionalProperties": {
         "type": "object",
-        "required": [
-          "planche",
-          "animations",
-          "provenance"
-        ],
         "properties": {
           "planche": {
             "type": "string"
@@ -71,6 +62,7 @@
             "type": "string"
           },
           "provenance": {
+            "type": "string",
             "enum": [
               "dbz-online",
               "buus-fury",
@@ -78,6 +70,11 @@
             ]
           }
         },
+        "required": [
+          "planche",
+          "animations",
+          "provenance"
+        ],
         "additionalProperties": false
       }
     },
@@ -88,5 +85,13 @@
       }
     }
   },
+  "required": [
+    "id",
+    "nom",
+    "statut",
+    "role",
+    "race",
+    "formes"
+  ],
   "additionalProperties": false
 }

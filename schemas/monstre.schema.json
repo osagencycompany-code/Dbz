@@ -1,17 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Monstre",
   "type": "object",
-  "required": [
-    "id",
-    "nom",
-    "statut",
-    "rang",
-    "niveau",
-    "sprite",
-    "comportement",
-    "zones"
-  ],
   "properties": {
     "$schema": {
       "type": "string"
@@ -22,15 +11,15 @@
     },
     "nom": {
       "type": "string",
-      "description": "Nom affiché en jeu, conforme à docs/lore/glossaire.md"
+      "minLength": 1
     },
     "statut": {
+      "type": "string",
       "enum": [
         "brouillon",
         "valide",
         "obsolete"
-      ],
-      "description": "brouillon = en attente de validation par Souleymen"
+      ]
     },
     "a_verifier": {
       "type": "string"
@@ -39,6 +28,7 @@
       "type": "string"
     },
     "rang": {
+      "type": "string",
       "enum": [
         "commun",
         "elite"
@@ -46,52 +36,64 @@
     },
     "niveau": {
       "type": "array",
-      "items": {
-        "type": "integer",
-        "minimum": 1
-      },
+      "prefixItems": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      ],
+      "items": false,
       "minItems": 2,
       "maxItems": 2
     },
     "sprite": {
-      "type": [
-        "object",
-        "null"
-      ],
-      "required": [
-        "source",
-        "fichier",
-        "format"
-      ],
-      "properties": {
-        "source": {
-          "enum": [
-            "dbz-online",
-            "buus-fury",
-            "maison",
-            "a-creer",
-            "a-choisir"
-          ]
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "enum": [
+                "dbz-online",
+                "buus-fury",
+                "maison",
+                "a-creer",
+                "a-choisir"
+              ]
+            },
+            "fichier": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "format": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "fichier",
+            "format"
+          ],
+          "additionalProperties": false
         },
-        "fichier": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "format": {
-          "type": "string"
+        {
+          "type": "null"
         }
-      },
-      "additionalProperties": false
+      ]
     },
     "comportement": {
       "type": "object",
-      "required": [
-        "type"
-      ],
       "properties": {
         "type": {
+          "type": "string",
           "enum": [
             "immobile",
             "poursuite",
@@ -100,7 +102,11 @@
             "bond"
           ]
         }
-      }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": {}
     },
     "zones": {
       "type": "array",
@@ -112,14 +118,9 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": [
-          "objet",
-          "chance"
-        ],
         "properties": {
           "objet": {
-            "type": "string",
-            "description": "id dans data/items"
+            "type": "string"
           },
           "chance": {
             "type": "number",
@@ -127,9 +128,23 @@
             "maximum": 1
           }
         },
+        "required": [
+          "objet",
+          "chance"
+        ],
         "additionalProperties": false
       }
     }
   },
+  "required": [
+    "id",
+    "nom",
+    "statut",
+    "rang",
+    "niveau",
+    "sprite",
+    "comportement",
+    "zones"
+  ],
   "additionalProperties": false
 }

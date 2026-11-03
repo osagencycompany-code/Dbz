@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../node_modules/.cache/tsc/apps-server",
+    "rootDir": "src"
+  },
+  "include": ["src"]
+}

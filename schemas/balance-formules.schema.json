@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991,
+      "description": "À incrémenter à chaque changement, avec une décision dans docs/decisions/"
+    },
+    "stats": {
+      "minItems": 5,
+      "maxItems": 5,
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "points": {
+      "type": "object",
+      "properties": {
+        "depart_par_stat": {
+          "type": "number"
+        },
+        "par_niveau": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "depart_par_stat",
+        "par_niveau"
+      ],
+      "additionalProperties": false
+    },
+    "base_niveau": {
+      "type": "object",
+      "properties": {
+        "facteur": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "facteur"
+      ],
+      "additionalProperties": false
+    },
+    "specialisation": {
+      "type": "object",
+      "properties": {
+        "coef": {
+          "type": "number"
+        },
+        "exposant": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "coef",
+        "exposant"
+      ],
+      "additionalProperties": false
+    },
+    "pv": {
+      "type": "object",
+      "properties": {
+        "base": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "base"
+      ],
+      "additionalProperties": false
+    },
+    "degats_melee": {
+      "type": "object",
+      "properties": {
+        "base": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "base"
+      ],
+      "additionalProperties": false
+    },
+    "degats_ki": {
+      "type": "object",
+      "properties": {
+        "base": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "base"
+      ],
+      "additionalProperties": false
+    },
+    "ki_max": {
+      "type": "object",
+      "properties": {
+        "base": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "base"
+      ],
+      "additionalProperties": false
+    },
+    "esquive": {
+      "type": "object",
+      "properties": {
+        "max_pct": {
+          "type": "number"
+        },
+        "max_pvp_pct": {
+          "type": "number"
+        },
+        "exposant": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "max_pct",
+        "max_pvp_pct",
+        "exposant"
+      ],
+      "additionalProperties": false
+    },
+    "vitesse": {
+      "type": "object",
+      "properties": {
+        "base_px_s": {
+          "type": "number"
+        },
+        "bonus": {
+          "type": "number"
+        },
+        "exposant": {
+          "type": "number"
+        },
+        "course": {
+          "type": "number"
+        },
+        "vol": {
+          "type": "number"
+        },
+        "super_saiyan": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "base_px_s",
+        "bonus",
+        "exposant",
+        "course",
+        "vol",
+        "super_saiyan"
+      ],
+      "additionalProperties": false
+    },
+    "critique": {
+      "type": "object",
+      "properties": {
+        "chance": {
+          "type": "number"
+        },
+        "multiplicateur": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "chance",
+        "multiplicateur"
+      ],
+      "additionalProperties": false
+    },
+    "alea_degats": {
+      "type": "object",
+      "properties": {
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "min",
+        "max"
+      ],
+      "additionalProperties": false
+    },
+    "puissance_affichee": {
+      "type": "object",
+      "properties": {
+        "coef": {
+          "type": "number"
+        },
+        "exposant_base": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "coef",
+        "exposant_base"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "version",
+    "stats",
+    "points",
+    "base_niveau",
+    "specialisation",
+    "pv",
+    "degats_melee",
+    "degats_ki",
+    "ki_max",
+    "esquive",
+    "vitesse",
+    "critique",
+    "alea_degats",
+    "puissance_affichee"
+  ],
+  "additionalProperties": false
+}

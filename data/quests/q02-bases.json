@@ -27,7 +27,7 @@
     }
   ],
   "recompenses": {
-    "xp": 100,
+    "xp_niveaux": 0.7,
     "objets": [
       {
         "objet": "haricot-magique",

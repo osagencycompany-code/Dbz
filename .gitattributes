@@ -1,0 +1,16 @@
+# Fins de ligne : LF dans le dépôt, quel que soit le système.
+* text=auto eol=lf
+
+# Fichiers binaires : jamais touchés.
+*.png binary
+*.jpg binary
+*.gif binary
+*.ogg binary
+*.wav binary
+*.mp3 binary
+*.sqlite binary
+
+# Scripts Windows : CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf

@@ -1,15 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Technique",
   "type": "object",
-  "required": [
-    "id",
-    "nom",
-    "statut",
-    "touche_defaut",
-    "apprentissage",
-    "description"
-  ],
   "properties": {
     "$schema": {
       "type": "string"
@@ -20,15 +11,15 @@
     },
     "nom": {
       "type": "string",
-      "description": "Nom affiché en jeu, conforme à docs/lore/glossaire.md"
+      "minLength": 1
     },
     "statut": {
+      "type": "string",
       "enum": [
         "brouillon",
         "valide",
         "obsolete"
-      ],
-      "description": "brouillon = en attente de validation par Souleymen"
+      ]
     },
     "a_verifier": {
       "type": "string"
@@ -39,6 +30,9 @@
     "touche_defaut": {
       "type": "string"
     },
+    "touche_alternative": {
+      "type": "string"
+    },
     "cout": {},
     "multiplicateur": {},
     "parametres": {
@@ -46,22 +40,38 @@
     },
     "apprentissage": {
       "type": "object",
-      "required": [
-        "type"
-      ],
       "properties": {
         "type": {
+          "type": "string",
           "enum": [
             "depart",
             "quete",
             "niveau"
           ]
+        },
+        "quete": {
+          "type": "string"
+        },
+        "maitre": {
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": {}
     },
     "description": {
       "type": "string"
     }
   },
+  "required": [
+    "id",
+    "nom",
+    "statut",
+    "touche_defaut",
+    "apprentissage",
+    "description"
+  ],
   "additionalProperties": false
 }

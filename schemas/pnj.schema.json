@@ -1,13 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Personnage non joueur",
   "type": "object",
-  "required": [
-    "id",
-    "nom",
-    "statut",
-    "zone"
-  ],
   "properties": {
     "$schema": {
       "type": "string"
@@ -18,15 +11,15 @@
     },
     "nom": {
       "type": "string",
-      "description": "Nom affiché en jeu, conforme à docs/lore/glossaire.md"
+      "minLength": 1
     },
     "statut": {
+      "type": "string",
       "enum": [
         "brouillon",
         "valide",
         "obsolete"
-      ],
-      "description": "brouillon = en attente de validation par Souleymen"
+      ]
     },
     "a_verifier": {
       "type": "string"
@@ -35,36 +28,41 @@
       "type": "string"
     },
     "sprite": {
-      "type": [
-        "object",
-        "null"
-      ],
-      "required": [
-        "source",
-        "fichier",
-        "format"
-      ],
-      "properties": {
-        "source": {
-          "enum": [
-            "dbz-online",
-            "buus-fury",
-            "maison",
-            "a-creer",
-            "a-choisir"
-          ]
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "enum": [
+                "dbz-online",
+                "buus-fury",
+                "maison",
+                "a-creer",
+                "a-choisir"
+              ]
+            },
+            "fichier": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "format": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "fichier",
+            "format"
+          ],
+          "additionalProperties": false
         },
-        "fichier": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "format": {
-          "type": "string"
+        {
+          "type": "null"
         }
-      },
-      "additionalProperties": false
+      ]
     },
     "zone": {
       "type": "string"
@@ -73,5 +71,11 @@
       "type": "string"
     }
   },
+  "required": [
+    "id",
+    "nom",
+    "statut",
+    "zone"
+  ],
   "additionalProperties": false
 }

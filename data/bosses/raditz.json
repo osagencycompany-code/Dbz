@@ -56,12 +56,6 @@
       ],
       "aura": "rouge",
       "vitesse_bonus_pct": 30,
-      "invocations": [
-        {
-          "monstre": "saibaman",
-          "nombre": 2
-        }
-      ],
       "attaques": [
         {
           "nom": "Combo",

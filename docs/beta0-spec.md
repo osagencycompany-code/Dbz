@@ -6,20 +6,20 @@ Objectif : une version en ligne jouable par 10 à 20 testeurs, qui couvre le dé
 
 ## 1. Périmètre
 
-**Inclus** : comptes, création de personnage, 4 zones (6 maps), combat complet du prototype 06, stats à points, techniques, Super Saiyan au niveau 20, 11 quêtes, monstres et 2 boss, inventaire et équipement simples, boutique, zénies, chat de zone, sauvegarde, commandes d'administration, déploiement sur un serveur.
+**Inclus** : comptes, création de personnage, 4 zones (11 maps, détail au jalon Maps), combat complet du prototype 06, stats à points, techniques, Super Saiyan au niveau 20, 11 quêtes, monstres et 2 boss, inventaire et équipement simples (5 emplacements), boutique, zénies, chat de zone, sauvegarde, commandes d'administration, déploiement sur un serveur.
 
 **Exclus (plus tard)** : groupes, clans, échanges, PvP, Dragon Balls, races autres que Saiyan, arcs suivants, mobile.
 
 ## 2. Écran et contrôles
 
-- Résolution interne 384 × 216, mise à l'échelle entière (×5 en 1920 × 1080), caméra qui suit le joueur, bornée à la map.
+- Résolution interne 480 × 270 (décision 0010), mise à l'échelle entière (×4 en 1920 × 1080), caméra qui suit le joueur, bornée à la map.
 - Contrôles (identiques au prototype 06, tous reconfigurables plus tard) :
 
 | Action | Touche |
 | --- | --- |
 | Se déplacer | Flèches |
 | Courir | Maj maintenu |
-| Coup de poing (combo de 3) | Ctrl |
+| Coup de poing (combo de 3) | Ctrl ou Z (décision 0017) |
 | Boule de ki | X |
 | Kamehameha (charger, relâcher) | V |
 | Charger le ki | C maintenu |
@@ -31,6 +31,7 @@ Objectif : une version en ligne jouable par 10 à 20 testeurs, qui couvre le dé
 | Fenêtre Personnage | P |
 | Inventaire | I |
 | Carte du monde | M (hors combat, seulement depuis un point de voyage) |
+| Son | Bouton cliquable à l'écran, toujours visible |
 | Parler / interagir | E |
 | Chat | Entrée |
 
@@ -129,7 +130,7 @@ Sprites (DBZ Online, `characters/<n>.png`, 4 directions × 1 image, vérifier vi
 
 1. 100 à 60 % : combo de 3 coups, boule de ki toutes les 3 s.
 2. 60 à 25 % : « Double Sunday », deux rayons en V annoncés 0,8 s avant par ses mains qui brillent ; il fonce sur le joueur le plus éloigné.
-3. Moins de 25 % : aura rouge, vitesse +30 %, appelle 2 Saibamen.
+3. Moins de 25 % : aura rouge, vitesse +30 % (pas de Saibamen : ils arrivent avec Nappa, décision 0013).
 
 **Nappa** (niveau 25, `characters/14.png`, Désert du Diable) :
 
@@ -137,36 +138,39 @@ Sprites (DBZ Online, `characters/<n>.png`, 4 directions × 1 image, vérifier vi
 2. 50 à 20 % : explosion au sol sous un joueur (cercle rouge 1 s avant), vagues de 3 Saibamen.
 3. Moins de 20 % : « Bakuhatsuha », grande explosion autour de lui annoncée 1,5 s avant : il faut s'éloigner ou s'envoler.
 
-Barre de boss en haut de l'écran pour tous les joueurs proches. Tous les joueurs ayant infligé au moins 5 % des dégâts reçoivent l'XP et un tirage de butin individuel.
+Boss partagés dans la salle de la map ; PV ajustés au nombre de participants (décision 0014). Barre de boss en haut de l'écran pour tous les joueurs proches. Tous les joueurs ayant infligé au moins 5 % des dégâts reçoivent l'XP et un tirage de butin individuel.
 
 ## 8. Quêtes
 
 | # | Nom | Niveau | Donneur | Objectif | Récompense |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Bienvenue à Kame House | 1 | Maître Roshi | Parler à Roshi, Krilin, la Tortue | 60 XP |
-| 2 | Les bases du combat | 1 | Krilin | 10 coups sur les mannequins, une garde, une esquive, une boule de ki | 100 XP, 2 haricots |
-| 3 | Le tour de l'île | 2 | Tortue | Vaincre 6 crabes (ou ramasser 6 coquillages si pas de sprite) | 200 XP, bandeau |
-| 4 | Direction le Mont Paozu | 4 | Maître Roshi | Voyager au Mont Paozu, parler à Chi-Chi devant la maison de Goku | 250 XP, débloque la zone |
-| 5 | Les loups du Mont Paozu | 5 | Chi-Chi | Vaincre 12 loups | 600 XP, 300 zénies |
-| 6 | Le Kamehameha | 8 | Maître Roshi | Réussir 3 Kamehameha chargés au maximum sur le rocher d'entraînement | Apprend le Kamehameha |
-| 7 | Une étoile tombée du ciel | 10 | Chi-Chi | Enquêter au cratère, cinématique d'arrivée, vaincre Raditz | 3 000 XP, gants de combat |
+| 1 | Bienvenue à Kame House | 1 | Maître Roshi | Parler à Roshi, Krilin, la Tortue | 0,5 niveau d'XP |
+| 2 | Les bases du combat | 1 | Krilin | 10 coups sur les mannequins, une garde, une esquive, une boule de ki | 0,7 niveau, 2 haricots |
+| 3 | Le tour de l'île | 2 | Tortue | Vaincre 6 crabes (ou ramasser 6 coquillages si pas de sprite) | 0,6 niveau, bandeau |
+| 4 | Direction le Mont Paozu | 4 | Maître Roshi | Voyager au Mont Paozu, parler à Chi-Chi devant la maison de Goku | 0,5 niveau, débloque la zone |
+| 5 | Les loups du Mont Paozu | 5 | Chi-Chi | Vaincre 12 loups | 1 niveau, 300 zénies |
+| 6 | Le Kamehameha | 8 | Maître Roshi | Réussir 3 Kamehameha chargés au maximum sur le rocher d'entraînement de l'île de Roshi | Apprend le Kamehameha |
+| 7 | Une étoile tombée du ciel | 10 | Chi-Chi | Enquêter au cratère, cinématique d'arrivée, vaincre Raditz | 1,5 niveau, gants de combat |
 | 8 | Capsule Corp | 12 | Chichi | Rejoindre West City, parler à Bulma | Débloque la boutique, 500 zénies |
-| 9 | Un an pour se préparer | 14 | Bulma | Désert du Diable : survivre à 3 vagues de Saibamen | 4 000 XP, tenue d'entraînement |
+| 9 | Un an pour se préparer | 14 | Bulma | Désert du Diable, salle d'événement personnelle : survivre à 3 vagues de Saibamen | 1,2 niveau, tenue d'entraînement |
 | 10 | Le cri de colère | 20 | Krilin | Pendant le combat, Krilin tombe face à Nappa ; tenir 60 s | Débloque le Super Saiyan (cinématique) |
-| 11 | Nappa | 22 | Krilin | Vaincre Nappa | 12 000 XP, armure de combat, écran de fin de bêta |
+| 11 | Nappa | 22 | Krilin | Vaincre Nappa | 1,5 niveau, armure de combat, écran de fin de bêta |
+
+Récompenses d'XP : « niveau » = fraction de l'XP requise au niveau conseillé (champ `xp_niveaux`, 0,5 à 1,5, décision 0011) ; l'XP des monstres et boss est multipliée par `multiplicateur_global` (3 pour la bêta, décision 0012).
+Quêtes 9 et 10 : salle d'événement personnelle (décision 0014). Le désert comporte un campement avec point de soin.
 
 Le Kamehameha n'est utilisable qu'après la quête 6 ; avant, la touche V affiche « Technique non apprise ».
 
 ## 9. Objets et économie
 
 - Inventaire de 40 cases, objets empilables (haricots).
-- 4 emplacements d'équipement : tête, torse, gants, bottes. Les objets ajoutent des points de stats (comptés dans le numérateur de r).
+- 5 emplacements d'équipement : tête, torse, gants, bottes, accessoire (décision 0016). Les objets ajoutent des points de stats (comptés dans le numérateur de r).
 - Objets de la bêta : bandeau (+2 Vitalité), gants de combat (+3 Force), tenue d'entraînement (+2 Vitalité, +2 Agilité), bottes légères (+3 Agilité), armure de combat (+4 Vitalité, +2 Force), anneau de ki (+3 Énergie) ; icônes à prendre dans `items/`.
 - Zénies : monstres (Lm × 3 à Lm × 6), quêtes. Boutique Capsule Corp : haricot magique (200, prix +50 % à chaque achat dans la journée, 5 par jour), bottes légères (800), anneau de ki (1 200).
 
 ## 10. En ligne
 
-- Comptes : inscription e-mail + pseudo + mot de passe, connexion, un personnage par compte.
+- Comptes : inscription e-mail + pseudo + mot de passe + **clé d'invitation** (bêta fermée, décision 0015), connexion, un personnage par compte.
 - Création : pseudo du personnage (unique, filtré), 3 palettes de tenue générées par recoloration de la planche de Goku (orange, bleu, vert) avec le script de palettes.
 - Chaque map est une salle Colyseus ; les joueurs se voient, voient les mêmes monstres et les combattent ensemble.
 - Chat de zone avec filtre de mots, limite de 1 message par seconde.

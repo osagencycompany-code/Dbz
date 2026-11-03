@@ -1,6 +1,7 @@
 {
-  "$schema": "../../schemas/balance.schema.json",
-  "version": 1,
+  "$schema": "../../schemas/balance-progression.schema.json",
+  "version": 2,
+  "multiplicateur_global": 3,
   "xp_requise": {
     "base": 100,
     "exposant": 1.87

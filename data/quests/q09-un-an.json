@@ -15,7 +15,7 @@
     }
   ],
   "recompenses": {
-    "xp": 4000,
+    "xp_niveaux": 1.2,
     "objets": [
       {
         "objet": "tenue-entrainement",

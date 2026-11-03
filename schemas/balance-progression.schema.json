@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991,
+      "description": "À incrémenter à chaque changement, avec une décision dans docs/decisions/"
+    },
+    "multiplicateur_global": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Multiplicateur d'XP des monstres et boss (décision 0012). Les quêtes ne sont pas multipliées."
+    },
+    "xp_requise": {
+      "type": "object",
+      "properties": {
+        "base": {
+          "type": "number"
+        },
+        "exposant": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "base",
+        "exposant"
+      ],
+      "additionalProperties": false
+    },
+    "xp_monstre": {
+      "type": "object",
+      "properties": {
+        "base": {
+          "type": "number"
+        },
+        "exposant": {
+          "type": "number"
+        },
+        "multiplicateur_elite": {
+          "type": "number"
+        },
+        "multiplicateur_boss": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "base",
+        "exposant",
+        "multiplicateur_elite",
+        "multiplicateur_boss"
+      ],
+      "additionalProperties": false
+    },
+    "niveau_max": {
+      "type": "integer",
+      "minimum": -9007199254740991,
+      "maximum": 9007199254740991
+    },
+    "ecart_niveau": {
+      "type": "object",
+      "properties": {
+        "xp_reduite_au_dela": {
+          "type": "number"
+        },
+        "xp_reduite_pct": {
+          "type": "number"
+        },
+        "coups_rates_au_dela": {
+          "type": "number"
+        },
+        "coups_rates_pct": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "xp_reduite_au_dela",
+        "xp_reduite_pct",
+        "coups_rates_au_dela",
+        "coups_rates_pct"
+      ],
+      "additionalProperties": false
+    },
+    "ko": {
+      "type": "object",
+      "properties": {
+        "pv_retour_pct": {
+          "type": "number"
+        },
+        "perte_xp_niveau_pct": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "pv_retour_pct",
+        "perte_xp_niveau_pct"
+      ],
+      "additionalProperties": false
+    },
+    "zenkai": {
+      "type": "object",
+      "properties": {
+        "bonus_xp_pct": {
+          "type": "number"
+        },
+        "duree_s": {
+          "type": "number"
+        },
+        "recharge_s": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "bonus_xp_pct",
+        "duree_s",
+        "recharge_s"
+      ],
+      "additionalProperties": false
+    },
+    "regeneration": {
+      "type": "object",
+      "properties": {
+        "pv_pct_s": {
+          "type": "number"
+        },
+        "pv_delai_s": {
+          "type": "number"
+        },
+        "ki_pct_s": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "pv_pct_s",
+        "pv_delai_s",
+        "ki_pct_s"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "version",
+    "multiplicateur_global",
+    "xp_requise",
+    "xp_monstre",
+    "niveau_max",
+    "ecart_niveau",
+    "ko",
+    "zenkai",
+    "regeneration"
+  ],
+  "additionalProperties": false
+}

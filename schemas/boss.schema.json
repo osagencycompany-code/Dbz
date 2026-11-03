@@ -1,17 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Boss",
   "type": "object",
-  "required": [
-    "id",
-    "nom",
-    "statut",
-    "niveau",
-    "sprite",
-    "zone",
-    "phases",
-    "respawn_s"
-  ],
   "properties": {
     "$schema": {
       "type": "string"
@@ -22,15 +11,15 @@
     },
     "nom": {
       "type": "string",
-      "description": "Nom affiché en jeu, conforme à docs/lore/glossaire.md"
+      "minLength": 1
     },
     "statut": {
+      "type": "string",
       "enum": [
         "brouillon",
         "valide",
         "obsolete"
-      ],
-      "description": "brouillon = en attente de validation par Souleymen"
+      ]
     },
     "a_verifier": {
       "type": "string"
@@ -39,45 +28,54 @@
       "type": "string"
     },
     "niveau": {
-      "type": "integer"
+      "type": "integer",
+      "minimum": -9007199254740991,
+      "maximum": 9007199254740991
     },
     "sprite": {
-      "type": [
-        "object",
-        "null"
-      ],
-      "required": [
-        "source",
-        "fichier",
-        "format"
-      ],
-      "properties": {
-        "source": {
-          "enum": [
-            "dbz-online",
-            "buus-fury",
-            "maison",
-            "a-creer",
-            "a-choisir"
-          ]
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "enum": [
+                "dbz-online",
+                "buus-fury",
+                "maison",
+                "a-creer",
+                "a-choisir"
+              ]
+            },
+            "fichier": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "format": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "fichier",
+            "format"
+          ],
+          "additionalProperties": false
         },
-        "fichier": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "format": {
-          "type": "string"
+        {
+          "type": "null"
         }
-      },
-      "additionalProperties": false
+      ]
     },
     "zone": {
       "type": "string"
     },
     "respawn_s": {
-      "type": "integer"
+      "type": "integer",
+      "minimum": -9007199254740991,
+      "maximum": 9007199254740991
     },
     "echelle_sprite": {
       "type": "number"
@@ -89,14 +87,9 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": [
-          "objet",
-          "chance"
-        ],
         "properties": {
           "objet": {
-            "type": "string",
-            "description": "id dans data/items"
+            "type": "string"
           },
           "chance": {
             "type": "number",
@@ -104,24 +97,30 @@
             "maximum": 1
           }
         },
+        "required": [
+          "objet",
+          "chance"
+        ],
         "additionalProperties": false
       }
     },
     "phases": {
-      "type": "array",
       "minItems": 1,
+      "type": "array",
       "items": {
         "type": "object",
-        "required": [
-          "pv_pct",
-          "attaques"
-        ],
         "properties": {
           "pv_pct": {
             "type": "array",
-            "items": {
-              "type": "number"
-            },
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "items": false,
             "minItems": 2,
             "maxItems": 2
           },
@@ -129,15 +128,68 @@
             "type": "array",
             "items": {
               "type": "object",
+              "properties": {
+                "nom": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
               "required": [
                 "nom",
                 "type"
-              ]
+              ],
+              "additionalProperties": {}
+            }
+          },
+          "aura": {
+            "type": "string"
+          },
+          "vitesse_bonus_pct": {
+            "type": "number"
+          },
+          "invocations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "monstre": {
+                  "type": "string"
+                },
+                "nombre": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "recharge_s": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "monstre",
+                "nombre"
+              ],
+              "additionalProperties": false
             }
           }
-        }
+        },
+        "required": [
+          "pv_pct"
+        ],
+        "additionalProperties": false
       }
     }
   },
+  "required": [
+    "id",
+    "nom",
+    "statut",
+    "niveau",
+    "sprite",
+    "zone",
+    "respawn_s",
+    "phases"
+  ],
   "additionalProperties": false
 }

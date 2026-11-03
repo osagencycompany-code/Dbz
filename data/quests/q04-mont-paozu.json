@@ -18,7 +18,7 @@
     }
   ],
   "recompenses": {
-    "xp": 250,
+    "xp_niveaux": 0.5,
     "debloque_zone": "mont-paozu"
   }
 }

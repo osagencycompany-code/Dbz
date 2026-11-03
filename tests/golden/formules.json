@@ -1,6 +1,6 @@
 {
   "tolerance": 0.01,
-  "note": "Valeurs de référence. Un changement de formule DOIT faire échouer ces tests ; on ne les met à jour qu'avec une décision dans docs/decisions/.",
+  "note": "Valeurs de référence. Un changement de formule DOIT faire échouer ces tests ; on ne les met à jour qu'avec une décision dans docs/decisions/. Section xp_quete ajoutée par la décision 0011.",
   "stats": [
     {
       "niveau": 1,
@@ -19,7 +19,7 @@
         "ki_max": 155.19,
         "esquive_pct": 9.72,
         "vitesse_px_s": 116.21,
-        "puissance_affichee": 1250.0
+        "puissance_affichee": 1250
       }
     },
     {
@@ -39,7 +39,7 @@
         "ki_max": 155.19,
         "esquive_pct": 9.72,
         "vitesse_px_s": 116.21,
-        "puissance_affichee": 21036.0
+        "puissance_affichee": 21036
       }
     },
     {
@@ -59,7 +59,7 @@
         "ki_max": 155.19,
         "esquive_pct": 9.72,
         "vitesse_px_s": 116.21,
-        "puissance_affichee": 1262167.0
+        "puissance_affichee": 1262167
       }
     },
     {
@@ -76,10 +76,10 @@
         "pv_max": 391.8,
         "degats_melee": 89.85,
         "degats_ki": 45.71,
-        "ki_max": 141.0,
+        "ki_max": 141,
         "esquive_pct": 2.84,
         "vitesse_px_s": 104.73,
-        "puissance_affichee": 35361.0
+        "puissance_affichee": 35361
       }
     },
     {
@@ -99,7 +99,7 @@
         "ki_max": 155.19,
         "esquive_pct": 9.72,
         "vitesse_px_s": 116.21,
-        "puissance_affichee": 17936697.0
+        "puissance_affichee": 17936697
       }
     }
   ],
@@ -143,6 +143,48 @@
       "niveau": 100,
       "xp_requise": 549541,
       "xp_monstre": 2846
+    }
+  ],
+  "xp_quete": [
+    {
+      "niveau_conseille": 1,
+      "xp_niveaux": 0.5,
+      "xp": 50
+    },
+    {
+      "niveau_conseille": 1,
+      "xp_niveaux": 0.7,
+      "xp": 70
+    },
+    {
+      "niveau_conseille": 2,
+      "xp_niveaux": 0.6,
+      "xp": 220
+    },
+    {
+      "niveau_conseille": 4,
+      "xp_niveaux": 0.5,
+      "xp": 668
+    },
+    {
+      "niveau_conseille": 5,
+      "xp_niveaux": 1,
+      "xp": 2028
+    },
+    {
+      "niveau_conseille": 10,
+      "xp_niveaux": 1.5,
+      "xp": 11120
+    },
+    {
+      "niveau_conseille": 14,
+      "xp_niveaux": 1.2,
+      "xp": 16690
+    },
+    {
+      "niveau_conseille": 22,
+      "xp_niveaux": 1.5,
+      "xp": 48576
     }
   ]
 }

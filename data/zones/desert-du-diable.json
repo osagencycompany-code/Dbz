@@ -13,7 +13,7 @@
     "bandit-du-desert"
   ],
   "deblocage": "q09-un-an",
-  "point_de_soin": null,
+  "point_de_soin": "campement-du-desert",
   "carte_du_monde": true,
   "a_verifier": "Maps à générer depuis Diablo Desert (planche en grille)."
 }

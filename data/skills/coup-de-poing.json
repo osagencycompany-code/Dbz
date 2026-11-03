@@ -4,6 +4,7 @@
   "nom": "Coup de poing",
   "statut": "valide",
   "touche_defaut": "Ctrl",
+  "touche_alternative": "Z",
   "cout": null,
   "multiplicateur": "voir balance",
   "apprentissage": {

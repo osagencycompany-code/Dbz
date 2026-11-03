@@ -15,7 +15,7 @@
     }
   ],
   "recompenses": {
-    "xp": 200,
+    "xp_niveaux": 0.6,
     "objets": [
       {
         "objet": "bandeau",

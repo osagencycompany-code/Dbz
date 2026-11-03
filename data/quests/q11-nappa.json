@@ -14,7 +14,7 @@
     }
   ],
   "recompenses": {
-    "xp": 12000,
+    "xp_niveaux": 1.5,
     "objets": [
       {
         "objet": "armure-de-combat",

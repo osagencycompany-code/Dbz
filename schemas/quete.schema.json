@@ -1,17 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Quête",
   "type": "object",
-  "required": [
-    "id",
-    "nom",
-    "statut",
-    "arc",
-    "niveau_conseille",
-    "donneur",
-    "objectifs",
-    "recompenses"
-  ],
   "properties": {
     "$schema": {
       "type": "string"
@@ -22,15 +11,15 @@
     },
     "nom": {
       "type": "string",
-      "description": "Nom affiché en jeu, conforme à docs/lore/glossaire.md"
+      "minLength": 1
     },
     "statut": {
+      "type": "string",
       "enum": [
         "brouillon",
         "valide",
         "obsolete"
-      ],
-      "description": "brouillon = en attente de validation par Souleymen"
+      ]
     },
     "a_verifier": {
       "type": "string"
@@ -39,6 +28,7 @@
       "type": "string"
     },
     "arc": {
+      "type": "string",
       "enum": [
         "saiyan",
         "namek",
@@ -48,30 +38,280 @@
       ]
     },
     "niveau_conseille": {
-      "type": "integer"
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
     },
     "donneur": {
-      "type": "string"
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
     },
     "prerequis": {
-      "type": [
-        "string",
-        "null"
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "objectifs": {
-      "type": "array",
       "minItems": 1,
+      "type": "array",
       "items": {
-        "type": "object",
-        "required": [
-          "type"
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "parler"
+              },
+              "pnj": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              }
+            },
+            "required": [
+              "type",
+              "pnj"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "frapper"
+              },
+              "cible": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "nombre": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "type",
+              "cible",
+              "nombre"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "utiliser"
+              },
+              "technique": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              }
+            },
+            "required": [
+              "type",
+              "technique"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "vaincre"
+              },
+              "monstre": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "boss": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "nombre": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "aller"
+              },
+              "zone": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "lieu": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "kamehameha-charge-max"
+              },
+              "nombre": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "type",
+              "nombre"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "survivre-vagues"
+              },
+              "monstre": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "vagues": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "type",
+              "monstre",
+              "vagues"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "evenement"
+              },
+              "script": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "script"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "tenir"
+              },
+              "duree_s": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            },
+            "required": [
+              "type",
+              "duree_s"
+            ],
+            "additionalProperties": false
+          }
         ]
       }
     },
     "recompenses": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "xp_niveaux": {
+          "type": "number",
+          "minimum": 0.5,
+          "maximum": 1.5
+        },
+        "zenies": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "objets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "objet": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "nombre": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "objet",
+              "nombre"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "technique": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "transformation": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "debloque_zone": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "fin_beta": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
     }
   },
+  "required": [
+    "id",
+    "nom",
+    "statut",
+    "arc",
+    "niveau_conseille",
+    "donneur",
+    "objectifs",
+    "recompenses"
+  ],
   "additionalProperties": false
 }

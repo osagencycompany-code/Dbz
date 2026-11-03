@@ -1,0 +1,29 @@
+{
+  "name": "dbz-my-game",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "DBZ MY GAME – MMORPG 2D dans le navigateur",
+  "workspaces": [
+    "apps/client",
+    "apps/server",
+    "packages/shared"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "check": "npm run check:types && npm run check:tests && npm run check:donnees",
+    "check:types": "tsc -b",
+    "check:tests": "vitest run",
+    "check:donnees": "tsx scripts/check-donnees.ts",
+    "schemas:build": "tsx scripts/build-schemas.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^3.0.0",
+    "zod": "^4.0.0"
+  }
+}

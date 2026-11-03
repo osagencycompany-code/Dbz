@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../node_modules/.cache/tsc/scripts",
+    "rootDir": ".."
+  },
+  "include": ["./**/*.ts", "../vitest.config.ts", "../tests/**/*.ts", "../packages/shared/src/**/*.ts"],
+  "references": []
+}

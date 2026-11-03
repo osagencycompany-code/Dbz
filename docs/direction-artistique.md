@@ -4,7 +4,7 @@ Objectif : retrouver l'allure d'un jeu Game Boy Advance de 2004 (Buu's Fury) aff
 
 ## Image
 
-- Résolution interne 384 × 216, mise à l'échelle par un entier (×5 en 1920 × 1080), aucun lissage.
+- Résolution interne 480 × 270 (décision 0010), mise à l'échelle par un entier (×4 en 1920 × 1080), aucun lissage.
 - Vue de dessus en trois-quarts, lumière venant du haut à gauche, ombres portées vers le bas à droite.
 - Interdit : flou, anti-crénelage, rotation libre de sprites (sauf effets), mise à l'échelle non entière d'un personnage.
 
@@ -46,7 +46,7 @@ Référence : `docs/reference/prototype-06.html`.
 
 ## Son
 
-Sons courts et percutants, générés ou d'inspiration 16 bits. Chaque action de combat a un son distinct : coup léger, coup lourd, boule de ki, rayon, explosion, dégâts reçus, montée de niveau, transformation. Bouton pour couper le son toujours accessible.
+Sons courts et percutants, générés ou d'inspiration 16 bits. Chaque action de combat a un son distinct : coup léger, coup lourd, boule de ki, rayon, explosion, dégâts reçus, montée de niveau, transformation. Bouton cliquable pour couper le son, toujours visible à l'écran (décision 0017).
 
 ## Contrôle qualité d'un asset
 

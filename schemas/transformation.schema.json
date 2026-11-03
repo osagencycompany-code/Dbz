@@ -1,16 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Transformation",
   "type": "object",
-  "required": [
-    "id",
-    "nom",
-    "statut",
-    "race",
-    "niveau_requis",
-    "bonus_combat",
-    "multiplicateur_affiche"
-  ],
   "properties": {
     "$schema": {
       "type": "string"
@@ -21,15 +11,15 @@
     },
     "nom": {
       "type": "string",
-      "description": "Nom affiché en jeu, conforme à docs/lore/glossaire.md"
+      "minLength": 1
     },
     "statut": {
+      "type": "string",
       "enum": [
         "brouillon",
         "valide",
         "obsolete"
-      ],
-      "description": "brouillon = en attente de validation par Souleymen"
+      ]
     },
     "a_verifier": {
       "type": "string"
@@ -41,13 +31,21 @@
       "type": "string"
     },
     "niveau_requis": {
-      "type": "integer"
+      "type": "integer",
+      "minimum": -9007199254740991,
+      "maximum": 9007199254740991
     },
     "quete_requise": {
       "type": "string"
     },
     "bonus_combat": {
-      "type": "object"
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "number"
+      }
     },
     "vitesse_mult": {
       "type": "number"
@@ -74,5 +72,14 @@
       "type": "boolean"
     }
   },
+  "required": [
+    "id",
+    "nom",
+    "statut",
+    "race",
+    "niveau_requis",
+    "bonus_combat",
+    "multiplicateur_affiche"
+  ],
   "additionalProperties": false
 }

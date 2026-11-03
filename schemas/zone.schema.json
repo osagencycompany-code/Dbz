@@ -1,15 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Zone",
   "type": "object",
-  "required": [
-    "id",
-    "nom",
-    "statut",
-    "niveaux",
-    "maps",
-    "monstres"
-  ],
   "properties": {
     "$schema": {
       "type": "string"
@@ -20,15 +11,15 @@
     },
     "nom": {
       "type": "string",
-      "description": "Nom affiché en jeu, conforme à docs/lore/glossaire.md"
+      "minLength": 1
     },
     "statut": {
+      "type": "string",
       "enum": [
         "brouillon",
         "valide",
         "obsolete"
-      ],
-      "description": "brouillon = en attente de validation par Souleymen"
+      ]
     },
     "a_verifier": {
       "type": "string"
@@ -38,10 +29,19 @@
     },
     "niveaux": {
       "type": "array",
-      "items": {
-        "type": "integer",
-        "minimum": 1
-      },
+      "prefixItems": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      ],
+      "items": false,
       "minItems": 2,
       "maxItems": 2
     },
@@ -73,5 +73,13 @@
       "type": "boolean"
     }
   },
+  "required": [
+    "id",
+    "nom",
+    "statut",
+    "niveaux",
+    "maps",
+    "monstres"
+  ],
   "additionalProperties": false
 }
