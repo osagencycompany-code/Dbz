@@ -24,6 +24,17 @@ export interface EntreeApercuHeros {
     enJeu: boolean;
   }[];
   eclairs: { fichier: string; taille: number; nombre: number };
+  /** Planches découpées de Legacy of Goku 1 (cases régulières, plusieurs lignes nommées). */
+  log1: {
+    id: string;
+    nom: string;
+    planche: string;
+    cadre: [number, number];
+    lignes: Record<string, number>;
+    animations: Record<string, { ligne: string; cols: number[]; fps?: number; loop?: boolean }>;
+  }[];
+  /** Images de référence pour comparer les échelles (zone découpée d'une planche). */
+  echelle: { nom: string; planche: string; x: number; y: number; l: number; h: number }[];
 }
 
 export function genererApercuHeros(donnees: EntreeApercuHeros): string {
@@ -70,6 +81,14 @@ export function genererApercuHeros(donnees: EntreeApercuHeros): string {
 <h2>3. Créatures de Legacy of Goku 2</h2>
 <p class="aide">Chaque carte montre les quatre directions (face, gauche, droite, dos) en marche, puis en attaque. « Variante 0 » = couleur de base (monstres communs), les autres = couleurs pour les élites. <b>Choix du dinosaure : compare le T-Rex (3 couleurs) et le Triceratops.</b></p>
 <div class="grille" id="creatures"></div>
+
+<h2>4. Legacy of Goku 1 : Raditz, Nappa, Vegeta boss et grand singe</h2>
+<p class="aide">Découpés de <code>Various.gif</code>, <code>Vegeta.png</code> et <code>Oozaru Gohan  Vegeta.png</code> (aucune mise à l'échelle). Les correspondances d'animations sont des brouillons. Le Saibaman n'existe pas dans ces planches.</p>
+<div class="grille" id="log1"></div>
+
+<h2>5. Échelle réelle : LoG1 contre Buu's Fury / LoG2</h2>
+<p class="aide">Chaque sprite est affiché à ×1, ×2 et ×3 (échelles entières uniquement) sur la même ligne de sol.</p>
+<div id="echelle" class="grille"></div>
 
 <script>
 const D = ${json};
@@ -174,6 +193,12 @@ function boucle(t) {
   const direction = sel("direction").value;
   for (const a of animateurs) {
     a.ctx.clearRect(0, 0, a.ctx.canvas.width, a.ctx.canvas.height);
+    if (a.log1) {
+      const { L, H, ligne, def } = a.log1, n = def.cols.length;
+      const i = Math.floor(((t - a.debut) / 1000) * (def.fps ?? 8)) % n;
+      a.ctx.drawImage(a.img, def.cols[i] * L, ligne * H, L, H, 0, 0, L * 2, H * 2);
+      continue;
+    }
     if (a.creature) {
       const { c, def, ligne, zoom } = a.creature, n = def.cols.length;
       const i = Math.floor(((t - a.debut) / 1000) * (def.fps ?? 8)) % n;
@@ -193,7 +218,34 @@ function boucle(t) {
   }
   requestAnimationFrame(boucle);
 }
-remplirApparences(); ssj2(); creatures(); requestAnimationFrame(boucle);
+async function log1() {
+  const zone = sel("log1");
+  for (const c of D.log1) {
+    const carte = document.createElement("div"); carte.className = "carte";
+    const t = document.createElement("h3"); t.textContent = c.nom; carte.append(t);
+    const img = await charger(c.planche);
+    const [L, H] = c.cadre;
+    const ligne = document.createElement("div"); ligne.className = "ligne-crea"; ligne.style.flexWrap = "wrap";
+    for (const [nom, def] of Object.entries(c.animations)) {
+      const cv = document.createElement("canvas"); cv.width = L * 2; cv.height = H * 2;
+      const bloc = document.createElement("div"); bloc.append(cv, document.createElement("br"), nom + " (" + def.cols.length + ")"); ligne.append(bloc);
+      animateurs.push({ ctx: cv.getContext("2d"), img, log1: { L, H, ligne: c.lignes[def.ligne] ?? 0, def }, debut: performance.now() });
+    }
+    carte.append(ligne); zone.append(carte);
+  }
+}
+async function echelle() {
+  const zone = sel("echelle");
+  for (const e of D.echelle) {
+    const img = await charger(e.planche);
+    const carte = document.createElement("div"); carte.className = "carte";
+    const cv = document.createElement("canvas"); const total = e.l * (1 + 2 + 3) + 40; cv.width = total; cv.height = e.h * 3 + 4;
+    const ctx = cv.getContext("2d"); ctx.imageSmoothingEnabled = false;
+    let x = 0; for (const z of [1, 2, 3]) { ctx.drawImage(img, e.x, e.y, e.l, e.h, x, cv.height - 2 - e.h * z, e.l * z, e.h * z); x += e.l * z + 12; }
+    carte.append(cv, document.createElement("br"), e.nom + " (" + e.l + "×" + e.h + " px)"); zone.append(carte);
+  }
+}
+remplirApparences(); ssj2(); creatures(); log1(); echelle(); requestAnimationFrame(boucle);
 </script>
 </body>
 </html>

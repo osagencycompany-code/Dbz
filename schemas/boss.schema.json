@@ -42,6 +42,7 @@
               "enum": [
                 "dbz-online",
                 "buus-fury",
+                "legacy-of-goku-1",
                 "legacy-of-goku-2",
                 "maison",
                 "a-creer",
@@ -58,9 +59,31 @@
               "type": "string"
             },
             "cadre": {
-              "type": "integer",
-              "minimum": -9007199254740991,
-              "maximum": 9007199254740991
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    }
+                  ],
+                  "items": false,
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              ]
             },
             "variante": {
               "type": "integer",
@@ -93,6 +116,9 @@
     },
     "echelle_sprite": {
       "type": "number"
+    },
+    "monde_partage": {
+      "type": "boolean"
     },
     "contribution_min_pct": {
       "type": "number"
@@ -148,6 +174,7 @@
                     "enum": [
                       "dbz-online",
                       "buus-fury",
+                      "legacy-of-goku-1",
                       "legacy-of-goku-2",
                       "maison",
                       "a-creer",
@@ -164,9 +191,31 @@
                     "type": "string"
                   },
                   "cadre": {
-                    "type": "integer",
-                    "minimum": -9007199254740991,
-                    "maximum": 9007199254740991
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      },
+                      {
+                        "type": "array",
+                        "prefixItems": [
+                          {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          }
+                        ],
+                        "items": false,
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    ]
                   },
                   "variante": {
                     "type": "integer",

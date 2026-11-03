@@ -1,0 +1,104 @@
+{
+  "$schema": "../../schemas/boss.schema.json",
+  "id": "vegeta-saga-saiyan",
+  "nom": "Vegeta",
+  "statut": "brouillon",
+  "niveau": 30,
+  "sprite": {
+    "source": "legacy-of-goku-1",
+    "fichier": "assets/bosses/vegeta-phase1.png",
+    "format": "planche-decoupee",
+    "cadre": [
+      40,
+      40
+    ],
+    "animations": "assets/bosses/vegeta-phase1.anims.json"
+  },
+  "zone": "desert-du-diable",
+  "respawn_s": 1200,
+  "monde_partage": true,
+  "phases": [
+    {
+      "pv_pct": [
+        100,
+        60
+      ],
+      "attaques": [
+        {
+          "nom": "Coup de poing",
+          "type": "melee",
+          "annonce_s": 0.5
+        },
+        {
+          "nom": "Salve de ki",
+          "type": "projectile",
+          "annonce_s": 0.7
+        }
+      ]
+    },
+    {
+      "pv_pct": [
+        60,
+        30
+      ],
+      "attaques": [
+        {
+          "nom": "Coup de poing",
+          "type": "melee",
+          "annonce_s": 0.4
+        },
+        {
+          "nom": "Galick Ho",
+          "type": "duel-de-rayons",
+          "annonce_s": 2,
+          "note": "Duel de rayons : les joueurs en face doivent répondre pour repousser le rayon."
+        }
+      ],
+      "vitesse_bonus_pct": 10
+    },
+    {
+      "pv_pct": [
+        30,
+        0
+      ],
+      "sprite": {
+        "source": "legacy-of-goku-1",
+        "fichier": "assets/bosses/vegeta-grand-singe.png",
+        "format": "planche-decoupee",
+        "cadre": [
+          72,
+          72
+        ],
+        "animations": "assets/bosses/vegeta-grand-singe.anims.json"
+      },
+      "attaques": [
+        {
+          "nom": "Poing du singe",
+          "type": "melee",
+          "annonce_s": 0.9
+        },
+        {
+          "nom": "Piétinement",
+          "type": "zone-autour",
+          "rayon_px": 100,
+          "annonce_s": 1.4
+        },
+        {
+          "nom": "Rayon de bouche",
+          "type": "duel-de-rayons",
+          "annonce_s": 2
+        }
+      ],
+      "aura": "grand-singe",
+      "vitesse_bonus_pct": -10
+    }
+  ],
+  "butin": [
+    {
+      "objet": "fragment-de-scouter",
+      "chance": 0.5
+    }
+  ],
+  "contribution_min_pct": 5,
+  "a_verifier": "Phase 1 = Vegeta de LoG1, très proche du Vegeta jouable (même combinaison bleue) : à rendre nettement distinct (armure, scouter) ou à remplacer par la planche vegeta-saga-saiyan.png annoncée. Niveau, PV, butin et attaques à fixer ; la transformation est la première ligne de vegeta-grand-singe.png."
+}

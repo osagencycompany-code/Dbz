@@ -85,6 +85,7 @@
             "enum": [
               "dbz-online",
               "buus-fury",
+              "legacy-of-goku-1",
               "legacy-of-goku-2",
               "maison"
             ]
@@ -298,6 +299,7 @@
                   "enum": [
                     "dbz-online",
                     "buus-fury",
+                    "legacy-of-goku-1",
                     "legacy-of-goku-2",
                     "maison"
                   ]

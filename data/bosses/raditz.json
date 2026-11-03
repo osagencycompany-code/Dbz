@@ -2,12 +2,17 @@
   "$schema": "../../schemas/boss.schema.json",
   "id": "raditz",
   "nom": "Raditz",
-  "statut": "valide",
+  "statut": "brouillon",
   "niveau": 12,
   "sprite": {
-    "source": "dbz-online",
-    "fichier": "assets/raw/graphics/characters/12.png",
-    "format": "4-directions-1-image"
+    "source": "legacy-of-goku-1",
+    "fichier": "assets/monstres/raditz-log1.png",
+    "format": "planche-decoupee",
+    "cadre": [
+      40,
+      40
+    ],
+    "animations": "assets/monstres/raditz-log1.anims.json"
   },
   "zone": "mont-paozu",
   "respawn_s": 720,
@@ -71,5 +76,6 @@
       "chance": 0.25
     }
   ],
-  "contribution_min_pct": 5
+  "contribution_min_pct": 5,
+  "a_verifier": "Sprite animé de Legacy of Goku 1 (découpé de Various.gif), correspondance d'animations à valider dans assets/build/apercu-heros.html ; le client n'affiche pas encore les planches animées."
 }

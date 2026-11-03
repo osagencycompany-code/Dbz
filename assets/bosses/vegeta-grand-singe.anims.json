@@ -1,0 +1,39 @@
+{
+  "cadre": [
+    72,
+    72
+  ],
+  "colonnes": 5,
+  "lignes": {
+    "transformation": 0,
+    "singe": 1
+  },
+  "statut": "brouillon : cases numérotées dans l'ordre de lecture de la planche, correspondance proposée par Claude à valider dans l'aperçu",
+  "source": "assets/raw/legacy-of-goku-1/Oozaru Gohan  Vegeta.png",
+  "note": "Ligne 0 : 4 images de transformation ; ligne 1 : singe géant de profil (5 images). La version « en cadre vert » de la planche d'origine est exclue (retouche non officielle). Faces et dos du singe : voir Various.gif.",
+  "animations": {
+    "transformation": {
+      "ligne": "transformation",
+      "cols": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fps": 5,
+      "loop": false
+    },
+    "singe-marche": {
+      "ligne": "singe",
+      "cols": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "fps": 6,
+      "loop": true
+    }
+  }
+}

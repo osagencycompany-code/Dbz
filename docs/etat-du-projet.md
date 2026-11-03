@@ -34,7 +34,9 @@ Modèle de personnage (décisions 0021 à 0024) : **préparation faite, rien cod
 2. Le tableau des héros (`data/characters/*.json`, tout en `brouillon`).
 3. Le fichier de la planche « Vegeta saga Saiyan / grand singe » : introuvable dans `assets/raw`, à indiquer.
 
-Les fiches de monstres gardent leurs sprites actuels : le client n'affiche pas encore de monstre animé, le changement viendra après le choix du dinosaure.
+Legacy of Goku 1 : inventaire dans `docs/assets-legacy-of-goku-1.md`. Raditz et Nappa utilisent maintenant des sprites animés de LoG1 (brouillons) ; le boss Vegeta (saga Saiyan, trois phases dont le grand singe) est créé en brouillon, mais le fichier `vegeta-saga-saiyan.png` annoncé n'était pas dans le dossier. Les Saibamen n'existent pas dans LoG1.
+
+Les fiches de monstres communs gardent leurs sprites actuels : le client n'affiche pas encore de monstre animé, le changement viendra après le choix du dinosaure.
 
 ## À valider par Souleymen
 

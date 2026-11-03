@@ -22,3 +22,13 @@ Cadres de 32 px (64 px pour le T-Rex). Héros : ligne 0 = bandeau de titre, lign
 | Goku | oui (existant) | oui | oui | oui | oui | oui | oui |
 
 Manques : aucune planche de Super Saiyan 2 (surimpression d'éclairs), Gohan Ultime non audité, **planche du Vegeta saga Saiyan / grand singe introuvable** dans `assets/raw` (à indiquer).
+
+## Ce qui manque encore (comparaison avec spritedatabase.net, rien téléchargé)
+
+Comparaison des listes des pages `game/978` (Legacy of Goku 2) et `game/976` (Buu's Fury) avec `assets/raw/`. Les noms de fichiers ne correspondent pas toujours un pour un (certaines planches regroupent plusieurs personnages) : « absent » veut dire « aucun fichier de ce nom », à confirmer en ouvrant les planches proches.
+
+**Legacy of Goku 2** — planches de personnages absentes ou à confirmer : *Maron* (avec Krilin), *Chaozu* (avec Tenshinhan), *Puar* (avec Yamcha), *Maître Roshi et la Tortue* (peut-être dans `Kame House NPC.png`), *Computer Screens*, *Various*. Décors absents : *Canyon*, *Capsule Corp (salle des ordinateurs, couloir, escalier)*, *vaisseau de Freezer*, *maison de Goku (chambre, cuisine, salon)*, *cratère de la capsule spatiale*. Les autres planches (Android 16 et 17, Bulma et sa famille, Freezer, King Cold, Cooler, Future Trunks, Gohan, Krilin, Piccolo, Tenshinhan, Vegeta, Yamcha) sont présentes.
+
+**Buu's Fury** — absents ou à confirmer : *Janemba deuxième forme* (peut-être `Super Janemba.png`), *Fat Buu* (peut-être `Majin Buu.png`), *Gohan en vêtements décontractés* (peut-être la tenue d'école), *Various*. Décors absents : *Behind Kami's Throne*, *Dock Area*, *Hyperbolic Time Chamber*, *Orange Star High School Field* (*Airplane 576* est présent). *Janemba première forme*, *Puipui*, *Spopovich* et *Yamu* sont dans `buus-fury-complements/`. Tout le reste (Broly, Evil Buu, Gohan Kai et Great Saiyaman, Goku et ses formes, Gotenks, Great Saiyaman, Hercule, Olibu, Piccolo, Trunks, Vegeta Super Saiyan, Vegito, Yakon, portraits) est présent.
+
+**Utilité pour la bêta** : aucune de ces planches n'est bloquante. Les plus utiles ensuite : *Maron, Chaozu, Puar* et *maison de Goku* pour les scènes de salle personnelle ; *Hyperbolic Time Chamber* pour l'entraînement ; *Canyon* et *cratère de la capsule spatiale* pour de nouvelles zones.

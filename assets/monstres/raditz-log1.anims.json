@@ -1,0 +1,80 @@
+{
+  "cadre": [
+    40,
+    40
+  ],
+  "colonnes": 23,
+  "lignes": {
+    "ligne": 0
+  },
+  "statut": "brouillon : cases numérotées dans l'ordre de lecture de la planche, correspondance proposée par Claude à valider dans l'aperçu",
+  "source": "assets/raw/legacy-of-goku-1/Various.gif",
+  "note": "Raditz : 23 cases ; cases 15 à 17 non attribuées.",
+  "animations": {
+    "idle": {
+      "ligne": "ligne",
+      "cols": [
+        0,
+        1
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "marche": {
+      "ligne": "ligne",
+      "cols": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "dos": {
+      "ligne": "ligne",
+      "cols": [
+        6,
+        7,
+        8
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "tir": {
+      "ligne": "ligne",
+      "cols": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "fps": 10
+    },
+    "tir-2": {
+      "ligne": "ligne",
+      "cols": [
+        13,
+        14
+      ],
+      "fps": 10
+    },
+    "blesse": {
+      "ligne": "ligne",
+      "cols": [
+        18,
+        19
+      ],
+      "fps": 8
+    },
+    "ko": {
+      "ligne": "ligne",
+      "cols": [
+        20,
+        21,
+        22
+      ],
+      "fps": 6
+    }
+  }
+}

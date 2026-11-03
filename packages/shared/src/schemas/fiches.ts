@@ -2,7 +2,7 @@ import { z } from "zod";
 import { butin, enTete, id, intervalleNiveaux, sprite, statNom } from "./commun.js";
 
 // ---------- Héros jouable (décision 0021) ou personnage combattant ----------
-const provenance = z.enum(["dbz-online", "buus-fury", "legacy-of-goku-2", "maison"]);
+const provenance = z.enum(["dbz-online", "buus-fury", "legacy-of-goku-1", "legacy-of-goku-2", "maison"]);
 
 const forme = z
   .strictObject({
@@ -94,6 +94,8 @@ export const boss = z.strictObject({
   zone: z.string(),
   respawn_s: z.number().int(),
   echelle_sprite: z.number().optional(),
+  /** Boss du monde partagé (apparaît pour tous, comme Nappa) ; faux = événement de salle personnelle (décision 0014). */
+  monde_partage: z.boolean().optional(),
   contribution_min_pct: z.number().optional(),
   butin: butin.optional(),
   phases: z

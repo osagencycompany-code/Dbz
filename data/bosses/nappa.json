@@ -2,12 +2,17 @@
   "$schema": "../../schemas/boss.schema.json",
   "id": "nappa",
   "nom": "Nappa",
-  "statut": "valide",
+  "statut": "brouillon",
   "niveau": 25,
   "sprite": {
-    "source": "dbz-online",
-    "fichier": "assets/raw/graphics/characters/14.png",
-    "format": "4-directions-1-image"
+    "source": "legacy-of-goku-1",
+    "fichier": "assets/monstres/nappa-log1.png",
+    "format": "planche-decoupee",
+    "cadre": [
+      40,
+      40
+    ],
+    "animations": "assets/monstres/nappa-log1.anims.json"
   },
   "zone": "desert-du-diable",
   "respawn_s": 900,
@@ -72,5 +77,6 @@
       "chance": 0.3
     }
   ],
-  "contribution_min_pct": 5
+  "contribution_min_pct": 5,
+  "a_verifier": "Sprite animé de Legacy of Goku 1 (découpé de Various.gif), correspondance d'animations à valider dans assets/build/apercu-heros.html ; le client n'affiche pas encore les planches animées."
 }

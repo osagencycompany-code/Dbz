@@ -1,0 +1,106 @@
+{
+  "cadre": [
+    40,
+    40
+  ],
+  "colonnes": 17,
+  "lignes": {
+    "face": 0,
+    "cote": 1,
+    "dos": 2,
+    "divers": 3
+  },
+  "statut": "brouillon : cases numérotées dans l'ordre de lecture de la planche, correspondance proposée par Claude à valider dans l'aperçu",
+  "source": "assets/raw/legacy-of-goku-1/Vegeta.png",
+  "note": "Vegeta de LoG1 (armure blanche et combinaison bleue), à comparer à la version jouable (voir apercu-heros.html). Les lignes face/côté/dos ne sont pas alignées par colonnes avec les animations : à valider.",
+  "animations": {
+    "idle": {
+      "ligne": "face",
+      "cols": [
+        0,
+        1
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "marche-face": {
+      "ligne": "face",
+      "cols": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "attaque-face": {
+      "ligne": "face",
+      "cols": [
+        6,
+        7,
+        8
+      ],
+      "fps": 10
+    },
+    "blesse": {
+      "ligne": "face",
+      "cols": [
+        12,
+        13,
+        14
+      ],
+      "fps": 8
+    },
+    "marche-cote": {
+      "ligne": "cote",
+      "cols": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "attaque-cote": {
+      "ligne": "cote",
+      "cols": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "fps": 10
+    },
+    "tir-cote": {
+      "ligne": "cote",
+      "cols": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "fps": 10
+    },
+    "marche-dos": {
+      "ligne": "dos",
+      "cols": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "ko": {
+      "ligne": "divers",
+      "cols": [
+        2,
+        3
+      ],
+      "fps": 4
+    }
+  }
+}

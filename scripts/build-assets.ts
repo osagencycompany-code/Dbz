@@ -105,6 +105,7 @@ for (const [dossier, type] of [["mobs", "monstre"], ["bosses", "boss"], ["npcs",
       });
       continue;
     }
+    if (s.animations) copyFileSync(chemin(s.animations), sortie(`sprites/${d.id}.anims.json`));
     copyFileSync(chemin(s.fichier), sortie(sortieRel));
     const { largeur, hauteur } = dimensionsPng(chemin(s.fichier));
     sprites.push({ id: d.id, nom: d.nom, type, statut: d.statut, source: s.source, fichier: sortieRel, format: s.format, largeur, hauteur, note: d.a_verifier ?? "" });
@@ -136,11 +137,35 @@ for (const [fichierBrut, anims, cadre, variantes] of [
   }
 }
 
+// ---- 3 bis. Planches découpées de Legacy of Goku 1 (par tools/decouper_log1.py) et comparaison d'échelle
+const log1: EntreeApercuHeros["log1"] = [];
+for (const [dossier, id, nom] of [
+  ["assets/monstres", "raditz-log1", "Raditz (LoG1)"],
+  ["assets/monstres", "nappa-log1", "Nappa (LoG1)"],
+  ["assets/bosses", "vegeta-phase1", "Vegeta boss, phase 1 (LoG1)"],
+  ["assets/bosses", "vegeta-grand-singe", "Vegeta boss, transformation et grand singe (LoG1)"],
+] as const) {
+  if (!existe(`${dossier}/${id}.png`)) continue;
+  const meta = lireJson(chemin(`${dossier}/${id}.anims.json`)) as any;
+  const sortieRel = `log1/${id}.png`;
+  mkdirSync(dirname(sortie(sortieRel)), { recursive: true });
+  copyFileSync(chemin(`${dossier}/${id}.png`), sortie(sortieRel));
+  log1.push({ id, nom, planche: sortieRel, cadre: meta.cadre, lignes: meta.lignes, animations: meta.animations });
+}
+const echelle: EntreeApercuHeros["echelle"] = [
+  { nom: "Vegeta jouable (Buu's Fury), profil", planche: "characters/vegeta-normale-normal.png", x: 0, y: 64, l: 32, h: 32 },
+  { nom: "Trunks du futur (LoG2), profil", planche: "characters/trunks-futur-normale-normal.png", x: 0, y: 64, l: 32, h: 32 },
+  { nom: "Vegeta boss (LoG1), face", planche: "log1/vegeta-phase1.png", x: 0, y: 0, l: 40, h: 40 },
+  { nom: "Raditz (LoG1), face", planche: "log1/raditz-log1.png", x: 0, y: 0, l: 40, h: 40 },
+  { nom: "Nappa (LoG1), face", planche: "log1/nappa-log1.png", x: 0, y: 0, l: 40, h: 40 },
+  { nom: "Grand singe (LoG1)", planche: "log1/vegeta-grand-singe.png", x: 0, y: 72, l: 72, h: 72 },
+];
+
 // ---- 4. Manifeste et aperçus
 const manifeste = { genereLe: new Date().toISOString(), joueurs: joueurs.map(({ animations: _a, ...reste }) => reste), sprites };
 writeFileSync(sortie("manifest.json"), `${JSON.stringify(manifeste, null, 2)}\n`);
 writeFileSync(sortie("apercu.html"), genererApercu({ joueurs, sprites }));
-writeFileSync(sortie("apercu-heros.html"), genererApercuHeros({ heros, creatures, eclairs: { fichier: "effets/eclairs-ssj2.png", taille: TAILLE_ECLAIRS, nombre: NOMBRE_ECLAIRS } }));
+writeFileSync(sortie("apercu-heros.html"), genererApercuHeros({ heros, creatures, eclairs: { fichier: "effets/eclairs-ssj2.png", taille: TAILLE_ECLAIRS, nombre: NOMBRE_ECLAIRS }, log1, echelle }));
 console.log(
   `assets/build : ${heros.length} héros, ${joueurs.length} planches de joueur (transition), ${sprites.filter((s) => s.fichier).length} sprites, ${creatures.length} créatures animées. Ouvre assets/build/apercu.html et assets/build/apercu-heros.html`,
 );
