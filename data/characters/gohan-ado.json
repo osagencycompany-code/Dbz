@@ -34,10 +34,6 @@
       "disponibilite": "beta"
     },
     {
-      "id": "super-saiyan-2",
-      "disponibilite": "beta"
-    },
-    {
       "id": "gohan-ultime",
       "disponibilite": "apres-beta"
     }
@@ -60,15 +56,10 @@
           },
           "animations": "assets/characters/gohan-ado-ssj/gohan-ado-ssj.anims.json",
           "provenance": "buus-fury"
-        },
-        "super-saiyan-2": {
-          "base": "super-saiyan",
-          "effet": "eclairs-ssj2",
-          "provenance": "buus-fury"
         }
       }
     }
   ],
-  "portrait": "assets/raw/graphics/faces/char/1.png",
-  "notes": "Demi-Saiyan, race « saiyan » pour les transformations. Gohan Ultime : planche LoG2 disponible, ajouté après la bêta."
+  "portrait": "assets/raw/graphics/faces/char/5.png",
+  "notes": "Demi-Saiyan, race « saiyan » pour les transformations. Portrait provisoire : Gohan enfant (faces/char/5), aucun portrait d'adolescent trouvé. Transformations : Super Saiyan, puis Gohan Ultime après la bêta."
 }

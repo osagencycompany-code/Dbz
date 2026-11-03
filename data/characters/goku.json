@@ -16,11 +16,11 @@
   "passif": {
     "id": "esprit-combatif",
     "nom": "Esprit combatif",
-    "description": "Après chaque victoire contre un boss, gagne un bonus de dégâts temporaire.",
-    "declencheur": "apres-victoire-boss",
+    "description": "Après une victoire contre un boss ou une élite, gagne un bonus de dégâts temporaire.",
+    "declencheur": "apres-victoire-boss-ou-elite",
     "effets": {
       "degats_pct": 10,
-      "duree_s": 120
+      "duree_s": 60
     }
   },
   "techniques": [
@@ -43,11 +43,6 @@
       "disponibilite": "apres-beta"
     }
   ],
-  "palettes_joueur": [
-    "orange",
-    "bleu",
-    "vert"
-  ],
   "apparences": [
     {
       "id": "normale",
@@ -67,11 +62,11 @@
           "base": "super-saiyan",
           "effet": "eclairs-ssj2",
           "provenance": "buus-fury",
-          "notes": "Planche Super Saiyan + éclairs (animations/22 de DBZ Online)"
+          "notes": "Planche Super Saiyan + petits arcs électriques générés (décision 0025)"
         }
       }
     }
   ],
   "portrait": "assets/raw/graphics/faces/char/1.png",
-  "notes": "Héros de départ. Les personnages existants deviennent Goku en emplacement 1. La palette de tenue disparaît avec le modèle serveur (transition)."
+  "notes": "Héros de départ. Les personnages existants deviennent Goku en emplacement 1. Le choix de palette disparaît avec le modèle serveur ; en attendant, le build génère encore les planches recolorées pour l'ancien client."
 }

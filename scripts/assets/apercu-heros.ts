@@ -34,6 +34,7 @@ export interface EntreeApercuHeros {
     animations: Record<string, { ligne: string; cols: number[]; fps?: number; loop?: boolean }>;
   }[];
   /** Images de référence pour comparer les échelles (zone découpée d'une planche). */
+  portraits: { nom: string; fichier: string; source: string }[];
   echelle: { nom: string; planche: string; x: number; y: number; l: number; h: number }[];
 }
 
@@ -63,6 +64,7 @@ export function genererApercuHeros(donnees: EntreeApercuHeros): string {
 </head>
 <body>
 <h1>Héros jouables et créatures</h1>
+<p class="aide">Le réglage « Vitesse » (×1, ×0,5, ×0,25) ralentit toutes les animations de cette page pour les regarder image par image ; il ne change pas la vitesse du jeu.</p>
 <p class="aide">Généré par <code>npm run assets:build</code>. Les correspondances d'animations sont des <b>brouillons</b> proposés d'après la lecture des planches : dis-moi ce qui est faux (mauvaise image, animation trop courte, nom inadapté).</p>
 
 <h2>1. Héros : toutes les animations</h2>
@@ -71,11 +73,12 @@ export function genererApercuHeros(donnees: EntreeApercuHeros): string {
   <label>Apparence <select id="apparence"></select></label>
   <label>Forme <select id="forme"></select></label>
   <label>Direction <select id="direction"></select></label>
+  <label>Vitesse <select id="vitesse"><option value="1">×1</option><option value="0.5">×0,5</option><option value="0.25">×0,25</option></select></label>
 </div>
 <div class="grille" id="animations"></div>
 
 <h2>2. Rendu du Super Saiyan 2 (planche Super Saiyan + éclairs superposés)</h2>
-<p class="aide">Pour chaque héros qui a un Super Saiyan 2 : normal, Super Saiyan, Super Saiyan 2 (la même planche que le Super Saiyan avec des éclairs de l'animation 22 de DBZ Online par-dessus). Repos, course et coup de poing.</p>
+<p class="aide">Pour chaque héros qui a un Super Saiyan 2 : normal, Super Saiyan, Super Saiyan 2 (la même planche que le Super Saiyan avec de petits arcs électriques dessinés à l'échelle du sprite par-dessus, qui crépitent par intermittence sans cacher le personnage). Repos, course et coup de poing.</p>
 <div id="ssj2"></div>
 
 <h2>3. Créatures de Legacy of Goku 2</h2>
@@ -85,6 +88,9 @@ export function genererApercuHeros(donnees: EntreeApercuHeros): string {
 <h2>4. Legacy of Goku 1 : Raditz, Nappa, Vegeta boss et grand singe</h2>
 <p class="aide">Découpés de <code>Various.gif</code>, <code>Vegeta.png</code> et <code>Oozaru Gohan  Vegeta.png</code> (aucune mise à l'échelle). Les correspondances d'animations sont des brouillons. Le Saibaman n'existe pas dans ces planches.</p>
 <div class="grille" id="log1"></div>
+
+<h2>6. Portraits des héros</h2>
+<div id="portraits" class="grille"></div>
 
 <h2>5. Échelle réelle : LoG1 contre Buu's Fury / LoG2</h2>
 <p class="aide">Chaque sprite est affiché à ×1, ×2 et ×3 (échelles entières uniquement) sur la même ligne de sol.</p>
@@ -98,6 +104,7 @@ const charger = (src) => (imgs[src] ??= new Promise((ok) => { const i = new Imag
 const sel = (id) => document.getElementById(id);
 const DIRECTIONS = { "face": ["face", false], "trois-quarts": ["trois-quarts", false], "profil droite": ["profil", false], "profil gauche": ["profil", true], "dos": ["dos", false] };
 const animateurs = [];
+let VIT = 1; // vitesse de l'aperçu seulement, jamais celle du jeu
 
 function dessiner(ctx, img, anims, def, col, direction, x, y, zoom) {
   const F = anims.frame;
@@ -138,6 +145,7 @@ async function montrer() {
     animateurs.push({ ctx: c.getContext("2d"), img, f, def, debut: performance.now(), z: ZOOM * 2, marge: 0 });
   }
 }
+sel("vitesse").onchange = () => { VIT = Number(sel("vitesse").value); };
 sel("heros").onchange = remplirApparences; sel("apparence").onchange = remplirFormes; sel("forme").onchange = montrer;
 
 // ---------- 2. SSJ2
@@ -195,25 +203,24 @@ function boucle(t) {
     a.ctx.clearRect(0, 0, a.ctx.canvas.width, a.ctx.canvas.height);
     if (a.log1) {
       const { L, H, ligne, def } = a.log1, n = def.cols.length;
-      const i = Math.floor(((t - a.debut) / 1000) * (def.fps ?? 8)) % n;
+      const i = Math.floor(((t - a.debut) * VIT / 1000) * (def.fps ?? 8)) % n;
       a.ctx.drawImage(a.img, def.cols[i] * L, ligne * H, L, H, 0, 0, L * 2, H * 2);
       continue;
     }
     if (a.creature) {
       const { c, def, ligne, zoom } = a.creature, n = def.cols.length;
-      const i = Math.floor(((t - a.debut) / 1000) * (def.fps ?? 8)) % n;
+      const i = Math.floor(((t - a.debut) * VIT / 1000) * (def.fps ?? 8)) % n;
       a.ctx.drawImage(a.img, def.cols[i] * c.cadre, ligne * c.cadre, c.cadre, c.cadre, 0, 0, c.cadre * zoom, c.cadre * zoom);
       continue;
     }
     const { def } = a, n = def.cols.length;
-    const i = Math.floor(((t - a.debut) / 1000) * (def.fps ?? 8)) % n;
+    const i = Math.floor(((t - a.debut) * VIT / 1000) * (def.fps ?? 8)) % n;
     const dir = a.fixe ?? direction, z = a.z, marge = a.marge;
     dessiner(a.ctx, a.img, a.f.animations, def, def.cols[i], dir, marge * z, marge * z, z);
     if (a.effet) {
-      const E = a.effet, T = D.eclairs.taille, k = Math.floor(t / 80) % D.eclairs.nombre;
-      const taille = T * z, x = (marge + 16) * z - taille / 2, y = (marge + 18) * z - taille / 2;
-      a.ctx.globalAlpha = 0.95; a.ctx.drawImage(E, k * T, 0, T, T, x, y, taille, taille);
-      a.ctx.drawImage(E, ((k + 2) % D.eclairs.nombre) * T, 0, T, T, x, y, taille, taille); a.ctx.globalAlpha = 1;
+      // petits arcs : une image différente toutes les 70 ms, certaines vides (intermittence), même case que le sprite
+      const E = a.effet, T = D.eclairs.taille, k = Math.floor(t / 70) % D.eclairs.nombre;
+      a.ctx.drawImage(E, k * T, 0, T, T, marge * z, marge * z, T * z, T * z);
     }
   }
   requestAnimationFrame(boucle);
@@ -245,6 +252,7 @@ async function echelle() {
     carte.append(cv, document.createElement("br"), e.nom + " (" + e.l + "×" + e.h + " px)"); zone.append(carte);
   }
 }
+for (const p of D.portraits) { const c = document.createElement("div"); c.className = "carte"; c.innerHTML = '<img src="' + p.fichier + '" style="image-rendering:pixelated;height:206px"><br>' + p.nom + '<br><small>' + p.source + '</small>'; sel("portraits").append(c); }
 remplirApparences(); ssj2(); creatures(); log1(); echelle(); requestAnimationFrame(boucle);
 </script>
 </body>

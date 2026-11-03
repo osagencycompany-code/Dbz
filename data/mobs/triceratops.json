@@ -1,0 +1,27 @@
+{
+  "$schema": "../../schemas/monstre.schema.json",
+  "id": "triceratops",
+  "nom": "Tricératops",
+  "statut": "brouillon",
+  "rang": "commun",
+  "niveau": [
+    1,
+    1
+  ],
+  "sprite": {
+    "source": "legacy-of-goku-2",
+    "fichier": "assets/raw/legacy-of-goku-2/ennemis/Triceratops.png",
+    "format": "log2-4-lignes-anime",
+    "cadre": 32,
+    "variante": 0,
+    "animations": "assets/monstres/triceratops.anims.json"
+  },
+  "comportement": {
+    "type": "poursuite",
+    "aggro_px": 120,
+    "vitesse_px_s": 50
+  },
+  "zones": [],
+  "butin": [],
+  "a_verifier": "Monstre commun de la jungle des tricératops (map LoG2 Triceratops Jungle), plus tard : après la bêta. Niveau, comportement, zone et butin à définir."
+}

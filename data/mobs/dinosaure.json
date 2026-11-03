@@ -30,5 +30,6 @@
       "objet": "tenue-entrainement",
       "chance": 0.08
     }
-  ]
+  ],
+  "a_verifier": "Choix validé : T-Rex de Legacy of Goku 2, variante de base (assets/raw/legacy-of-goku-2/ennemis/T-Rex.png, cases de 64 px, animations dans assets/monstres/t-rex.anims.json). Sprite actuel conservé tant que le client n'affiche pas les monstres animés. Les autres couleurs du T-Rex serviront d'élites et de boss ailleurs."
 }

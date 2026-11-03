@@ -13,7 +13,7 @@ import { copyFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { basename, dirname } from "node:path";
 import { genererApercu, type EntreeApercu } from "./assets/apercu.js";
 import { genererApercuHeros, type EntreeApercuHeros } from "./assets/apercu-heros.js";
-import { extraireCreature, extraireEclairs, extrairePersonnage } from "./assets/planches.js";
+import { extraireCreature, extrairePersonnage, genererArcs } from "./assets/planches.js";
 import { dimensionsPng, chemin, existe, lireJson, listerFichiers, relatif } from "./lib/fichiers.js";
 import { ecrirePng, lirePng, recolorer, type Rgb } from "./assets/png.js";
 
@@ -26,6 +26,9 @@ const palettes = lireJson(chemin("assets/palettes.json")) as Palettes;
 const sortie = (rel: string) => chemin("assets/build", rel);
 const fiches = (dossier: string) =>
   listerFichiers(chemin("data", dossier), ".json").map((abs) => ({ rel: relatif(abs), data: lireJson(abs) as Record<string, any> }));
+
+/** TRANSITION : l'ancien client choisit une palette de Goku ; supprimé avec le modèle à cinq emplacements (décision 0021). */
+const PALETTES_TRANSITOIRES: Record<string, string[]> = { goku: ["orange", "bleu", "vert"] };
 
 // ---- 1. Héros jouables : une planche par apparence et par forme
 const joueurs: EntreeApercu["joueurs"] = [];
@@ -51,10 +54,10 @@ for (const { data: p } of fiches("characters")) {
       ecrirePng(sortie(fichier), source);
       entreeApp.formes.push({ id: forme, planche: fichier, animations });
       // TRANSITION : l'ancien client charge encore goku-<palette>.png (recoloration) jusqu'au modèle serveur à 5 emplacements
-      if (p.palettes_joueur && app === p.apparences[0]) {
+      if (PALETTES_TRANSITOIRES[p.id] && app === p.apparences[0]) {
         const nomAncien = `characters/${basename(f.animations)}`;
         copyFileSync(chemin(f.animations), sortie(nomAncien));
-        for (const nom of p.palettes_joueur as string[]) {
+        for (const nom of PALETTES_TRANSITOIRES[p.id] ?? []) {
           const reglage = palettes.palettes[nom];
           if (!(nom in palettes.palettes)) throw new Error(`Palette « ${nom} » absente de assets/palettes.json`);
           const image = reglage ? recolorer(source, palettes.gi, reglage.teinte) : source;
@@ -69,11 +72,10 @@ for (const { data: p } of fiches("characters")) {
   heros.push(entreeHeros);
 }
 
-// ---- 2. Éclairs du Super Saiyan 2 (animation 22 de DBZ Online)
-const TAILLE_ECLAIRS = 64;
-const NOMBRE_ECLAIRS = 4;
-const eclairs = extraireEclairs(lirePng(chemin("assets/raw/graphics/animations/22.png")), TAILLE_ECLAIRS, NOMBRE_ECLAIRS);
-ecrirePng(sortie("effets/eclairs-ssj2.png"), eclairs);
+// ---- 2. Petits arcs électriques du Super Saiyan 2, générés à l'échelle du sprite (cases de 32 px)
+const TAILLE_ECLAIRS = 32;
+const NOMBRE_ECLAIRS = 8;
+ecrirePng(sortie("effets/eclairs-ssj2.png"), genererArcs(TAILLE_ECLAIRS, NOMBRE_ECLAIRS));
 
 // ---- 3. Monstres, boss, PNJ : une planche par fiche
 const sprites: EntreeApercu["sprites"] = [];
@@ -155,17 +157,31 @@ for (const [dossier, id, nom] of [
 const echelle: EntreeApercuHeros["echelle"] = [
   { nom: "Vegeta jouable (Buu's Fury), profil", planche: "characters/vegeta-normale-normal.png", x: 0, y: 64, l: 32, h: 32 },
   { nom: "Trunks du futur (LoG2), profil", planche: "characters/trunks-futur-normale-normal.png", x: 0, y: 64, l: 32, h: 32 },
-  { nom: "Vegeta boss (LoG1), face", planche: "log1/vegeta-phase1.png", x: 0, y: 0, l: 40, h: 40 },
+  { nom: "Vegeta jouable (Buu's Fury), face", planche: "characters/vegeta-normale-normal.png", x: 0, y: 0, l: 32, h: 32 },
+  { nom: "Vegeta boss saga Saiyan (LoG1), face, avec scouter", planche: "log1/vegeta-phase1.png", x: 0, y: 0, l: 32, h: 32 },
+  { nom: "Vegeta boss saga Saiyan, côté", planche: "log1/vegeta-phase1.png", x: 0, y: 64, l: 32, h: 32 },
+  { nom: "Vegeta jouable, trois-quarts", planche: "characters/vegeta-normale-normal.png", x: 0, y: 32, l: 32, h: 32 },
   { nom: "Raditz (LoG1), face", planche: "log1/raditz-log1.png", x: 0, y: 0, l: 40, h: 40 },
   { nom: "Nappa (LoG1), face", planche: "log1/nappa-log1.png", x: 0, y: 0, l: 40, h: 40 },
-  { nom: "Grand singe (LoG1)", planche: "log1/vegeta-grand-singe.png", x: 0, y: 72, l: 72, h: 72 },
+  { nom: "Grand singe (LoG1), face", planche: "log1/vegeta-grand-singe.png", x: 0, y: 64, l: 32, h: 64 },
 ];
+
+// Portraits des héros (aperçu seulement)
+const portraits: EntreeApercuHeros["portraits"] = [];
+for (const h of heros) {
+  const fiche = fiches("characters").find((f) => f.data.id === h.id)!.data;
+  if (!fiche.portrait || !existe(fiche.portrait)) continue;
+  const rel = `portraits/${h.id}.png`;
+  mkdirSync(dirname(sortie(rel)), { recursive: true });
+  copyFileSync(chemin(fiche.portrait), sortie(rel));
+  portraits.push({ nom: h.nom, fichier: rel, source: fiche.portrait });
+}
 
 // ---- 4. Manifeste et aperçus
 const manifeste = { genereLe: new Date().toISOString(), joueurs: joueurs.map(({ animations: _a, ...reste }) => reste), sprites };
 writeFileSync(sortie("manifest.json"), `${JSON.stringify(manifeste, null, 2)}\n`);
 writeFileSync(sortie("apercu.html"), genererApercu({ joueurs, sprites }));
-writeFileSync(sortie("apercu-heros.html"), genererApercuHeros({ heros, creatures, eclairs: { fichier: "effets/eclairs-ssj2.png", taille: TAILLE_ECLAIRS, nombre: NOMBRE_ECLAIRS }, log1, echelle }));
+writeFileSync(sortie("apercu-heros.html"), genererApercuHeros({ heros, creatures, eclairs: { fichier: "effets/eclairs-ssj2.png", taille: TAILLE_ECLAIRS, nombre: NOMBRE_ECLAIRS }, log1, echelle, portraits }));
 console.log(
   `assets/build : ${heros.length} héros, ${joueurs.length} planches de joueur (transition), ${sprites.filter((s) => s.fichier).length} sprites, ${creatures.length} créatures animées. Ouvre assets/build/apercu.html et assets/build/apercu-heros.html`,
 );

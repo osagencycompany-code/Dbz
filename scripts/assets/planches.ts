@@ -66,3 +66,39 @@ export function extraireEclairs(src: PNG, taille: number, nombre: number): PNG {
   choisis.forEach((c, k) => copier(src, c.cadre * cadreL + c.x, c.y, taille, taille, sortie, k * taille, 0));
   return sortie;
 }
+
+/**
+ * Petits arcs électriques du Super Saiyan 2, dessinés à l'échelle du sprite (cases de 32 px, pixel par pixel) :
+ * quelques segments en zigzag de 3 à 6 px qui partent du contour du corps, jamais sur le visage.
+ * Certaines images sont vides pour que les arcs apparaissent et disparaissent par intermittence.
+ * Pseudo-aléatoire déterministe : la planche générée est toujours la même.
+ */
+export function genererArcs(taille = 32, nombre = 8): PNG {
+  const sortie = nouvelleImage(taille * nombre, taille);
+  let graine = 12345;
+  const alea = () => ((graine = (graine * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
+  const centre = { x: taille / 2, y: taille * 0.58 };
+  const vides = new Set([2, 5]);
+  for (let k = 0; k < nombre; k++) {
+    if (vides.has(k)) continue;
+    const nbArcs = 2 + Math.floor(alea() * 2);
+    for (let a = 0; a < nbArcs; a++) {
+      // départ sur le contour du corps (ellipse), plutôt sur les côtés et les jambes que sur la tête
+      const angle = alea() * Math.PI * 2;
+      let x = centre.x + Math.cos(angle) * 6;
+      let y = centre.y + Math.sin(angle) * 9;
+      if (y < taille * 0.3) y = taille * 0.3;
+      const longueur = 3 + Math.floor(alea() * 4);
+      const dx = Math.cos(angle) >= 0 ? 1 : -1;
+      for (let i = 0; i < longueur; i++) {
+        const px = Math.round(x), py = Math.round(y);
+        const couleur: [number, number, number, number] = i === 0 ? [255, 255, 255, 255] : [255, 240, 90, 255];
+        if (px >= 0 && px < taille && py >= 0 && py < taille) ecrirePixel(sortie, k * taille + px, py, couleur);
+        x += dx * (alea() < 0.7 ? 1 : 0);
+        y += alea() < 0.5 ? -1 : 1;
+        if (alea() < 0.25) y += alea() < 0.5 ? -1 : 1;
+      }
+    }
+  }
+  return sortie;
+}

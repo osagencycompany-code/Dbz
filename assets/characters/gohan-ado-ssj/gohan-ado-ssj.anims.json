@@ -94,6 +94,16 @@
         40
       ],
       "fps": 6
+    },
+    "charge-ki": {
+      "cols": [
+        0,
+        1
+      ],
+      "fps": 6,
+      "loop": true,
+      "aura": "charge-ki",
+      "note": "Pas d'images de charge dans la planche : pose normale + aura (vérifié dans Legacy of Goku 1 et les compléments)"
     }
   }
 }

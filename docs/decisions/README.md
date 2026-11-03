@@ -30,3 +30,4 @@ Modèle : `docs/templates/decision.md`.
 | 0022 | [Identité des héros et coût des transformations](0022-identite-des-heros-et-cout-des-transformations.md) |
 | 0023 | [Rareté et évolution des héros](0023-rarete-et-evolution.md) |
 | 0024 | [PvP : duels dans la bêta, zones libres ensuite](0024-pvp.md) |
+| 0025 | [Petits arcs électriques pour le Super Saiyan 2](0025-arcs-electriques-du-super-saiyan-2.md) |

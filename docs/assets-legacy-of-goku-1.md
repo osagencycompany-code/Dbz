@@ -49,3 +49,11 @@ Non audités : format en cases de 32 px à vérifier avant tout usage.
 - `vegeta-saga-saiyan.png`, annoncé comme planche à blocs « Saiyan Saga » et « Great Ape », **n'est pas dans le dossier**. J'ai utilisé à la place `Vegeta.png` et `Oozaru Gohan  Vegeta.png`.
 - Le Vegeta de LoG1 (combinaison bleue, gants et bottes blancs) est **très proche du Vegeta jouable** de Buu's Fury. La règle de `docs/lore/canon.md` exige une apparence nettement distincte pour un boss. Il faut soit l'armure et le scouter de la vraie planche, soit une retouche (scouter, armure de couleur différente) dans `assets/build`.
 - Les correspondances d'animations sont des brouillons (cases numérotées dans l'ordre de lecture).
+
+## Vérification des planches manquantes (charge de ki, vol)
+
+Aucune image de charge de ki pour Gohan adolescent (Super Saiyan) ni pour Trunks, et aucune image de vol pour Vegeta Super Saiyan, dans `legacy-of-goku-1/` ni dans `buus-fury-complements/` (le Gohan de LoG1 est un enfant, le Vegeta de LoG1 n'est pas Super Saiyan). Solution retenue : charge = pose normale + aura (animation `charge-ki` avec le champ `aura`), vol de Vegeta Super Saiyan = boucle sur ses 2 images.
+
+## Boss Vegeta : planche `vegeta-saga-saiyan.png`
+
+Blocs « Saiyan Saga » (armure de la saga Saiyan, cases de 32×32) et « Great Ape » (cases de 32×64, avec la transformation en quatre images). Un scouter vert est ajouté par `tools/decouper_log1.py` sur les images de face et de côté ; la comparaison avec le Vegeta jouable est dans la section 5 de `apercu-heros.html`.
