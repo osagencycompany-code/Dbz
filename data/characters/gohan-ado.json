@@ -1,0 +1,74 @@
+{
+  "$schema": "../../schemas/personnage.schema.json",
+  "id": "gohan-ado",
+  "nom": "Son Gohan (adolescent)",
+  "statut": "brouillon",
+  "role": "heros-jouable",
+  "race": "saiyan",
+  "disponibilite": "beta",
+  "role_combat": "Rayons de ki, colère",
+  "rarete_depart": 1,
+  "modificateurs": {
+    "degats_ki_pct": 15,
+    "energie_pct": 15,
+    "force_pct": -10
+  },
+  "passif": {
+    "id": "colere-enfouie",
+    "nom": "Colère enfouie",
+    "description": "Sous 30 % de PV, les dégâts de ki augmentent.",
+    "declencheur": "pv-sous-30-pct",
+    "effets": {
+      "degats_ki_pct": 20
+    }
+  },
+  "techniques": [
+    {
+      "id": "masenko",
+      "disponibilite": "beta"
+    }
+  ],
+  "transformations": [
+    {
+      "id": "super-saiyan",
+      "disponibilite": "beta"
+    },
+    {
+      "id": "super-saiyan-2",
+      "disponibilite": "beta"
+    },
+    {
+      "id": "gohan-ultime",
+      "disponibilite": "apres-beta"
+    }
+  ],
+  "apparences": [
+    {
+      "id": "normale",
+      "nom": "Tenue d'école",
+      "formes": {
+        "normal": {
+          "extraction": {
+            "source": "assets/raw/graphics/playable_characters/Gohan (School).png"
+          },
+          "animations": "assets/characters/gohan-ado/gohan-ado.anims.json",
+          "provenance": "buus-fury"
+        },
+        "super-saiyan": {
+          "extraction": {
+            "source": "assets/raw/graphics/playable_characters/Gohan (School) (Super Saiyan).png"
+          },
+          "animations": "assets/characters/gohan-ado-ssj/gohan-ado-ssj.anims.json",
+          "provenance": "buus-fury"
+        },
+        "super-saiyan-2": {
+          "base": "super-saiyan",
+          "effet": "eclairs-ssj2",
+          "provenance": "buus-fury"
+        }
+      }
+    }
+  ],
+  "portrait": "assets/raw/graphics/faces/char/1.png",
+  "notes": "Demi-Saiyan, race « saiyan » pour les transformations. Gohan Ultime : planche LoG2 disponible, ajouté après la bêta."
+}

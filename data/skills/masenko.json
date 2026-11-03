@@ -1,0 +1,12 @@
+{
+  "$schema": "../../schemas/technique.schema.json",
+  "id": "masenko",
+  "nom": "Masenko",
+  "statut": "brouillon",
+  "touche_defaut": "V",
+  "apprentissage": {
+    "type": "heros"
+  },
+  "description": "Rayon de Gohan, lancé à deux mains au-dessus de la tête.",
+  "a_verifier": "Coût, multiplicateur et animation à définir dans data/balance avant tout codage."
+}

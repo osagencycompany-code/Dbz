@@ -1,0 +1,72 @@
+{
+  "$schema": "../../schemas/personnage.schema.json",
+  "id": "vegeta",
+  "nom": "Vegeta",
+  "statut": "brouillon",
+  "role": "heros-jouable",
+  "race": "saiyan",
+  "disponibilite": "beta",
+  "role_combat": "Mêlée offensive, fierté",
+  "rarete_depart": 1,
+  "modificateurs": {
+    "force_pct": 15,
+    "vitalite_pct": -10
+  },
+  "passif": {
+    "id": "fierte",
+    "nom": "Fierté du prince",
+    "description": "Inflige plus de dégâts aux boss.",
+    "declencheur": "contre-boss",
+    "effets": {
+      "degats_pct": 10
+    }
+  },
+  "techniques": [
+    {
+      "id": "galick-ho",
+      "disponibilite": "beta"
+    },
+    {
+      "id": "final-flash",
+      "disponibilite": "beta"
+    }
+  ],
+  "transformations": [
+    {
+      "id": "super-saiyan",
+      "disponibilite": "beta"
+    },
+    {
+      "id": "super-saiyan-2",
+      "disponibilite": "beta"
+    }
+  ],
+  "apparences": [
+    {
+      "id": "normale",
+      "nom": "Armure bleue",
+      "formes": {
+        "normal": {
+          "extraction": {
+            "source": "assets/raw/graphics/playable_characters/Vegeta.png"
+          },
+          "animations": "assets/characters/vegeta/vegeta.anims.json",
+          "provenance": "buus-fury"
+        },
+        "super-saiyan": {
+          "extraction": {
+            "source": "assets/raw/graphics/playable_characters/Vegeta (Super Saiyan).png"
+          },
+          "animations": "assets/characters/vegeta-ssj/vegeta-ssj.anims.json",
+          "provenance": "buus-fury"
+        },
+        "super-saiyan-2": {
+          "base": "super-saiyan",
+          "effet": "eclairs-ssj2",
+          "provenance": "buus-fury"
+        }
+      }
+    }
+  ],
+  "portrait": "assets/raw/graphics/faces/char/1.png"
+}

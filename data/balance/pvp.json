@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schemas/balance-pvp.schema.json",
+  "version": 1,
+  "duel": {
+    "duree_max_s": 180,
+    "delai_entre_invitations_s": 30,
+    "invitation_expire_s": 15,
+    "perte_xp_pct": 0,
+    "perte_zenies_pct": 0
+  },
+  "ecart_niveau": {
+    "ecart_max_jusqu_au_seuil": 5,
+    "niveau_seuil": 30,
+    "ecart_max_pct_au_dela": 15
+  },
+  "zone_libre": {
+    "disponible_en_beta": false,
+    "perte_zenies_pct": 10,
+    "chance_lacher_objet_equipe_pct": 5,
+    "invulnerabilite_reapparition_s": 5
+  }
+}

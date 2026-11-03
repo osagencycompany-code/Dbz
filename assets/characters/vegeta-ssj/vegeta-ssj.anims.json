@@ -1,0 +1,127 @@
+{
+  "frame": 32,
+  "rows": {
+    "face": 0,
+    "trois-quarts": 1,
+    "profil": 2,
+    "dos": 3
+  },
+  "gauche": "profil retourné",
+  "columns": 56,
+  "statut": "brouillon : correspondance proposée par Claude d'après la lecture des planches, à valider dans l'aperçu",
+  "animations": {
+    "idle": {
+      "cols": [
+        0,
+        1
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "run": {
+      "cols": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "fps": 14,
+      "loop": true
+    },
+    "punch1": {
+      "cols": [
+        10,
+        11,
+        12
+      ],
+      "fps": 18
+    },
+    "punch2": {
+      "cols": [
+        13,
+        14,
+        15
+      ],
+      "fps": 18
+    },
+    "kick": {
+      "cols": [
+        16,
+        17,
+        18,
+        19
+      ],
+      "fps": 16
+    },
+    "tir-charge": {
+      "cols": [
+        22,
+        23
+      ],
+      "fps": 8
+    },
+    "tir": {
+      "cols": [
+        24,
+        25
+      ],
+      "fps": 8
+    },
+    "blast": {
+      "cols": [
+        28,
+        29,
+        30
+      ],
+      "fps": 12
+    },
+    "hurt": {
+      "cols": [
+        32,
+        33
+      ],
+      "fps": 8
+    },
+    "down": {
+      "cols": [
+        37,
+        38,
+        39,
+        40
+      ],
+      "fps": 6
+    },
+    "fly": {
+      "cols": [
+        41,
+        42
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "charge-ki": {
+      "cols": [
+        47,
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "fps": 8,
+      "loop": true,
+      "row": "face"
+    },
+    "retour-normal": {
+      "cols": [
+        43,
+        44
+      ],
+      "fps": 6
+    }
+  }
+}

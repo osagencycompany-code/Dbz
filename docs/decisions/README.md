@@ -26,3 +26,7 @@ Modèle : `docs/templates/decision.md`.
 | 0018 | [La forêt du Mont Paozu en deux maps reliées](0018-foret-en-deux-maps.md) |
 | 0019 | [Valeurs du monde du jalon 4 (collision, portée, aggro, anti-triche, IA)](0019-valeurs-du-monde-jalon-4.md) |
 | 0020 | [Zone du coup devant le joueur, corps solides, commandes d'administration](0020-zone-du-coup-et-corps-solides.md) |
+| 0021 | [Héros canon à la création, cinq emplacements par compte](0021-heros-canon-et-emplacements.md) |
+| 0022 | [Identité des héros et coût des transformations](0022-identite-des-heros-et-cout-des-transformations.md) |
+| 0023 | [Rareté et évolution des héros](0023-rarete-et-evolution.md) |
+| 0024 | [PvP : duels dans la bêta, zones libres ensuite](0024-pvp.md) |

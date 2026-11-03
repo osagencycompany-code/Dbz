@@ -70,6 +70,23 @@
     },
     "cinematique_deblocage": {
       "type": "boolean"
+    },
+    "disponibilite": {
+      "type": "string",
+      "enum": [
+        "beta",
+        "apres-beta"
+      ]
+    },
+    "effet_visuel": {
+      "type": "string"
+    },
+    "heros": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+      }
     }
   },
   "required": [

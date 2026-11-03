@@ -30,6 +30,7 @@
     "role": {
       "type": "string",
       "enum": [
+        "heros-jouable",
         "modele-joueur",
         "pnj-combattant"
       ]
@@ -55,7 +56,25 @@
           "planche": {
             "type": "string"
           },
+          "extraction": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "source"
+            ],
+            "additionalProperties": false
+          },
           "animations": {
+            "type": "string"
+          },
+          "base": {
+            "type": "string"
+          },
+          "effet": {
             "type": "string"
           },
           "portrait": {
@@ -66,13 +85,15 @@
             "enum": [
               "dbz-online",
               "buus-fury",
+              "legacy-of-goku-2",
               "maison"
             ]
+          },
+          "notes": {
+            "type": "string"
           }
         },
         "required": [
-          "planche",
-          "animations",
           "provenance"
         ],
         "additionalProperties": false
@@ -83,6 +104,228 @@
       "items": {
         "type": "string"
       }
+    },
+    "disponibilite": {
+      "type": "string",
+      "enum": [
+        "beta",
+        "apres-beta"
+      ]
+    },
+    "role_combat": {
+      "type": "string"
+    },
+    "rarete_depart": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "modificateurs": {
+      "type": "object",
+      "properties": {
+        "vitalite_pct": {
+          "type": "number"
+        },
+        "force_pct": {
+          "type": "number"
+        },
+        "puissance_pct": {
+          "type": "number"
+        },
+        "agilite_pct": {
+          "type": "number"
+        },
+        "energie_pct": {
+          "type": "number"
+        },
+        "degats_pct": {
+          "type": "number"
+        },
+        "degats_ki_pct": {
+          "type": "number"
+        },
+        "degats_recus_pct": {
+          "type": "number"
+        },
+        "duree_coups_pct": {
+          "type": "number"
+        },
+        "degats_technique_pct": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "number"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "passif": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "nom": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "declencheur": {
+          "type": "string"
+        },
+        "effets": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "number"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "nom",
+        "description",
+        "declencheur",
+        "effets"
+      ],
+      "additionalProperties": false
+    },
+    "techniques": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "disponibilite": {
+            "type": "string",
+            "enum": [
+              "beta",
+              "apres-beta"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "disponibilite"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "transformations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "disponibilite": {
+            "type": "string",
+            "enum": [
+              "beta",
+              "apres-beta"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "disponibilite"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "apparences": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "formes": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "planche": {
+                  "type": "string"
+                },
+                "extraction": {
+                  "type": "object",
+                  "properties": {
+                    "source": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "source"
+                  ],
+                  "additionalProperties": false
+                },
+                "animations": {
+                  "type": "string"
+                },
+                "base": {
+                  "type": "string"
+                },
+                "effet": {
+                  "type": "string"
+                },
+                "portrait": {
+                  "type": "string"
+                },
+                "provenance": {
+                  "type": "string",
+                  "enum": [
+                    "dbz-online",
+                    "buus-fury",
+                    "legacy-of-goku-2",
+                    "maison"
+                  ]
+                },
+                "notes": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "provenance"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "nom",
+          "formes"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "portrait": {
+      "type": "string"
     }
   },
   "required": [
@@ -90,8 +333,7 @@
     "nom",
     "statut",
     "role",
-    "race",
-    "formes"
+    "race"
   ],
   "additionalProperties": false
 }

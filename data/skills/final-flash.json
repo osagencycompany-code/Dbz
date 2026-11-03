@@ -1,0 +1,12 @@
+{
+  "$schema": "../../schemas/technique.schema.json",
+  "id": "final-flash",
+  "nom": "Final Flash",
+  "statut": "brouillon",
+  "touche_defaut": "V",
+  "apprentissage": {
+    "type": "heros"
+  },
+  "description": "Rayon puissant de Vegeta, longue charge.",
+  "a_verifier": "Coût, multiplicateur et animation à définir dans data/balance avant tout codage."
+}

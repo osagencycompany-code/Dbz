@@ -17,9 +17,13 @@ export const enTete = {
 
 export const sprite = z
   .strictObject({
-    source: z.enum(["dbz-online", "buus-fury", "maison", "a-creer", "a-choisir"]),
+    source: z.enum(["dbz-online", "buus-fury", "legacy-of-goku-2", "maison", "a-creer", "a-choisir"]),
     fichier: z.string().nullable(),
     format: z.string(),
+    /** Créatures animées de Legacy of Goku 2 : taille d'une case, variante de couleur (0 = base) et correspondance d'animations. */
+    cadre: z.number().int().optional(),
+    variante: z.number().int().min(0).optional(),
+    animations: z.string().optional(),
   })
   .nullable();
 

@@ -31,3 +31,12 @@ Chaque écart volontaire avec le canon est listé ici et validé par Souleymen. 
 | 5 | Krilin est mis K.O. par Nappa, pas tué | Krilin survit à Nappa | Cohérent avec le canon : il reste vivant pour l'arc Namek |
 | 6 | Saibamen et monstres génériques (loups, tigres, dinosaures) en quantité | Six Saibamen | Monstres à combattre |
 | 7 | Maître Kaio reçoit le joueur sur la planète du Grand Kaio | Il a sa propre petite planète et ne rejoint le Grand Kaio qu'après la saga Cell | Seule map d'au-delà disponible ; à corriger si une map de la planète de Kaio est créée |
+| 8 | Le joueur choisit un héros canon (Goku, Vegeta, Gohan adolescent, Trunks du futur) | Le joueur est un guerrier original (liberté 1, remplacée) | Décision 0021 |
+| 9 | Plusieurs héros jouables coexistent dans le monde partagé | Un seul de chaque | MMO |
+| 10 | Le Vegeta de la saga Saiyan est un boss du monde partagé, avec phases (Galick Ho, grand singe) | Combat unique contre Goku | Boss de fin d'arc pour tous les joueurs, quel que soit leur héros |
+
+## Règles de présence des héros
+
+- Une **version d'une autre époque** d'un héros jouable (Vegeta de la saga Saiyan, Gohan enfant…) peut apparaître comme boss ou PNJ si son apparence est **nettement distincte** de la version jouable.
+- Les héros jouables n'apparaissent **jamais comme PNJ dans le monde partagé**.
+- Dans les scènes d'histoire en salle personnelle, d'autres héros peuvent apparaître, **jamais le héros du joueur**. Les scènes clés ont 1 à 3 répliques propres à chaque héros, sinon une version commune.

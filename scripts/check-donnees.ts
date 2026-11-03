@@ -136,21 +136,37 @@ interface Anims {
   animations: Record<string, { cols: number[]; row?: string }>;
 }
 for (const [, { rel, data: p }] of get("characters")) {
-  for (const [forme, f] of Object.entries<any>(p.formes)) {
-    verifierFichier(rel, `formes.${forme}.planche`, f.planche);
-    verifierFichier(rel, `formes.${forme}.animations`, f.animations);
-    verifierFichier(rel, `formes.${forme}.portrait`, f.portrait);
-    if (!existe(f.planche) || !existe(f.animations)) continue;
-    const anims = lireJson(chemin(f.animations)) as Anims;
-    const { largeur, hauteur } = dimensionsPng(chemin(f.planche));
-    const nbLignes = Math.max(...Object.values(anims.rows)) + 1;
-    if (anims.columns * anims.frame > largeur) erreur(f.animations, `${anims.columns} colonnes de ${anims.frame} px dépassent la largeur ${largeur} de la planche`);
-    if (nbLignes * anims.frame > hauteur) erreur(f.animations, `${nbLignes} lignes de ${anims.frame} px dépassent la hauteur ${hauteur} de la planche`);
-    for (const [nom, a] of Object.entries(anims.animations)) {
-      for (const c of a.cols) if (c < 0 || c >= anims.columns) erreur(f.animations, `animation « ${nom} » : colonne ${c} hors de la planche`);
-      if (a.row && !(a.row in anims.rows)) erreur(f.animations, `animation « ${nom} » : ligne « ${a.row} » inconnue`);
+  // Toutes les formes : celles du personnage et celles de chacune de ses apparences.
+  const lots: { prefixe: string; formes: Record<string, any> }[] = [];
+  if (p.formes) lots.push({ prefixe: "formes", formes: p.formes });
+  for (const app of p.apparences ?? []) lots.push({ prefixe: `apparences.${app.id}`, formes: app.formes });
+  for (const { prefixe, formes } of lots) {
+    for (const [forme, f] of Object.entries<any>(formes)) {
+      const champ = `${prefixe}.${forme}`;
+      if (f.base) {
+        if (!(f.base in formes)) erreur(rel, `${champ}.base : forme « ${f.base} » inconnue`);
+        continue;
+      }
+      // Planche préparée, ou planche brute à découper (bandeau de titre sur la première ligne).
+      const planche: string | undefined = f.planche ?? f.extraction?.source;
+      verifierFichier(rel, `${champ}.planche`, planche);
+      verifierFichier(rel, `${champ}.animations`, f.animations);
+      verifierFichier(rel, `${champ}.portrait`, f.portrait);
+      if (!planche || !existe(planche) || !existe(f.animations)) continue;
+      const anims = lireJson(chemin(f.animations)) as Anims;
+      const { largeur, hauteur } = dimensionsPng(chemin(planche));
+      const decalage = f.extraction ? 1 : 0;
+      const nbLignes = Math.max(...Object.values(anims.rows)) + 1 + decalage;
+      if (anims.columns * anims.frame > largeur) erreur(f.animations, `${anims.columns} colonnes de ${anims.frame} px dépassent la largeur ${largeur} de la planche`);
+      if (nbLignes * anims.frame > hauteur) erreur(f.animations, `${nbLignes} lignes de ${anims.frame} px dépassent la hauteur ${hauteur} de la planche`);
+      for (const [nom, a] of Object.entries(anims.animations)) {
+        for (const c of a.cols) if (c < 0 || c >= anims.columns) erreur(f.animations, `animation « ${nom} » : colonne ${c} hors de la planche`);
+        if (a.row && !(a.row in anims.rows)) erreur(f.animations, `animation « ${nom} » : ligne « ${a.row} » inconnue`);
+      }
     }
   }
+  for (const t of p.techniques ?? []) verifierRef(rel, "techniques", t.id, "skills");
+  for (const t of p.transformations ?? []) verifierRef(rel, "transformations", t.id, "transformations");
 }
 
 // Palettes de joueur : chaque palette citée doit exister dans assets/palettes.json.

@@ -28,15 +28,20 @@ Commandes d'administration (décision 0020) : `npm run admin:grant -- <pseudo>` 
 
 ## Prochaine étape
 
-Tester le ressenti du jalon 4 (deux onglets, deux comptes). Pas de jalon 5 avant ton retour.
+Modèle de personnage (décisions 0021 à 0024) : **préparation faite, rien codé côté jeu**. À valider par Souleymen avant de coder les effets, le modèle à 5 emplacements (migration 4, personnage existant → Goku emplacement 1) et les écrans :
+
+1. L'audit des planches (`docs/assets-legacy-of-goku-2.md`) et l'aperçu `assets/build/apercu-heros.html` (animations des 4 héros, rendu Super Saiyan 2, créatures LoG2, T-Rex contre Triceratops).
+2. Le tableau des héros (`data/characters/*.json`, tout en `brouillon`).
+3. Le fichier de la planche « Vegeta saga Saiyan / grand singe » : introuvable dans `assets/raw`, à indiquer.
+
+Les fiches de monstres gardent leurs sprites actuels : le client n'affiche pas encore de monstre animé, le changement viendra après le choix du dinosaure.
 
 ## À valider par Souleymen
 
-- Les fiches en `brouillon` de `data/` (sprites `a_verifier`, valeurs `xp_niveaux`).
+- Les fiches en `brouillon` de `data/` (héros, transformations, techniques, objets d'évolution, `evolution.json`, `pvp.json`).
 - Les lignes « à confirmer » du glossaire (Tenshinhan, Scouter).
-- Les libertés 2 à 7 de `docs/lore/canon.md`.
+- Les libertés 2 à 10 de `docs/lore/canon.md`.
 
 ## Questions ouvertes
 
-- Mannequin en bois à revalider sur l'aperçu.
-- Pas encore fait (jalons suivants) : butin, boss, PNJ interactifs, quêtes, techniques, son, carte M, création de personnage, chat.
+- Pas encore fait : tout le modèle de personnage côté serveur/client, butin, boss de la saga Saiyan, PNJ interactifs, quêtes (à adapter), techniques des héros, son, carte M, chat.

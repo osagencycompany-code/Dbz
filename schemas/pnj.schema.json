@@ -37,6 +37,7 @@
               "enum": [
                 "dbz-online",
                 "buus-fury",
+                "legacy-of-goku-2",
                 "maison",
                 "a-creer",
                 "a-choisir"
@@ -49,6 +50,19 @@
               ]
             },
             "format": {
+              "type": "string"
+            },
+            "cadre": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "variante": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "animations": {
               "type": "string"
             }
           },

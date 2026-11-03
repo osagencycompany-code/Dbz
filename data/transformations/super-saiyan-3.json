@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schemas/transformation.schema.json",
+  "id": "super-saiyan-3",
+  "nom": "Super Saiyan 3",
+  "statut": "brouillon",
+  "race": "saiyan",
+  "disponibilite": "apres-beta",
+  "niveau_requis": 40,
+  "bonus_combat": {
+    "vitalite_pct": 50,
+    "force_pct": 50,
+    "puissance_pct": 50
+  },
+  "vitesse_mult": 1.5,
+  "multiplicateur_affiche": 400,
+  "ki_requis_pct": 30,
+  "cout_ki_pct_s": 5,
+  "cout_activation_ki_pct": 10,
+  "duree_transformation_s": 1.9,
+  "forme": "super-saiyan-3",
+  "a_verifier": "Après la bêta ; planche de Goku disponible."
+}

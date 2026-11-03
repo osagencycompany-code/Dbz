@@ -1,0 +1,82 @@
+{
+  "$schema": "../../schemas/personnage.schema.json",
+  "id": "trunks-futur",
+  "nom": "Trunks du futur",
+  "statut": "brouillon",
+  "role": "heros-jouable",
+  "race": "saiyan",
+  "disponibilite": "beta",
+  "role_combat": "Épée, tenace",
+  "rarete_depart": 1,
+  "modificateurs": {
+    "vitalite_pct": 15,
+    "degats_recus_pct": -10,
+    "degats_pct": -10,
+    "duree_coups_pct": 20
+  },
+  "passif": {
+    "id": "epee-du-futur",
+    "nom": "Épée du futur",
+    "description": "Les coups d'épée sont plus longs et portent plus loin.",
+    "declencheur": "permanent",
+    "effets": {
+      "portee_epee_pct": 15
+    }
+  },
+  "techniques": [
+    {
+      "id": "burning-attack",
+      "disponibilite": "beta"
+    }
+  ],
+  "transformations": [
+    {
+      "id": "super-saiyan",
+      "disponibilite": "beta"
+    }
+  ],
+  "apparences": [
+    {
+      "id": "normale",
+      "nom": "Veste",
+      "formes": {
+        "normal": {
+          "extraction": {
+            "source": "assets/raw/legacy-of-goku-2/personnages/Future Trunks.png"
+          },
+          "animations": "assets/characters/trunks-futur/trunks-futur.anims.json",
+          "provenance": "legacy-of-goku-2"
+        },
+        "super-saiyan": {
+          "extraction": {
+            "source": "assets/raw/legacy-of-goku-2/personnages/Future Trunks (Super Saiyan).png"
+          },
+          "animations": "assets/characters/trunks-futur-ssj/trunks-futur-ssj.anims.json",
+          "provenance": "legacy-of-goku-2"
+        }
+      }
+    },
+    {
+      "id": "armure-de-combat",
+      "nom": "Armure de combat",
+      "formes": {
+        "normal": {
+          "extraction": {
+            "source": "assets/raw/legacy-of-goku-2/personnages/Future Trunks (Battle Suit).png"
+          },
+          "animations": "assets/characters/trunks-futur-armure/trunks-futur-armure.anims.json",
+          "provenance": "legacy-of-goku-2"
+        },
+        "super-saiyan": {
+          "extraction": {
+            "source": "assets/raw/legacy-of-goku-2/personnages/Future Trunks (Battle Suit) (Super Saiyan).png"
+          },
+          "animations": "assets/characters/trunks-futur-armure-ssj/trunks-futur-armure-ssj.anims.json",
+          "provenance": "legacy-of-goku-2"
+        }
+      }
+    }
+  ],
+  "portrait": "assets/raw/graphics/faces/char/1.png",
+  "notes": "Deux apparences au choix à la création, stats identiques."
+}

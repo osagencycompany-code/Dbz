@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/balance-evolution.schema.json",
+  "version": 1,
+  "raretes": {
+    "1": { "niveau_max": 20 },
+    "2": { "niveau_max": 25 }
+  },
+  "evolutions": [
+    {
+      "de": 1,
+      "vers": 2,
+      "bonus_stats_pct": 10,
+      "objets": [
+        { "objet": "fragment-de-scouter", "nombre": 3 },
+        { "objet": "insigne-de-bandit", "nombre": 5 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "../../schemas/objet.schema.json",
+  "id": "insigne-de-bandit",
+  "nom": "Insigne de bandit",
+  "statut": "brouillon",
+  "emplacement": "evolution",
+  "rarete": "rare",
+  "stats": {},
+  "prix": 0,
+  "icone": null,
+  "empilable": true,
+  "a_verifier": "Objet d'évolution des héros 1★ → 2★ (décision 0023) : source de butin (Raditz niveau 12 / élites du désert niveaux 18-20) et icône à choisir."
+}

@@ -2,27 +2,76 @@
   "$schema": "../../schemas/personnage.schema.json",
   "id": "goku",
   "nom": "Son Goku",
-  "statut": "valide",
-  "role": "modele-joueur",
+  "statut": "brouillon",
+  "role": "heros-jouable",
   "race": "saiyan",
-  "formes": {
-    "normal": {
-      "planche": "assets/characters/goku/goku.png",
-      "animations": "assets/characters/goku/goku.anims.json",
-      "portrait": "assets/raw/graphics/faces/char/1.png",
-      "provenance": "buus-fury"
-    },
-    "super-saiyan": {
-      "planche": "assets/characters/goku-ssj/goku-ssj.png",
-      "animations": "assets/characters/goku-ssj/goku-ssj.anims.json",
-      "portrait": "assets/raw/graphics/faces/char/6.png",
-      "provenance": "buus-fury"
+  "disponibilite": "beta",
+  "role_combat": "Polyvalent, rayons",
+  "rarete_depart": 1,
+  "modificateurs": {
+    "degats_technique_pct": {
+      "kamehameha": 10
     }
   },
+  "passif": {
+    "id": "esprit-combatif",
+    "nom": "Esprit combatif",
+    "description": "Après chaque victoire contre un boss, gagne un bonus de dégâts temporaire.",
+    "declencheur": "apres-victoire-boss",
+    "effets": {
+      "degats_pct": 10,
+      "duree_s": 120
+    }
+  },
+  "techniques": [
+    {
+      "id": "kamehameha",
+      "disponibilite": "beta"
+    }
+  ],
+  "transformations": [
+    {
+      "id": "super-saiyan",
+      "disponibilite": "beta"
+    },
+    {
+      "id": "super-saiyan-2",
+      "disponibilite": "beta"
+    },
+    {
+      "id": "super-saiyan-3",
+      "disponibilite": "apres-beta"
+    }
+  ],
   "palettes_joueur": [
     "orange",
     "bleu",
     "vert"
   ],
-  "notes": "Sert de base aux personnages joueurs de la bêta (recoloration de la tenue)."
+  "apparences": [
+    {
+      "id": "normale",
+      "nom": "Tenue d'entraînement",
+      "formes": {
+        "normal": {
+          "planche": "assets/characters/goku/goku.png",
+          "animations": "assets/characters/goku/goku.anims.json",
+          "provenance": "buus-fury"
+        },
+        "super-saiyan": {
+          "planche": "assets/characters/goku-ssj/goku-ssj.png",
+          "animations": "assets/characters/goku-ssj/goku-ssj.anims.json",
+          "provenance": "buus-fury"
+        },
+        "super-saiyan-2": {
+          "base": "super-saiyan",
+          "effet": "eclairs-ssj2",
+          "provenance": "buus-fury",
+          "notes": "Planche Super Saiyan + éclairs (animations/22 de DBZ Online)"
+        }
+      }
+    }
+  ],
+  "portrait": "assets/raw/graphics/faces/char/1.png",
+  "notes": "Héros de départ. Les personnages existants deviennent Goku en emplacement 1. La palette de tenue disparaît avec le modèle serveur (transition)."
 }

@@ -46,7 +46,8 @@
           "enum": [
             "depart",
             "quete",
-            "niveau"
+            "niveau",
+            "heros"
           ]
         },
         "quete": {

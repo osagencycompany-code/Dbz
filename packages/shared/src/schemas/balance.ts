@@ -133,3 +133,46 @@ export type BalanceMonde = z.infer<typeof balanceMonde>;
 export type BalanceCombat = z.infer<typeof balanceCombat>;
 export type BalanceFormules = z.infer<typeof balanceFormules>;
 export type BalanceProgression = z.infer<typeof balanceProgression>;
+
+/** Rareté et évolution des héros (décision 0023). Les clés de `raretes` sont le nombre d'étoiles. */
+export const balanceEvolution = z.strictObject({
+  $schema: z.string().optional(),
+  version,
+  raretes: z.record(z.string().regex(/^[1-5]$/), z.strictObject({ niveau_max: z.number().int().min(1) })),
+  evolutions: z.array(
+    z.strictObject({
+      de: z.number().int().min(1),
+      vers: z.number().int().min(2),
+      /** Bonus appliqué à chaque statistique, en % (positif). */
+      bonus_stats_pct: z.number().min(0),
+      objets: z.array(z.strictObject({ objet: z.string(), nombre: z.number().int().min(1) })).min(1),
+    }),
+  ),
+});
+
+/** PvP : duels, écart de niveau, zones libres (décision 0024). */
+export const balancePvp = z.strictObject({
+  $schema: z.string().optional(),
+  version,
+  duel: z.strictObject({
+    duree_max_s: z.number().positive(),
+    delai_entre_invitations_s: z.number().min(0),
+    invitation_expire_s: z.number().positive(),
+    /** Perte à l'issue d'un duel : toujours 0 (ni objet, ni zénie, ni XP). */
+    perte_xp_pct: z.number().min(0),
+    perte_zenies_pct: z.number().min(0),
+  }),
+  ecart_niveau: z.strictObject({
+    /** Écart maximal (en niveaux) jusqu'au niveau `niveau_seuil` inclus. */
+    ecart_max_jusqu_au_seuil: z.number().int().min(0),
+    niveau_seuil: z.number().int().min(1),
+    /** Au-delà du seuil : écart maximal = ce % du niveau du joueur le plus bas. */
+    ecart_max_pct_au_dela: z.number().min(0),
+  }),
+  zone_libre: z.strictObject({
+    disponible_en_beta: z.boolean(),
+    perte_zenies_pct: z.number().min(0),
+    chance_lacher_objet_equipe_pct: z.number().min(0),
+    invulnerabilite_reapparition_s: z.number().min(0),
+  }),
+});

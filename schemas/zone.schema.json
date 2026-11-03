@@ -72,6 +72,14 @@
     "carte_du_monde": {
       "type": "boolean"
     },
+    "pvp": {
+      "type": "string",
+      "enum": [
+        "aucun",
+        "duel",
+        "libre"
+      ]
+    },
     "arrivee": {
       "type": "object",
       "properties": {

@@ -1,0 +1,12 @@
+{
+  "$schema": "../../schemas/technique.schema.json",
+  "id": "burning-attack",
+  "nom": "Burning Attack",
+  "statut": "brouillon",
+  "touche_defaut": "V",
+  "apprentissage": {
+    "type": "heros"
+  },
+  "description": "Boule de ki de Trunks, tirée mains jointes.",
+  "a_verifier": "Coût, multiplicateur et animation à définir dans data/balance avant tout codage."
+}

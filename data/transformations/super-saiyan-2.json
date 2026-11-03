@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/transformation.schema.json",
+  "id": "super-saiyan-2",
+  "nom": "Super Saiyan 2",
+  "statut": "brouillon",
+  "race": "saiyan",
+  "disponibilite": "beta",
+  "niveau_requis": 30,
+  "bonus_combat": {
+    "vitalite_pct": 35,
+    "force_pct": 35,
+    "puissance_pct": 35
+  },
+  "vitesse_mult": 1.35,
+  "multiplicateur_affiche": 100,
+  "ki_requis_pct": 30,
+  "cout_ki_pct_s": 3,
+  "cout_activation_ki_pct": 10,
+  "duree_transformation_s": 1.9,
+  "forme": "super-saiyan-2",
+  "effet_visuel": "eclairs-ssj2",
+  "a_verifier": "Niveau requis et quête à fixer (hors arc Saiyan)."
+}

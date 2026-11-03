@@ -1,0 +1,12 @@
+{
+  "$schema": "../../schemas/technique.schema.json",
+  "id": "galick-ho",
+  "nom": "Galick Ho",
+  "statut": "brouillon",
+  "touche_defaut": "V",
+  "apprentissage": {
+    "type": "heros"
+  },
+  "description": "Rayon violet de Vegeta, plus rapide à charger que le Kamehameha.",
+  "a_verifier": "Coût, multiplicateur et animation à définir dans data/balance avant tout codage."
+}

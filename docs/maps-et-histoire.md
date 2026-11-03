@@ -46,3 +46,16 @@ Diablo Desert, Southwest Forest et Fukurou Forest sont composées d'écrans sép
 ## Calques et collisions
 
 L'outil pré-remplit les collisions sur l'eau, le noir et le fond de planche. Bâtiments, arbres, falaises et rochers doivent être ajoutés dans le calque `collisions` (pinceau rouge, cases de 16 px). Pour les éléments que le joueur doit pouvoir longer par derrière (toits, cimes d'arbres), prévoir un calque image `dessus` découpé dans la map et affiché au-dessus des personnages.
+
+## Cartes de Legacy of Goku 2 (candidates, non utilisées en bêta)
+
+Originaux dans `assets/raw/legacy-of-goku-2/maps/` (inventaire dans `docs/assets-legacy-of-goku-2.md`). À rattacher à l'histoire après la bêta :
+
+| Map LoG2 | Taille | Usage envisagé |
+| --- | --- | --- |
+| Northern Mountains | 5233×4973 | Montagnes du Nord (arcs Androïdes) |
+| Outside Gingertown | 2952×3125 | Environs de Ginger Town |
+| Cell Games Arena | 1195×2156 | Arène du Cell Game |
+| New Namek | 1030×2111 | Nouvelle Namek |
+| Northern Wastelands | – | Terres désolées du Nord |
+| Snowy Highlands, Southern Continent, Triceratops Jungle, Amenbo Island, Master Roshi Island, Pepper Town, Capsule Corporation, East District 439, Cave, Space… | – | Selon les arcs ; voir l'inventaire |
