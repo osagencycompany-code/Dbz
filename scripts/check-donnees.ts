@@ -159,6 +159,8 @@ for (const [, { rel, data: p }] of get("characters"))
   for (const nom of p.palettes_joueur ?? []) if (!palettesDefinies.has(nom)) erreur(rel, `palette « ${nom} » absente de assets/palettes.json`);
 
 // ---------------------------------------------------------------- 5. maps Tiled
+const DISTANCE_MIN_SPAWN_PX = 24;
+const boiteMonstre = (JSON.parse(readFileSync(join(racine, "data/balance/monde.json"), "utf8")) as { boites: { monstre: { largeur_px: number; hauteur_px: number } } }).boites.monstre;
 const TYPES_OBJETS = new Set(["spawn", "portal", "npc", "mobzone", "travel", "heal", "boss", "rock"]);
 const cartes = listerFichiers(chemin("maps"), ".tmj");
 const spawnsParCarte = new Map<string, Set<string>>();
@@ -180,7 +182,8 @@ for (const abs of cartes) {
   }
   const fond = calques.find((c) => c.name === "fond");
   if (fond?.image && !existe(join(dirname(rel), fond.image))) erreur(rel, `image de fond absente (${fond.image})`);
-  for (const o of (calques.find((c) => c.name === "objets")?.objects ?? []) as Fiche[]) {
+  const objets = (calques.find((c) => c.name === "objets")?.objects ?? []) as Fiche[];
+  for (const o of objets) {
     if (!TYPES_OBJETS.has(o.type)) {
       erreur(rel, `objet « ${o.name} » : type inconnu « ${o.type} »`);
       continue;
@@ -195,6 +198,16 @@ for (const abs of cartes) {
       const lig = Math.floor(py / carte.tileheight);
       if (!grille || col < 0 || lig < 0 || col >= carte.width || lig >= carte.height) erreur(rel, `${o.type} « ${o.name} » : hors de la map`);
       else if (grille[lig * carte.width + col]) erreur(rel, `${o.type} « ${o.name} » : placé dans une case bloquée (${Math.round(px)}, ${Math.round(py)})`);
+      else if (o.type === "spawn") {
+        // un point d'arrivée ne doit pas être collé à un corps solide (PNJ, boss) : on y apparaîtrait coincé
+        for (const c of objets.filter((x) => x.type === "npc" || x.type === "boss")) {
+          const cx = c.type === "boss" ? c.x + (c.width ?? 0) / 2 : c.x;
+          const cy = c.type === "boss" ? c.y + (c.height ?? 0) / 2 : c.y;
+          const dx = Math.max(cx - boiteMonstre.largeur_px / 2 - o.x, 0, o.x - (cx + boiteMonstre.largeur_px / 2));
+          const dy = Math.max(cy - boiteMonstre.hauteur_px - o.y, 0, o.y - cy);
+          if (Math.hypot(dx, dy) < DISTANCE_MIN_SPAWN_PX) erreur(rel, `spawn « ${o.name} » à moins de ${DISTANCE_MIN_SPAWN_PX} px de ${c.type} « ${c.name} »`);
+        }
+      }
     }
     if (o.type === "portal") {
       const grille = calques.find((c) => c.name === "collisions")?.data as number[] | undefined;

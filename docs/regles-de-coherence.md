@@ -42,6 +42,8 @@ Les docs de conception (`docs/beta0-spec.md`) décrivent des intentions ; en cas
 - Avant d'écrire un dialogue, une quête ou un nom : vérifier `docs/lore/glossaire.md` et `docs/lore/canon.md`.
 - Aucun élément ne contredit le canon sans figurer dans la liste « Libertés assumées » de `canon.md`, validée par Souleymen.
 - Un nom absent du glossaire y est ajouté avant d'être utilisé.
+- **Références externes** (`docs/reference/analyse-references.md` = base de travail ; `docs/reference/externes/` = captures, plans et textes originaux, à consulter seulement pour vérifier un détail) : on s'inspire des mécaniques, de la structure et du ton ; on ne recopie jamais un dialogue, une description d'objet ou un nom inventé par ces jeux (Buu's Fury, Legacy of Goku, DBZ Online). Les noms canon de Dragon Ball suivent le glossaire.
+- **Interface** : la fenêtre Personnage, l'inventaire et la carte du monde prennent les captures de DBZ Online (`docs/reference/externes/dbz-online-interface/`) comme modèle visuel (fenêtres crème à bordure brune, barre de titre bleue, boutons orange). Seule la mise en page est reprise, pas les textes ni les icônes.
 
 ## 6. Assets
 
