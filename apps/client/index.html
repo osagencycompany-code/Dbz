@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DBZ MY GAME</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <main id="connexion">
+      <h1>DBZ MY GAME</h1>
+      <p class="sous-titre">Bêta fermée</p>
+      <form id="formulaire">
+        <label>Pseudo <input name="pseudo" autocomplete="username" required minlength="3" /></label>
+        <label class="inscription">E-mail <input name="email" type="email" autocomplete="email" /></label>
+        <label>Mot de passe <input name="motDePasse" type="password" autocomplete="current-password" required minlength="8" /></label>
+        <label class="inscription">Clé d'invitation <input name="cle" autocomplete="off" /></label>
+        <button type="submit" id="valider">Se connecter</button>
+        <button type="button" id="basculer" class="lien">Créer un compte</button>
+        <p id="erreur" role="alert"></p>
+      </form>
+    </main>
+    <div id="jeu" hidden></div>
+    <section id="fenetre-p" hidden aria-label="Personnage">
+      <header><span>Personnage</span><button type="button" id="fermer-p" aria-label="Fermer">×</button></header>
+      <div id="contenu-p"></div>
+    </section>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

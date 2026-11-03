@@ -20,6 +20,23 @@ const MIGRATIONS: string[] = [
      utilisee_par INTEGER REFERENCES comptes(id) ON DELETE SET NULL,
      utilisee_le INTEGER
    );`,
+  `CREATE TABLE personnages (
+     compte_id INTEGER PRIMARY KEY REFERENCES comptes(id) ON DELETE CASCADE,
+     niveau INTEGER NOT NULL,
+     xp INTEGER NOT NULL,
+     vitalite INTEGER NOT NULL,
+     force INTEGER NOT NULL,
+     puissance INTEGER NOT NULL,
+     agilite INTEGER NOT NULL,
+     energie INTEGER NOT NULL,
+     points_libres INTEGER NOT NULL,
+     palette TEXT NOT NULL,
+     map TEXT NOT NULL,
+     spawn TEXT,
+     x REAL,
+     y REAL,
+     maj_le INTEGER NOT NULL
+   );`,
 ];
 
 export function ouvrirBase(chemin: string): Base {

@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991,
+      "description": "À incrémenter à chaque changement, avec une décision dans docs/decisions/"
+    },
+    "reference_joueur_equilibre": {
+      "type": "object",
+      "properties": {
+        "multiplicateur_specialisation": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "multiplicateur_specialisation"
+      ],
+      "additionalProperties": false
+    },
+    "rangs": {
+      "type": "object",
+      "properties": {
+        "commun": {
+          "type": "object",
+          "properties": {
+            "pv_x_degats_joueur": {
+              "type": "number"
+            },
+            "attaque_pct_pv_joueur": {
+              "type": "number"
+            },
+            "respawn_s": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "required": [
+            "pv_x_degats_joueur",
+            "attaque_pct_pv_joueur",
+            "respawn_s"
+          ],
+          "additionalProperties": false
+        },
+        "elite": {
+          "type": "object",
+          "properties": {
+            "pv_x_degats_joueur": {
+              "type": "number"
+            },
+            "attaque_pct_pv_joueur": {
+              "type": "number"
+            },
+            "respawn_s": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "required": [
+            "pv_x_degats_joueur",
+            "attaque_pct_pv_joueur",
+            "respawn_s"
+          ],
+          "additionalProperties": false
+        },
+        "boss": {
+          "type": "object",
+          "properties": {
+            "pv_x_degats_joueur": {
+              "type": "number"
+            },
+            "attaque_pct_pv_joueur": {
+              "type": "number"
+            },
+            "respawn_s": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "required": [
+            "pv_x_degats_joueur",
+            "attaque_pct_pv_joueur",
+            "respawn_s"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "commun",
+        "elite",
+        "boss"
+      ],
+      "additionalProperties": false
+    },
+    "annonce_min_s_si_degats_sup_20pct": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "version",
+    "reference_joueur_equilibre",
+    "rangs",
+    "annonce_min_s_si_degats_sup_20pct"
+  ],
+  "additionalProperties": false
+}

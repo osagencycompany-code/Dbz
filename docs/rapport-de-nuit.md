@@ -112,3 +112,16 @@ Attendu pour `npm run check` : vert, avec 5 avertissements sur les dialogues abs
 - Valider/refuser : crabe, mannequin, sprites 78/41/82 (page d'aperçu).
 - Corriger les maps dans Tiled.
 - Valeurs `xp_niveaux` des quêtes, touche Z, noms de maps.
+
+## Suite (relecture du 2026-11-03) : jalon 4 terminé
+
+Choix faits en cours de route (alternatives entre parenthèses) :
+
+- XP d'un monstre : **chaque joueur ayant frappé reçoit l'XP complète** (répartie selon les dégâts : décourage la coopération).
+- Les maps restent en vie sans joueur (monstres et PV conservés) mais **la simulation est en pause quand la map est vide**.
+- Position de départ : un personnage est créé à la première connexion, **palette choisie selon le numéro de compte** en attendant la création de personnage (jalon 6).
+- Le serveur décide de la map : rejoindre une autre salle que celle du personnage est refusé (pas de téléportation par le client).
+- Un seul compte connecté à la fois : la connexion la plus récente remplace l'ancienne.
+- Les monstres n'ont pas de recherche de chemin : un mur entre eux et le joueur les bloque (à améliorer si gênant).
+- Pas encore de butin, boss, PNJ interactifs : les PNJ sont affichés, c'est tout.
+- Les pas du joueur sont rejoués côté client avec les mêmes fonctions partagées (`packages/shared`) que le serveur.

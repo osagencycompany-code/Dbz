@@ -1,5 +1,5 @@
 {
-  "$schema": "../../schemas/balance.schema.json",
+  "$schema": "../../schemas/balance-monstres.schema.json",
   "version": 1,
   "reference_joueur_equilibre": {
     "multiplicateur_specialisation": 1.552

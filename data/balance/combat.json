@@ -1,5 +1,5 @@
 {
-  "$schema": "../../schemas/balance.schema.json",
+  "$schema": "../../schemas/balance-combat.schema.json",
   "version": 1,
   "tic_serveur_hz": 20,
   "combo": {

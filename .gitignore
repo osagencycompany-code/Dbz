@@ -5,3 +5,6 @@ dist/
 assets/build/
 data-runtime/
 .dev-secret
+test-results/
+playwright-report/
+.vite/

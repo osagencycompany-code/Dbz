@@ -7,7 +7,9 @@ import { createServer, type Server as ServeurHttp } from "node:http";
 import { routesAuth } from "./auth/routes.js";
 import { racine, type Config } from "./config.js";
 import type { Base } from "./db/connexion.js";
-import { SalleMap } from "./rooms/SalleMap.js";
+import { Donnees } from "./donnees.js";
+import { SalleMap, type SessionsActives } from "./rooms/SalleMap.js";
+import { nomSalle } from "./salles.js";
 
 /** Une salle par map, d'après data/zones/*.json (les identifiants sont les chemins sous maps/, sans « .tmj »). */
 export function mapsDesZones(): string[] {
@@ -18,12 +20,12 @@ export function mapsDesZones(): string[] {
     .map((m) => m.replace(/^maps\//, "").replace(/\.tmj$/, ""));
 }
 
-/** Le matchmaking place le nom de salle dans l'URL : pas de « / ». */
-export const nomSalle = (map: string) => map.replaceAll("/", "-");
+export { nomSalle };
 
 export interface Application {
   http: ServeurHttp;
   jeu: Server;
+  donnees: Donnees;
   ecouter(port?: number): Promise<number>;
   arreter(): Promise<void>;
 }
@@ -32,21 +34,26 @@ export function creerApplication(db: Base, config: Config): Application {
   const app = express();
   app.disable("x-powered-by");
   app.get("/api/sante", (_req, res) => res.json({ ok: true }));
-  app.use("/api", routesAuth(db, config.secret, config.essaisParMinute));
+  const donnees = new Donnees();
+  app.use("/api", routesAuth(db, config.secret, config.essaisParMinute, donnees));
 
+  if (!config.production) donnees.surveiller();
+  const sessions: SessionsActives = new Map();
   const http = createServer(app);
   const jeu = new Server({ transport: new WebSocketTransport({ server: http }) });
-  for (const map of mapsDesZones()) jeu.define(nomSalle(map), SalleMap, { map, db, secret: config.secret });
+  for (const map of mapsDesZones()) jeu.define(nomSalle(map), SalleMap, { map, db, secret: config.secret, donnees, sessions });
 
   return {
     http,
     jeu,
+    donnees,
     async ecouter(port = config.port) {
       await jeu.listen(port);
       const adresse = http.address();
       return typeof adresse === "object" && adresse ? adresse.port : port;
     },
     async arreter() {
+      donnees.arreter();
       await jeu.gracefullyShutdown(false);
     },
   };

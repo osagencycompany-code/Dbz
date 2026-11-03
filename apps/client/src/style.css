@@ -1,0 +1,25 @@
+[hidden] { display: none !important; }
+html, body { margin: 0; height: 100%; background: #0b0b12; color: #f3e9d2; font-family: system-ui, sans-serif; }
+#connexion { max-width: 22rem; margin: 8vh auto; padding: 1.5rem; background: #17172a; border: 2px solid #e8a033; border-radius: 8px; }
+#connexion h1 { margin: 0; color: #e8a033; text-align: center; letter-spacing: 0.1em; }
+.sous-titre { text-align: center; margin: 0.2rem 0 1rem; color: #9aa; }
+#formulaire label { display: block; margin: 0.6rem 0; font-size: 0.9rem; }
+#formulaire input { display: block; width: 100%; box-sizing: border-box; margin-top: 0.2rem; padding: 0.45rem; background: #0b0b12; color: inherit; border: 1px solid #556; border-radius: 4px; }
+#formulaire button { width: 100%; margin-top: 0.6rem; padding: 0.6rem; border: 0; border-radius: 4px; background: #e8a033; color: #111; font-weight: 700; cursor: pointer; }
+#formulaire button.lien { background: none; color: #9cf; font-weight: 400; text-decoration: underline; }
+#erreur { color: #ff7a7a; min-height: 1.2rem; font-size: 0.85rem; }
+
+#connexion:not(.mode-inscription) .inscription { display: none; }
+#connexion.mode-inscription .inscription { display: block; }
+#jeu { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+#jeu canvas { image-rendering: pixelated; image-rendering: crisp-edges; display: block; }
+#fenetre-p { position: fixed; top: 10%; left: 50%; transform: translateX(-50%); width: 20rem; background: #17172af0; border: 2px solid #e8a033; border-radius: 6px; font-size: 0.9rem; z-index: 5; }
+#fenetre-p header { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0.7rem; background: #e8a033; color: #111; font-weight: 700; }
+#fenetre-p header button { background: none; border: 0; font-size: 1.2rem; cursor: pointer; }
+#contenu-p { padding: 0.7rem; }
+#contenu-p table { width: 100%; border-collapse: collapse; }
+#contenu-p td { padding: 0.25rem 0.2rem; }
+#contenu-p td:last-child { text-align: right; }
+#contenu-p button { margin-left: 0.3rem; min-width: 1.6rem; cursor: pointer; }
+#contenu-p .valider { width: 100%; margin-top: 0.6rem; padding: 0.5rem; background: #e8a033; border: 0; font-weight: 700; border-radius: 4px; }
+#contenu-p .valider:disabled { opacity: 0.4; cursor: default; }

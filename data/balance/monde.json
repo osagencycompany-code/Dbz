@@ -1,0 +1,33 @@
+{
+  "$schema": "../../schemas/balance-monde.schema.json",
+  "version": 1,
+  "boites": {
+    "joueur": { "largeur_px": 12, "hauteur_px": 6 },
+    "monstre": { "largeur_px": 14, "hauteur_px": 6 }
+  },
+  "coup": { "portee_px": 18, "rayon_px": 22 },
+  "aggro_px": { "commun": 150, "elite": 150, "boss": 210 },
+  "anti_triche": { "tolerance_vitesse_pct": 10, "reserve_max_s": 0.25 },
+  "ia": {
+    "attaque_portee_px": 20,
+    "attaque_rayon_px": 26,
+    "attaque_annonce_s": 0.35,
+    "attaque_recharge_s": 1.2,
+    "abandon_facteur_aggro": 2,
+    "meute_alerte_px": 220,
+    "charge_annonce_s": 0.6,
+    "charge_duree_s": 0.5,
+    "charge_recharge_s": 2.5,
+    "charge_declenchement_px": 140,
+    "bond_declenchement_px": 110,
+    "bond_duree_s": 0.3,
+    "zone_rayon_px": 48,
+    "zone_declenchement_px": 56,
+    "zone_recharge_s": 3,
+    "errance_rayon_px": 40,
+    "errance_vitesse_facteur": 0.5,
+    "errance_pause_s": [1.5, 4],
+    "retour_vitesse_facteur": 1.5
+  },
+  "joueur": { "retour_ko_delai_s": 3, "invulnerabilite_retour_s": 2 }
+}

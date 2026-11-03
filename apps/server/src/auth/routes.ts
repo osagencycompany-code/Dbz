@@ -4,6 +4,9 @@ import express, { type Request, type Response } from "express";
 import { z } from "zod";
 import type { Base } from "../db/connexion.js";
 import { comptes, invitations } from "../db/schema.js";
+import { chargerOuCreer } from "../db/personnages.js";
+import type { Donnees } from "../donnees.js";
+import { nomSalle } from "../salles.js";
 import { creerJeton, verifierJeton } from "./jeton.js";
 
 const pseudo = z.string().regex(/^[A-Za-z0-9_-]{3,16}$/, "3 à 16 caractères : lettres, chiffres, _ et -");
@@ -33,7 +36,7 @@ function limiteur(essaisMax: number) {
   };
 }
 
-export function routesAuth(db: Base, secret: string, essaisMax: number) {
+export function routesAuth(db: Base, secret: string, essaisMax: number, donnees?: Donnees) {
   const routeur = express.Router();
   routeur.use(express.json({ limit: "4kb" }));
   const limite = limiteur(essaisMax);
@@ -88,6 +91,17 @@ export function routesAuth(db: Base, secret: string, essaisMax: number) {
     const compte = authentifier(req);
     if (!compte) res.status(401).json({ erreur: "Non connecté." });
     else res.json({ pseudo: compte.pseudo, email: compte.email });
+  });
+
+  /** Salle où le personnage doit se connecter (créé à la première demande). */
+  routeur.get("/personnage", (req, res) => {
+    const compte = authentifier(req);
+    if (!compte || !donnees) {
+      res.status(401).json({ erreur: "Non connecté." });
+      return;
+    }
+    const p = chargerOuCreer(db, donnees, compte.id, compte.pseudo);
+    res.json({ map: p.map, salle: nomSalle(p.map), niveau: p.niveau });
   });
 
   /** Suppression de compte (données personnelles) : exige le mot de passe. */

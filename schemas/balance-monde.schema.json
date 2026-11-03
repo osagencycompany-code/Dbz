@@ -1,0 +1,230 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991,
+      "description": "À incrémenter à chaque changement, avec une décision dans docs/decisions/"
+    },
+    "boites": {
+      "type": "object",
+      "properties": {
+        "joueur": {
+          "type": "object",
+          "properties": {
+            "largeur_px": {
+              "type": "number"
+            },
+            "hauteur_px": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "largeur_px",
+            "hauteur_px"
+          ],
+          "additionalProperties": false
+        },
+        "monstre": {
+          "type": "object",
+          "properties": {
+            "largeur_px": {
+              "type": "number"
+            },
+            "hauteur_px": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "largeur_px",
+            "hauteur_px"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "joueur",
+        "monstre"
+      ],
+      "additionalProperties": false
+    },
+    "coup": {
+      "type": "object",
+      "properties": {
+        "portee_px": {
+          "type": "number"
+        },
+        "rayon_px": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "portee_px",
+        "rayon_px"
+      ],
+      "additionalProperties": false
+    },
+    "aggro_px": {
+      "type": "object",
+      "properties": {
+        "commun": {
+          "type": "number"
+        },
+        "elite": {
+          "type": "number"
+        },
+        "boss": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "commun",
+        "elite",
+        "boss"
+      ],
+      "additionalProperties": false
+    },
+    "anti_triche": {
+      "type": "object",
+      "properties": {
+        "tolerance_vitesse_pct": {
+          "type": "number"
+        },
+        "reserve_max_s": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "tolerance_vitesse_pct",
+        "reserve_max_s"
+      ],
+      "additionalProperties": false
+    },
+    "ia": {
+      "type": "object",
+      "properties": {
+        "attaque_portee_px": {
+          "type": "number"
+        },
+        "attaque_rayon_px": {
+          "type": "number"
+        },
+        "attaque_annonce_s": {
+          "type": "number"
+        },
+        "attaque_recharge_s": {
+          "type": "number"
+        },
+        "abandon_facteur_aggro": {
+          "type": "number"
+        },
+        "meute_alerte_px": {
+          "type": "number"
+        },
+        "charge_annonce_s": {
+          "type": "number"
+        },
+        "charge_duree_s": {
+          "type": "number"
+        },
+        "charge_recharge_s": {
+          "type": "number"
+        },
+        "charge_declenchement_px": {
+          "type": "number"
+        },
+        "bond_declenchement_px": {
+          "type": "number"
+        },
+        "bond_duree_s": {
+          "type": "number"
+        },
+        "zone_rayon_px": {
+          "type": "number"
+        },
+        "zone_declenchement_px": {
+          "type": "number"
+        },
+        "zone_recharge_s": {
+          "type": "number"
+        },
+        "errance_rayon_px": {
+          "type": "number"
+        },
+        "errance_vitesse_facteur": {
+          "type": "number"
+        },
+        "errance_pause_s": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "retour_vitesse_facteur": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "attaque_portee_px",
+        "attaque_rayon_px",
+        "attaque_annonce_s",
+        "attaque_recharge_s",
+        "abandon_facteur_aggro",
+        "meute_alerte_px",
+        "charge_annonce_s",
+        "charge_duree_s",
+        "charge_recharge_s",
+        "charge_declenchement_px",
+        "bond_declenchement_px",
+        "bond_duree_s",
+        "zone_rayon_px",
+        "zone_declenchement_px",
+        "zone_recharge_s",
+        "errance_rayon_px",
+        "errance_vitesse_facteur",
+        "errance_pause_s",
+        "retour_vitesse_facteur"
+      ],
+      "additionalProperties": false
+    },
+    "joueur": {
+      "type": "object",
+      "properties": {
+        "retour_ko_delai_s": {
+          "type": "number"
+        },
+        "invulnerabilite_retour_s": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "retour_ko_delai_s",
+        "invulnerabilite_retour_s"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "version",
+    "boites",
+    "coup",
+    "aggro_px",
+    "anti_triche",
+    "ia",
+    "joueur"
+  ],
+  "additionalProperties": false
+}

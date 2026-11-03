@@ -1,4 +1,4 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const comptes = sqliteTable("comptes", {
   id: integer("id").primaryKey({ autoIncrement: true }),
@@ -15,4 +15,26 @@ export const invitations = sqliteTable("invitations", {
   creeLe: integer("cree_le").notNull(),
   utiliseePar: integer("utilisee_par").references(() => comptes.id, { onDelete: "set null" }),
   utiliseeLe: integer("utilisee_le"),
+});
+
+/** Un personnage par compte (créé à la première connexion). */
+export const personnages = sqliteTable("personnages", {
+  compteId: integer("compte_id")
+    .primaryKey()
+    .references(() => comptes.id, { onDelete: "cascade" }),
+  niveau: integer("niveau").notNull(),
+  xp: integer("xp").notNull(),
+  vitalite: integer("vitalite").notNull(),
+  force: integer("force").notNull(),
+  puissance: integer("puissance").notNull(),
+  agilite: integer("agilite").notNull(),
+  energie: integer("energie").notNull(),
+  pointsLibres: integer("points_libres").notNull(),
+  palette: text("palette").notNull(),
+  map: text("map").notNull(),
+  /** Nom du point d'arrivée à rejoindre à la prochaine connexion (portail) ; vide si on reprend la position. */
+  spawn: text("spawn"),
+  x: real("x"),
+  y: real("y"),
+  majLe: integer("maj_le").notNull(),
 });

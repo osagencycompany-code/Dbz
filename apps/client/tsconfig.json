@@ -2,7 +2,17 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../node_modules/.cache/tsc/apps-client",
-    "rootDir": "src"
+    "rootDir": "src",
+    "types": [
+      "vite/client"
+    ],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ]
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

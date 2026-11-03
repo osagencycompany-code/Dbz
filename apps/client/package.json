@@ -4,6 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
-    "@dbz/shared": "*"
+    "@dbz/shared": "*",
+    "colyseus.js": "^0.16.22",
+    "phaser": "^3.80.1"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
   }
 }
