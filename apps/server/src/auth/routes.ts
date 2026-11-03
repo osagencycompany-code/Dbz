@@ -4,7 +4,7 @@ import express, { type Request, type Response } from "express";
 import { z } from "zod";
 import type { Base } from "../db/connexion.js";
 import { comptes, invitations } from "../db/schema.js";
-import { chargerOuCreer, creerPersonnage, ErreurPersonnage, listerEmplacements, supprimerPersonnage } from "../db/personnages.js";
+import { chargerOuCreer, chargerPersonnage, creerPersonnage, ErreurPersonnage, listerEmplacements, supprimerPersonnage } from "../db/personnages.js";
 import type { Donnees } from "../donnees.js";
 import { nomSalle } from "../salles.js";
 import { creerJeton, verifierJeton } from "./jeton.js";
@@ -93,20 +93,26 @@ export function routesAuth(db: Base, secret: string, essaisMax: number, donnees?
     else res.json({ pseudo: compte.pseudo, email: compte.email });
   });
 
-  /** Salle où le personnage doit se connecter : celui de `?id=`, sinon le premier emplacement (Goku créé s'il n'y en a aucun). */
+  /** TRANSITION (voir `chargerOuCreer`) : salle du premier emplacement, Goku créé s'il n'y a aucun personnage. */
   routeur.get("/personnage", (req, res) => {
     const compte = authentifier(req);
     if (!compte || !donnees) {
       res.status(401).json({ erreur: "Non connecté." });
       return;
     }
-    const demande = req.query.id === undefined ? undefined : Number(req.query.id);
-    if (demande !== undefined && !Number.isInteger(demande)) {
-      res.status(400).json({ erreur: "Identifiant invalide." });
+    const p = chargerOuCreer(db, donnees, compte.id, compte.pseudo);
+    res.json({ id: p.id, nom: p.nom, heros: p.heros, apparence: p.apparence, map: p.map, salle: nomSalle(p.map), niveau: p.niveau });
+  });
+
+  /** Choisit le personnage à jouer (POST : le choix engage la connexion) ; renvoie la salle à rejoindre. */
+  routeur.post("/personnages/:id/jouer", (req, res) => {
+    const compte = authentifier(req);
+    if (!compte) {
+      res.status(401).json({ erreur: "Non connecté." });
       return;
     }
     try {
-      const p = chargerOuCreer(db, donnees, compte.id, compte.pseudo, demande);
+      const p = chargerPersonnage(db, compte.id, compte.pseudo, Number(req.params.id));
       res.json({ id: p.id, nom: p.nom, heros: p.heros, apparence: p.apparence, map: p.map, salle: nomSalle(p.map), niveau: p.niveau });
     } catch (e) {
       if (e instanceof ErreurPersonnage) res.status(e.statut).json({ erreur: e.message });

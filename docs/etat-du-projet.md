@@ -55,3 +55,11 @@ Les fiches de monstres communs gardent leurs sprites actuels : le client n'affic
 - Migration 4 : `personnages` (id, compte, emplacement 1–5, nom, héros, apparence, rareté, niveau, XP, stats, zénies, position), `inventaire` et `equipement` par personnage. Les personnages existants deviennent Son Goku en emplacement 1.
 - API : `GET/POST /api/personnages`, `DELETE /api/personnages/:id` (nom à répéter), `GET /api/heros`, `GET /api/personnage?id=`. La salle reçoit `personnageId` et vérifie qu'il appartient au compte.
 - Reste du jalon 5 : modificateurs et passifs des héros, règle d'XP (10 % / 5 %), écrans de création et de sélection, effets, combat du prototype 06, chemin des monstres.
+
+### Jalon 5 – commit 2 : modificateurs, passifs, règle d'XP (fait)
+
+- Modificateurs des fiches (`*_pct`, `degats_pct`, `degats_recus_pct`, `duree_coups_pct`) appliqués en % après la formule commune ; passifs : Épée du futur (portée +15 %), Fierté du prince (+10 % contre un boss), Esprit combatif (+10 % pendant 60 s après une élite ou un boss). Le passif de Gohan (ki sous 30 % de PV) attend les attaques de ki.
+- XP sans groupe : seul un joueur ayant infligé au moins 10 % des dégâts d'un monstre commun ou élite (5 % pour un boss) reçoit l'XP. Valeurs : `data/balance/partage-xp.json`. Le partage de groupe viendra avec les groupes.
+- Choix du personnage : `POST /api/personnages/:id/jouer` (plus de GET).
+- **À SUPPRIMER dans ce jalon 5, dès que l'écran de création existe** : la création d'office de Son Goku (`chargerOuCreer` dans `apps/server/src/db/personnages.ts`, route `GET /api/personnage`). Dans la bêta : chaque joueur choisit son héros et son apparence à la création et son personnage parmi ses 5 emplacements à chaque connexion ; un compte sans personnage arrive sur l'écran de création. Un test `it.todo` est prêt dans `emplacements.test.ts`.
+- **Effets (décision du 2026-11-03)** : pas d'effets dessinés de zéro. On reprend ceux du prototype 06 : graphics/animations 20 (charge du ki), 1 (aura Super Saiyan), 8 (étincelle), 3 et 2 (traînées de coup), 9 (poussière), 11 et 13 (explosions), 24 (onde de choc), mêmes réglages que le prototype. Super Saiyan 2 : arcs turquoise générés. Aucun extrait d'effets-swl dans le jeu.

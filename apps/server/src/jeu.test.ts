@@ -88,7 +88,7 @@ describe("jeu en ligne : deux joueurs sur la même map", () => {
     const loup = [...serveur.monde.monstres.values()].find((m) => m.fiche.id === "mannequin")!;
     loup.invincible = false;
     loup.pv = 1;
-    loup.contributeurs.add(a.sessionId);
+    loup.contributeurs.set(a.sessionId, 1); // A a déjà infligé 1 dégât : 50 % du total une fois B passé
     await new Promise((r) => setTimeout(r, 300));
     b.send("attaquer");
     await attendre(() => loup.etat === "mort");

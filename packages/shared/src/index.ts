@@ -4,3 +4,4 @@ export * from "./progression.js";
 export * from "./carte.js";
 export * from "./monstres.js";
 export * from "./combat.js";
+export * from "./heros.js";

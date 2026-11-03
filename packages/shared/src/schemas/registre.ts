@@ -1,5 +1,5 @@
 import type { ZodType } from "zod";
-import { balance, balanceCombat, balanceEvolution, balanceFormules, balanceMonde, balanceMonstres, balancePvp, balanceProgression } from "./balance.js";
+import { balance, balanceCombat, balanceEvolution, balanceFormules, balanceMonde, balanceMonstres, balancePartageXp, balancePvp, balanceProgression } from "./balance.js";
 import { boss, monstre, objet, personnage, pnj, quete, technique, transformation, zone } from "./fiches.js";
 
 /** Nom du fichier `schemas/<nom>.schema.json` → schéma zod (source de vérité). */
@@ -21,6 +21,7 @@ export const registreSchemas: Record<string, ZodType> = {
   "balance-combat": balanceCombat,
   "balance-evolution": balanceEvolution,
   "balance-pvp": balancePvp,
+  "balance-partage-xp": balancePartageXp,
 };
 
 /** Dossier de data/ → nom du schéma. */
@@ -45,4 +46,5 @@ export const schemaParFichierBalance: Record<string, string> = {
   "combat.json": "balance-combat",
   "evolution.json": "balance-evolution",
   "pvp.json": "balance-pvp",
+  "partage-xp.json": "balance-partage-xp",
 };

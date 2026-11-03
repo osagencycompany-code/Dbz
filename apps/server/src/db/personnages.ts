@@ -131,25 +131,28 @@ export function supprimerPersonnage(db: Base, compteId: number, personnageId: nu
   return db.delete(personnages).where(and(eq(personnages.id, personnageId), eq(personnages.compteId, compteId))).run().changes > 0;
 }
 
+/** Personnage à jouer : celui demandé, qui doit appartenir au compte. Ne crée jamais rien. */
+export function chargerPersonnage(db: Base, compteId: number, pseudo: string, personnageId: number): Personnage {
+  const ligne = db
+    .select()
+    .from(personnages)
+    .where(and(eq(personnages.id, personnageId), eq(personnages.compteId, compteId)))
+    .get();
+  if (!ligne) throw new ErreurPersonnage(404, "Personnage introuvable.");
+  return enPersonnage(ligne, pseudo);
+}
+
 /**
- * Personnage à jouer : celui demandé (il doit appartenir au compte), sinon le premier emplacement occupé.
- * Un compte sans personnage reçoit Son Goku en emplacement 1 (comptes créés avant les écrans de création).
+ * TRANSITION (jalon 5, à supprimer dès que l'écran de création existe) : sans choix, premier emplacement occupé,
+ * et création d'office de Son Goku pour un compte sans personnage. Dans la bêta, chaque joueur choisit son héros
+ * à la création et son personnage à chaque connexion ; un compte sans personnage arrive sur l'écran de création.
  */
 export function chargerOuCreer(db: Base, d: Donnees, compteId: number, pseudo: string, personnageId?: number): Personnage {
-  let ligne: Ligne | undefined;
-  if (personnageId !== undefined) {
-    ligne = db
-      .select()
-      .from(personnages)
-      .where(and(eq(personnages.id, personnageId), eq(personnages.compteId, compteId)))
-      .get();
-    if (!ligne) throw new ErreurPersonnage(404, "Personnage introuvable.");
-  } else {
-    ligne = db.select().from(personnages).where(eq(personnages.compteId, compteId)).orderBy(asc(personnages.emplacement)).get();
-    if (!ligne) {
-      creerPersonnage(db, d, compteId, { emplacement: 1, nom: pseudo, heros: "goku", apparence: "normale" });
-      ligne = db.select().from(personnages).where(eq(personnages.compteId, compteId)).get()!;
-    }
+  if (personnageId !== undefined) return chargerPersonnage(db, compteId, pseudo, personnageId);
+  let ligne = db.select().from(personnages).where(eq(personnages.compteId, compteId)).orderBy(asc(personnages.emplacement)).get();
+  if (!ligne) {
+    creerPersonnage(db, d, compteId, { emplacement: 1, nom: pseudo, heros: "goku", apparence: "normale" });
+    ligne = db.select().from(personnages).where(eq(personnages.compteId, compteId)).get()!;
   }
   return enPersonnage(ligne, pseudo);
 }

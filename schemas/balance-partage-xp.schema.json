@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991,
+      "description": "À incrémenter à chaque changement, avec une décision dans docs/decisions/"
+    },
+    "seuil_contribution_pct": {
+      "type": "object",
+      "properties": {
+        "commun": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "elite": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "boss": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      },
+      "required": [
+        "commun",
+        "elite",
+        "boss"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "version",
+    "seuil_contribution_pct"
+  ],
+  "additionalProperties": false
+}

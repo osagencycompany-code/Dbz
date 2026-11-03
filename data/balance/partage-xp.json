@@ -1,0 +1,5 @@
+{
+  "$schema": "../../schemas/balance-partage-xp.schema.json",
+  "version": 1,
+  "seuil_contribution_pct": { "commun": 10, "elite": 10, "boss": 5 }
+}

@@ -69,7 +69,7 @@ describe("emplacements de personnages (décision 0021)", () => {
   it("choisit le personnage à jouer et refuse celui d'un autre compte", async () => {
     const { emplacements } = (await (await appel("/personnages")).json()) as { emplacements: ({ id: number; nom: string } | null)[] };
     const prince = emplacements[1]!;
-    const r = await appel(`/personnage?id=${prince.id}`);
+    const r = await appel(`/personnages/${prince.id}/jouer`, "POST");
     expect(r.status).toBe(200);
     expect(((await r.json()) as { nom: string; heros: string }).heros).toBe("vegeta");
     // sans choix : le premier emplacement occupé
@@ -82,7 +82,10 @@ describe("emplacements de personnages (décision 0021)", () => {
       body: JSON.stringify({ email: "b@exemple.fr", pseudo: "Bob", motDePasse: "motdepasse2", cle: "CLE2" }),
     });
     const jetonBob = ((await autre.json()) as { jeton: string }).jeton;
-    expect((await appel(`/personnage?id=${prince.id}`, "GET", undefined, jetonBob)).status).toBe(404);
+    expect((await appel(`/personnages/${prince.id}/jouer`, "POST", undefined, jetonBob)).status).toBe(404);
+    // le choix change l'état de la connexion : un GET ne le permet pas
+    expect((await appel(`/personnages/${prince.id}/jouer`, "GET")).status).toBe(404);
+    expect((await appel(`/personnage?id=${prince.id}`)).status).toBe(200); // l'ancien paramètre est ignoré : premier emplacement, pas de choix
     expect((await appel(`/personnages/${prince.id}`, "DELETE", { nom: "Prince" }, jetonBob)).status).toBe(404);
   });
 
@@ -94,6 +97,22 @@ describe("emplacements de personnages (décision 0021)", () => {
     const apres = (await (await appel("/personnages")).json()) as { emplacements: (unknown | null)[] };
     expect(apres.emplacements[3]).toBeNull();
   });
+});
+
+describe("création d'office de Son Goku (TRANSITION, à supprimer avec l'écran de création)", () => {
+  it("existe encore le temps de développer les écrans", async () => {
+    db.insert(invitations).values({ cle: "CLE3", creeLe: 0 }).run();
+    const r = await fetch(`${base}/inscription`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ email: "c@exemple.fr", pseudo: "Carl", motDePasse: "motdepasse3", cle: "CLE3" }),
+    });
+    const jetonCarl = ((await r.json()) as { jeton: string }).jeton;
+    expect(((await (await appel("/personnage", "GET", undefined, jetonCarl)).json()) as { heros: string }).heros).toBe("goku");
+  });
+  // À activer quand l'écran de création est en place (et à supprimer le test ci-dessus) : dans la bêta, un compte sans
+  // personnage n'obtient rien (404) et le client l'envoie sur l'écran de création ; rejoindre une salle sans choisir est refusé.
+  it.todo("un compte sans personnage n'est pas doté de Goku : GET /personnage renvoie 404 et la salle refuse la connexion");
 });
 
 describe("migration 4 : les personnages existants deviennent Son Goku en emplacement 1", () => {

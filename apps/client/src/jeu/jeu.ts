@@ -87,7 +87,10 @@ function ajusterEchelle(jeu: Phaser.Game) {
  * puis, si le serveur répond « pas sur cette map », celle qu'il indique.
  */
 async function salleInitiale(client: Client, jeton: string, personnageId?: number): Promise<{ salle: string; id: number }> {
-  const r = await fetch(personnageId === undefined ? "/api/personnage" : `/api/personnage?id=${personnageId}`, { headers: { authorization: `Bearer ${jeton}` } });
+  const r = await fetch(personnageId === undefined ? "/api/personnage" : `/api/personnages/${personnageId}/jouer`, {
+    method: personnageId === undefined ? "GET" : "POST",
+    headers: { authorization: `Bearer ${jeton}` },
+  });
   if (r.ok) return (await r.json()) as { salle: string; id: number };
   void client;
   throw new Error("Impossible de retrouver ton personnage.");

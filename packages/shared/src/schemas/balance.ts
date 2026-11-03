@@ -176,3 +176,12 @@ export const balancePvp = z.strictObject({
     invulnerabilite_reapparition_s: z.number().min(0),
   }),
 });
+
+/** Partage de l'XP d'un monstre : seuil de contribution sans groupe (les groupes arrivent plus tard). */
+export const balancePartageXp = z.strictObject({
+  $schema: z.string().optional(),
+  version,
+  /** Part minimale des dégâts infligés au monstre, en %, pour recevoir l'XP quand on joue sans groupe. */
+  seuil_contribution_pct: z.strictObject({ commun: z.number().min(0).max(100), elite: z.number().min(0).max(100), boss: z.number().min(0).max(100) }),
+});
+export type BalancePartageXp = z.infer<typeof balancePartageXp>;

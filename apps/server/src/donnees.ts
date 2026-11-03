@@ -5,6 +5,7 @@ import {
   balanceFormules,
   balanceMonde,
   balanceMonstres,
+  balancePartageXp,
   balanceProgression,
   lireCarte,
   monstre,
@@ -13,6 +14,7 @@ import {
   type BalanceFormules,
   type BalanceMonde,
   type BalanceMonstres,
+  type BalancePartageXp,
   type BalanceProgression,
   type Carte,
 } from "@dbz/shared";
@@ -34,6 +36,7 @@ export class Donnees {
   monstres!: BalanceMonstres;
   monde!: BalanceMonde;
   combat!: BalanceCombat;
+  partageXp!: BalancePartageXp;
   mobs = new Map<string, FicheMonstre>();
   /** Héros jouables (data/characters, rôle « heros-jouable »). */
   heros = new Map<string, FicheHeros>();
@@ -50,6 +53,7 @@ export class Donnees {
     this.monstres = balanceMonstres.parse(lire("data/balance/monstres.json"));
     this.monde = balanceMonde.parse(lire("data/balance/monde.json"));
     this.combat = balanceCombat.parse(lire("data/balance/combat.json"));
+    this.partageXp = balancePartageXp.parse(lire("data/balance/partage-xp.json"));
     this.mobs.clear();
     for (const f of readdirSync(join(racine, "data", "mobs")).filter((n) => n.endsWith(".json"))) {
       const fiche = monstre.parse(lire(`data/mobs/${f}`));

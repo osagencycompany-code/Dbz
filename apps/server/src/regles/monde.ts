@@ -31,6 +31,9 @@ import {
   type ObjetCarte,
   type Rect,
   type Stats,
+  appliquerPct,
+  contributionSuffisante,
+  statsEffectives,
 } from "@dbz/shared";
 import type { Donnees } from "../donnees.js";
 import { penserMonstre } from "../ia/monstres.js";
@@ -151,7 +154,7 @@ export class Monde {
       prochaineCapacite: 0,
       vecteur: { x: 0, y: 0 },
       aFrappe: false,
-      contributeurs: new Set(),
+      contributeurs: new Map(),
       respawnA: 0,
       invincible: comportement.invincible === true,
       coups: 0,
@@ -189,7 +192,7 @@ export class Monde {
   }
 
   ajouterJoueur(id: string, perso: Personnage): Joueur {
-    const pvM = Math.round(pvMax(this.d.formules, perso.niveau, perso.stats.vitalite));
+    const pvM = Math.round(pvMax(this.d.formules, perso.niveau, statsEffectives(perso.stats, this.d.heros.get(perso.heros)?.modificateurs).vitalite));
     let pos: { x: number; y: number } | undefined;
     if (perso.spawn) {
       const s: ObjetCarte | undefined = this.carte.objets.find((o) => o.type === "spawn" && o.nom === perso.spawn);
@@ -211,6 +214,7 @@ export class Monde {
       invulnerableJusqua: this.t + this.d.monde.joueur.invulnerabilite_retour_s,
       derniereBlessureT: -Infinity,
       dernierCoupT: -Infinity,
+      espritJusqua: -Infinity,
       combo: 0,
       anim: "",
       animJusqua: 0,
@@ -248,7 +252,7 @@ export class Monde {
   }
 
   vitesseJoueur(j: Joueur, course: boolean): number {
-    const base = vitessePxS(this.d.formules, j.perso.niveau, j.perso.stats.agilite);
+    const base = vitessePxS(this.d.formules, j.perso.niveau, this.statsEff(j).agilite);
     return vitesseAvecModes(this.d.formules, base, { course });
   }
 
@@ -272,9 +276,29 @@ export class Monde {
     return true;
   }
 
+  /** Fiche du héros du joueur (relue à chaque usage : les modificateurs se rechargent à chaud). */
+  private fiche(j: Joueur) {
+    return this.d.heros.get(j.perso.heros);
+  }
+
+  /** Statistiques utilisées par les formules : points répartis × modificateurs du héros. */
+  statsEff(j: Joueur) {
+    return statsEffectives(j.perso.stats, this.fiche(j)?.modificateurs);
+  }
+
+  /** Bonus de dégâts en % : modificateur du héros + passifs actifs (contre un boss, après une victoire). */
+  private degatsPct(j: Joueur, m: Monstre): number {
+    const fiche = this.fiche(j);
+    let pct = fiche?.modificateurs?.degats_pct ?? 0;
+    const passif = fiche?.passif;
+    if (passif?.declencheur === "contre-boss" && m.rang === "boss") pct += passif.effets.degats_pct ?? 0;
+    if (passif?.declencheur === "apres-victoire-boss-ou-elite" && this.t < j.espritJusqua) pct += passif.effets.degats_pct ?? 0;
+    return pct;
+  }
+
   private recalculer(j: Joueur, soignerTout: boolean) {
     const ancien = j.pvMax;
-    j.pvMax = Math.round(pvMax(this.d.formules, j.perso.niveau, j.perso.stats.vitalite));
+    j.pvMax = Math.round(pvMax(this.d.formules, j.perso.niveau, this.statsEff(j).vitalite));
     j.pv = soignerTout ? j.pvMax : Math.min(j.pvMax, j.pv + Math.max(0, j.pvMax - ancien));
   }
 
@@ -282,13 +306,18 @@ export class Monde {
   attaquer(id: string) {
     const j = this.joueurs.get(id);
     const c = this.d.combat;
-    if (!j || j.ko || this.t - j.dernierCoupT < c.combo.recharge_s) return;
+    const fiche = j ? this.fiche(j) : undefined;
+    // « duree_coups_pct » : des coups plus longs allongent la récupération entre deux coups
+    const recharge = appliquerPct(c.combo.recharge_s, fiche?.modificateurs?.duree_coups_pct);
+    if (!j || j.ko || this.t - j.dernierCoupT < recharge) return;
     j.combo = numeroCombo(c, j.combo, this.t - j.dernierCoupT);
     j.dernierCoupT = this.t;
     j.anim = `coup${j.combo}`;
-    j.animJusqua = this.t + c.combo.recharge_s;
-    // le coup n'atteint que ce qui est dans la zone devant le joueur, du côté où il regarde
-    const zone = zoneCoup(this.d.monde, this.boiteJoueur, j.x, j.y, j.dir);
+    j.animJusqua = this.t + recharge;
+    // le coup n'atteint que ce qui est dans la zone devant le joueur, du côté où il regarde ; l'épée porte plus loin
+    const portee = fiche?.passif?.declencheur === "permanent" ? fiche.passif.effets.portee_epee_pct : undefined;
+    const monde = portee ? { ...this.d.monde, coup: { ...this.d.monde.coup, portee_px: appliquerPct(this.d.monde.coup.portee_px, portee) } } : this.d.monde;
+    const zone = zoneCoup(monde, this.boiteJoueur, j.x, j.y, j.dir);
     const centre = centreZone(zone);
     this.rappels.evenement({ type: "coup", joueur: j.id, numero: j.combo, x: centre.x, y: centre.y, dir: j.dir, zone });
     for (const m of this.monstres.values()) {
@@ -297,11 +326,11 @@ export class Monde {
         this.rappels.evenement({ type: "rate", cible: "monstre", id: m.id, x: m.x, y: m.y });
         continue;
       }
-      const r = degatsCoup(this.d.formules, c, { niveau: j.perso.niveau, force: j.perso.stats.force }, j.combo, {
+      const r = degatsCoup(this.d.formules, c, { niveau: j.perso.niveau, force: this.statsEff(j).force }, j.combo, {
         alea: this.alea(),
         critique: this.alea(),
       });
-      this.frapperMonstre(j, m, r.degats, r.critique);
+      this.frapperMonstre(j, m, Math.max(1, Math.round(appliquerPct(r.degats, this.degatsPct(j, m)))), r.critique);
     }
   }
 
@@ -309,8 +338,9 @@ export class Monde {
     this.rappels.evenement({ type: "degats", cible: "monstre", id: m.id, valeur: degats, critique, x: m.x, y: m.y });
     m.coups += 1;
     if (m.invincible) return;
+    // seuls les dégâts réellement encaissés comptent (pas de surplus sur le coup final)
+    m.contributeurs.set(j.id, (m.contributeurs.get(j.id) ?? 0) + Math.min(degats, m.pv));
     m.pv -= degats;
-    m.contributeurs.add(j.id);
     if (m.pv <= 0) {
       this.tuerMonstre(m);
       return;
@@ -328,9 +358,15 @@ export class Monde {
     const [lo, hi] = this.d.monstres.rangs[m.rang].respawn_s;
     m.respawnA = this.t + lo + this.alea() * (hi - lo);
     this.rappels.evenement({ type: "mort-monstre", id: m.id });
-    for (const id of m.contributeurs) {
+    // sans groupe, seul un joueur ayant infligé assez de dégâts reçoit l'XP (seuil dans data/balance/partage-xp.json)
+    const total = [...m.contributeurs.values()].reduce((a, b) => a + b, 0);
+    const seuil = this.d.partageXp.seuil_contribution_pct[m.rang];
+    for (const [id, degats] of m.contributeurs) {
       const j = this.joueurs.get(id);
-      if (j) this.crediterXp(j, xpGagneeSurMonstre(this.d.progression, j.perso.niveau, m.niveau, m.rang));
+      if (!j || !contributionSuffisante(degats, total, seuil)) continue;
+      this.crediterXp(j, xpGagneeSurMonstre(this.d.progression, j.perso.niveau, m.niveau, m.rang));
+      const passif = this.fiche(j)?.passif;
+      if (passif?.declencheur === "apres-victoire-boss-ou-elite" && m.rang !== "commun") j.espritJusqua = this.t + (passif.effets.duree_s ?? 0);
     }
     m.contributeurs.clear();
   }
@@ -375,12 +411,13 @@ export class Monde {
   /** Dégâts d'un monstre sur un joueur (esquive passive, invulnérabilité courte après un coup). */
   blesserJoueur(j: Joueur, m: Monstre) {
     if (j.ko || j.invincible || this.t < j.invulnerableJusqua) return;
-    const esquive = esquivePct(this.d.formules, j.perso.niveau, j.perso.stats.agilite);
+    const esquive = esquivePct(this.d.formules, j.perso.niveau, this.statsEff(j).agilite);
     if (this.alea() * POURCENT < esquive) {
       this.rappels.evenement({ type: "esquive", cible: "joueur", id: j.id, x: j.x, y: j.y });
       return;
     }
-    const degats = degatsMonstre(this.d.formules, m.attaque, this.alea());
+    const brut = degatsMonstre(this.d.formules, m.attaque, this.alea());
+    const degats = Math.max(1, Math.round(appliquerPct(brut, this.fiche(j)?.modificateurs?.degats_recus_pct)));
     j.pv = Math.max(0, j.pv - degats);
     j.derniereBlessureT = this.t;
     j.invulnerableJusqua = this.t + this.d.combat.invulnerabilite_apres_coup_s;

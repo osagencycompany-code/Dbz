@@ -237,6 +237,7 @@ export const quete = z.strictObject({
   }),
 });
 
+export type ModificateursHeros = z.infer<typeof modificateursHeros>;
 export type Quete = z.infer<typeof quete>;
 export type Monstre = z.infer<typeof monstre>;
 export type Boss = z.infer<typeof boss>;

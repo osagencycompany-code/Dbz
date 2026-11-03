@@ -54,6 +54,8 @@ export interface Joueur {
   budget: number;
   enTransit: boolean;
   sale: boolean;
+  /** Fin du bonus de dégâts temporaire du passif « Esprit combatif » (secondes de simulation). */
+  espritJusqua: number;
   /** Commande d'administration /invincible. */
   invincible: boolean;
 }
@@ -93,7 +95,8 @@ export interface Monstre {
   prochaineCapacite: number;
   vecteur: { x: number; y: number };
   aFrappe: boolean;
-  contributeurs: Set<string>;
+  /** Dégâts réels infligés par chaque joueur (sert à la règle de contribution pour l'XP). */
+  contributeurs: Map<string, number>;
   respawnA: number;
   invincible: boolean;
   coups: number;
