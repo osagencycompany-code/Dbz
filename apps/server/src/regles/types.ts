@@ -11,13 +11,21 @@ export interface Entree {
 
 /** Ce qui est conservé en base pour un personnage. */
 export interface Personnage {
+  /** Identifiant du personnage (un compte en a jusqu'à cinq). */
+  id: number;
   compteId: number;
   pseudo: string;
+  nom: string;
+  heros: string;
+  apparence: string;
+  rarete: number;
+  /** TRANSITION : planche du client actuel ; remplacée par héros et apparence avec les écrans. */
   palette: string;
   niveau: number;
   xp: number;
   stats: Stats;
   pointsLibres: number;
+  zenies: number;
   map: string;
   spawn: string | null;
   x: number | null;

@@ -54,7 +54,9 @@ describe("jeu en ligne : deux joueurs sur la même map", () => {
     await attendre(() => (a.state as any).joueurs.size === 2 && (b.state as any).joueurs.size === 2);
     const vuParB = (b.state as any).joueurs.get(a.sessionId);
     expect(vuParB.pseudo).toBe("Alice");
-    expect(vuParB.palette).not.toBe((b.state as any).joueurs.get(b.sessionId).palette);
+    // chaque joueur est vu avec son héros et son apparence (Son Goku par défaut pour un compte sans personnage choisi)
+    expect(vuParB.heros).toBe("goku");
+    expect(vuParB.apparence).toBe("normale");
 
     // Alice marche : Bob voit sa position changer, et le serveur acquitte les entrées
     const x0 = vuParB.x;

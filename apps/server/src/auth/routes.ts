@@ -4,7 +4,7 @@ import express, { type Request, type Response } from "express";
 import { z } from "zod";
 import type { Base } from "../db/connexion.js";
 import { comptes, invitations } from "../db/schema.js";
-import { chargerOuCreer } from "../db/personnages.js";
+import { chargerOuCreer, creerPersonnage, ErreurPersonnage, listerEmplacements, supprimerPersonnage } from "../db/personnages.js";
 import type { Donnees } from "../donnees.js";
 import { nomSalle } from "../salles.js";
 import { creerJeton, verifierJeton } from "./jeton.js";
@@ -93,15 +93,97 @@ export function routesAuth(db: Base, secret: string, essaisMax: number, donnees?
     else res.json({ pseudo: compte.pseudo, email: compte.email });
   });
 
-  /** Salle où le personnage doit se connecter (créé à la première demande). */
+  /** Salle où le personnage doit se connecter : celui de `?id=`, sinon le premier emplacement (Goku créé s'il n'y en a aucun). */
   routeur.get("/personnage", (req, res) => {
     const compte = authentifier(req);
     if (!compte || !donnees) {
       res.status(401).json({ erreur: "Non connecté." });
       return;
     }
-    const p = chargerOuCreer(db, donnees, compte.id, compte.pseudo);
-    res.json({ map: p.map, salle: nomSalle(p.map), niveau: p.niveau });
+    const demande = req.query.id === undefined ? undefined : Number(req.query.id);
+    if (demande !== undefined && !Number.isInteger(demande)) {
+      res.status(400).json({ erreur: "Identifiant invalide." });
+      return;
+    }
+    try {
+      const p = chargerOuCreer(db, donnees, compte.id, compte.pseudo, demande);
+      res.json({ id: p.id, nom: p.nom, heros: p.heros, apparence: p.apparence, map: p.map, salle: nomSalle(p.map), niveau: p.niveau });
+    } catch (e) {
+      if (e instanceof ErreurPersonnage) res.status(e.statut).json({ erreur: e.message });
+      else throw e;
+    }
+  });
+
+  /** Les cinq emplacements du compte (null = libre). */
+  routeur.get("/personnages", (req, res) => {
+    const compte = authentifier(req);
+    if (!compte) {
+      res.status(401).json({ erreur: "Non connecté." });
+      return;
+    }
+    res.json({ emplacements: listerEmplacements(db, compte.id) });
+  });
+
+  /** Héros jouables proposés à la création (fiches validées et disponibles dans la bêta). */
+  routeur.get("/heros", (req, res) => {
+    if (!authentifier(req) || !donnees) {
+      res.status(401).json({ erreur: "Non connecté." });
+      return;
+    }
+    const liste = [...donnees.heros.values()]
+      .filter((h) => h.disponibilite === "beta" && h.statut === "valide")
+      .map((h) => ({
+        id: h.id,
+        nom: h.nom,
+        role_combat: h.role_combat,
+        rarete_depart: h.rarete_depart,
+        modificateurs: h.modificateurs ?? {},
+        passif: h.passif ? { nom: h.passif.nom, description: h.passif.description } : null,
+        apparences: (h.apparences ?? []).map((a) => ({ id: a.id, nom: a.nom })),
+      }));
+    res.json({ heros: liste });
+  });
+
+  const creation = z.object({ emplacement: z.number().int(), nom: z.string(), heros: z.string(), apparence: z.string() });
+  routeur.post("/personnages", (req, res) => {
+    const compte = authentifier(req);
+    if (!compte || !donnees) {
+      res.status(401).json({ erreur: "Non connecté." });
+      return;
+    }
+    const saisie = creation.safeParse(req.body);
+    if (!saisie.success) {
+      res.status(400).json({ erreur: "Saisie invalide." });
+      return;
+    }
+    try {
+      res.status(201).json(creerPersonnage(db, donnees, compte.id, saisie.data));
+    } catch (e) {
+      if (e instanceof ErreurPersonnage) res.status(e.statut).json({ erreur: e.message });
+      else throw e;
+    }
+  });
+
+  routeur.delete("/personnages/:id", (req, res) => {
+    const compte = authentifier(req);
+    if (!compte) {
+      res.status(401).json({ erreur: "Non connecté." });
+      return;
+    }
+    const id = Number(req.params.id);
+    // la suppression est définitive : le nom du personnage doit être répété
+    const nom = z.object({ nom: z.string() }).safeParse(req.body);
+    const ligne = Number.isInteger(id) ? listerEmplacements(db, compte.id).find((e) => e?.id === id) : undefined;
+    if (!ligne) {
+      res.status(404).json({ erreur: "Personnage introuvable." });
+      return;
+    }
+    if (!nom.success || nom.data.nom !== ligne.nom) {
+      res.status(400).json({ erreur: "Répète le nom du personnage pour confirmer la suppression." });
+      return;
+    }
+    supprimerPersonnage(db, compte.id, id);
+    res.status(204).end();
   });
 
   /** Suppression de compte (données personnelles) : exige le mot de passe. */

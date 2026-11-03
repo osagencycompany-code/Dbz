@@ -18,13 +18,19 @@ function graine(s = 12345) {
 function perso(extra: Partial<Personnage> = {}): Personnage {
   const s = d.formules.points.depart_par_stat;
   return {
+    id: 1,
     compteId: 1,
+    nom: "Test",
+    heros: "goku",
+    apparence: "normale",
+    rarete: 1,
     pseudo: "Test",
     palette: "orange",
     niveau: 1,
     xp: 0,
     stats: { vitalite: s, force: s, puissance: s, agilite: s, energie: s },
     pointsLibres: 0,
+    zenies: 0,
     map: "ile-de-roshi/exterieur",
     spawn: "arrivee",
     x: null,

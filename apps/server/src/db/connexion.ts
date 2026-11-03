@@ -46,6 +46,49 @@ const MIGRATIONS: string[] = [
      autorise INTEGER NOT NULL,
      resultat TEXT NOT NULL
    );`,
+  // 4 : modèle à cinq emplacements (décision 0021). Chaque personnage existant devient Son Goku en emplacement 1.
+  `ALTER TABLE personnages RENAME TO personnages_ancien;
+   CREATE TABLE personnages (
+     id INTEGER PRIMARY KEY AUTOINCREMENT,
+     compte_id INTEGER NOT NULL REFERENCES comptes(id) ON DELETE CASCADE,
+     emplacement INTEGER NOT NULL,
+     nom TEXT NOT NULL,
+     heros TEXT NOT NULL,
+     apparence TEXT NOT NULL,
+     rarete INTEGER NOT NULL DEFAULT 1,
+     niveau INTEGER NOT NULL,
+     xp INTEGER NOT NULL,
+     vitalite INTEGER NOT NULL,
+     force INTEGER NOT NULL,
+     puissance INTEGER NOT NULL,
+     agilite INTEGER NOT NULL,
+     energie INTEGER NOT NULL,
+     points_libres INTEGER NOT NULL,
+     zenies INTEGER NOT NULL DEFAULT 0,
+     map TEXT NOT NULL,
+     spawn TEXT,
+     x REAL,
+     y REAL,
+     cree_le INTEGER NOT NULL,
+     maj_le INTEGER NOT NULL,
+     CONSTRAINT personnages_compte_emplacement UNIQUE (compte_id, emplacement)
+   );
+   INSERT INTO personnages (compte_id, emplacement, nom, heros, apparence, rarete, niveau, xp, vitalite, force, puissance, agilite, energie, points_libres, zenies, map, spawn, x, y, cree_le, maj_le)
+     SELECT a.compte_id, 1, c.pseudo, 'goku', 'normale', 1, a.niveau, a.xp, a.vitalite, a.force, a.puissance, a.agilite, a.energie, a.points_libres, 0, a.map, a.spawn, a.x, a.y, a.maj_le, a.maj_le
+     FROM personnages_ancien a JOIN comptes c ON c.id = a.compte_id;
+   DROP TABLE personnages_ancien;
+   CREATE TABLE inventaire (
+     personnage_id INTEGER NOT NULL REFERENCES personnages(id) ON DELETE CASCADE,
+     objet TEXT NOT NULL,
+     quantite INTEGER NOT NULL,
+     PRIMARY KEY (personnage_id, objet)
+   );
+   CREATE TABLE equipement (
+     personnage_id INTEGER NOT NULL REFERENCES personnages(id) ON DELETE CASCADE,
+     emplacement TEXT NOT NULL,
+     objet TEXT NOT NULL,
+     PRIMARY KEY (personnage_id, emplacement)
+   );`,
 ];
 
 export function ouvrirBase(chemin: string): Base {

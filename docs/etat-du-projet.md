@@ -49,3 +49,9 @@ Les fiches de monstres communs gardent leurs sprites actuels : le client n'affic
 ## Questions ouvertes
 
 - Pas encore fait : tout le modèle de personnage côté serveur/client, butin, boss de la saga Saiyan, PNJ interactifs, quêtes (à adapter), techniques des héros, son, carte M, chat.
+
+## Jalon 5 – commit 1 : modèle à cinq emplacements (fait)
+
+- Migration 4 : `personnages` (id, compte, emplacement 1–5, nom, héros, apparence, rareté, niveau, XP, stats, zénies, position), `inventaire` et `equipement` par personnage. Les personnages existants deviennent Son Goku en emplacement 1.
+- API : `GET/POST /api/personnages`, `DELETE /api/personnages/:id` (nom à répéter), `GET /api/heros`, `GET /api/personnage?id=`. La salle reçoit `personnageId` et vérifie qu'il appartient au compte.
+- Reste du jalon 5 : modificateurs et passifs des héros, règle d'XP (10 % / 5 %), écrans de création et de sélection, effets, combat du prototype 06, chemin des monstres.

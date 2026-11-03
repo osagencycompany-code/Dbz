@@ -15,8 +15,8 @@ export interface Bienvenue {
 }
 
 /** Rejoint la salle, attend la configuration du serveur, puis lance (ou relance) la scène de jeu. */
-async function rejoindre(client: Client, nomSalle: string, jeton: string): Promise<{ room: Room; bienvenue: Bienvenue; profil: Record<string, unknown> }> {
-  const room = await client.joinOrCreate(nomSalle, { jeton });
+async function rejoindre(client: Client, nomSalle: string, jeton: string, personnageId?: number): Promise<{ room: Room; bienvenue: Bienvenue; profil: Record<string, unknown> }> {
+  const room = await client.joinOrCreate(nomSalle, { jeton, personnageId });
   const attente = new Promise<{ bienvenue: Bienvenue; profil: Record<string, unknown> }>((resolve) => {
     let bienvenue: Bienvenue | undefined;
     let profil: Record<string, unknown> | undefined;
@@ -28,12 +28,14 @@ async function rejoindre(client: Client, nomSalle: string, jeton: string): Promi
   return { room, ...(await attente) };
 }
 
-export async function demarrerJeu(conteneur: HTMLElement, client: Client, jeton: string, surErreur: (e: unknown) => void) {
+/** `personnageId` : personnage choisi sur l'écran de sélection ; sans choix, le premier emplacement. */
+export async function demarrerJeu(conteneur: HTMLElement, client: Client, jeton: string, surErreur: (e: unknown) => void, personnageId?: number) {
   const fenetre = new FenetrePersonnage();
   let jeu: Phaser.Game | undefined;
+  let personnageActif = personnageId;
 
   const lancer = async (nomSalle: string) => {
-    const { room, bienvenue, profil } = await rejoindre(client, nomSalle, jeton);
+    const { room, bienvenue, profil } = await rejoindre(client, nomSalle, jeton, personnageActif);
     const donnees: DonneesScene = {
       room,
       bienvenue,
@@ -67,7 +69,9 @@ export async function demarrerJeu(conteneur: HTMLElement, client: Client, jeton:
     jeu.scene.start("jeu", donnees);
   };
 
-  await lancer(import.meta.env.VITE_SALLE_INITIALE ?? (await salleInitiale(client, jeton)));
+  const initiale = await salleInitiale(client, jeton, personnageActif);
+  personnageActif = initiale.id;
+  await lancer(import.meta.env.VITE_SALLE_INITIALE ?? initiale.salle);
 }
 
 /** Échelle entière : on garde le plus grand multiple de 480 × 270 qui tient dans la fenêtre. */
@@ -82,9 +86,9 @@ function ajusterEchelle(jeu: Phaser.Game) {
  * La salle à rejoindre est celle où le personnage a été enregistré ; on la demande en essayant la salle d'arrivée
  * puis, si le serveur répond « pas sur cette map », celle qu'il indique.
  */
-async function salleInitiale(client: Client, jeton: string): Promise<string> {
-  const r = await fetch("/api/personnage", { headers: { authorization: `Bearer ${jeton}` } });
-  if (r.ok) return ((await r.json()) as { salle: string }).salle;
+async function salleInitiale(client: Client, jeton: string, personnageId?: number): Promise<{ salle: string; id: number }> {
+  const r = await fetch(personnageId === undefined ? "/api/personnage" : `/api/personnage?id=${personnageId}`, { headers: { authorization: `Bearer ${jeton}` } });
+  if (r.ok) return (await r.json()) as { salle: string; id: number };
   void client;
   throw new Error("Impossible de retrouver ton personnage.");
 }

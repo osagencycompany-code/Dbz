@@ -9,13 +9,19 @@ const MAP = "ile-de-roshi/exterieur";
 function perso(): Personnage {
   const s = d.formules.points.depart_par_stat;
   return {
+    id: 1,
     compteId: 1,
+    nom: "Test",
+    heros: "goku",
+    apparence: "normale",
+    rarete: 1,
     pseudo: "Test",
     palette: "orange",
     niveau: 1,
     xp: 0,
     stats: { vitalite: s, force: s, puissance: s, agilite: s, energie: s },
     pointsLibres: 0,
+    zenies: 0,
     map: MAP,
     spawn: "arrivee",
     x: null,

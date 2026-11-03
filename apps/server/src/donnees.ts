@@ -8,6 +8,7 @@ import {
   balanceProgression,
   lireCarte,
   monstre,
+  personnage,
   type BalanceCombat,
   type BalanceFormules,
   type BalanceMonde,
@@ -19,6 +20,7 @@ import type { z } from "zod";
 import { racine } from "./config.js";
 
 export type FicheMonstre = z.infer<typeof monstre>;
+export type FicheHeros = z.infer<typeof personnage>;
 
 const lire = (chemin: string): unknown => JSON.parse(readFileSync(join(racine, chemin), "utf8"));
 
@@ -33,6 +35,8 @@ export class Donnees {
   monde!: BalanceMonde;
   combat!: BalanceCombat;
   mobs = new Map<string, FicheMonstre>();
+  /** Héros jouables (data/characters, rôle « heros-jouable »). */
+  heros = new Map<string, FicheHeros>();
   private cartes = new Map<string, Carte>();
   private surveillants: FSWatcher[] = [];
 
@@ -51,11 +55,16 @@ export class Donnees {
       const fiche = monstre.parse(lire(`data/mobs/${f}`));
       this.mobs.set(fiche.id, fiche);
     }
+    this.heros.clear();
+    for (const f of readdirSync(join(racine, "data", "characters")).filter((n) => n.endsWith(".json"))) {
+      const fiche = personnage.parse(lire(`data/characters/${f}`));
+      if (fiche.role === "heros-jouable") this.heros.set(fiche.id, fiche);
+    }
   }
 
   /** Recharge à chaud les fichiers de data/balance et data/mobs ; les erreurs de saisie sont affichées sans arrêter le serveur. */
   surveiller() {
-    for (const dossier of ["data/balance", "data/mobs"]) {
+    for (const dossier of ["data/balance", "data/mobs", "data/characters"]) {
       let attente: NodeJS.Timeout | undefined;
       this.surveillants.push(
         watch(join(racine, dossier), () => {

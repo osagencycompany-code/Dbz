@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { executerCommande } from "../admin/commandes.js";
 import { verifierJeton } from "../auth/jeton.js";
 import type { Base } from "../db/connexion.js";
-import { chargerOuCreer, sauver } from "../db/personnages.js";
+import { chargerOuCreer, ErreurPersonnage, sauver } from "../db/personnages.js";
 import { comptes } from "../db/schema.js";
 import type { Donnees } from "../donnees.js";
 import { Monde } from "../regles/monde.js";
@@ -16,6 +16,8 @@ export class JoueurEtat extends Schema {
   @type("string") id = "";
   @type("string") pseudo = "";
   @type("string") palette = "";
+  @type("string") heros = "";
+  @type("string") apparence = "";
   @type("number") x = 0;
   @type("number") y = 0;
   @type("number") dir = 0;
@@ -134,17 +136,24 @@ export class SalleMap extends Room<SalleEtat> {
     });
   }
 
-  override async onAuth(_client: Client, options: { jeton?: string }) {
+  override async onAuth(_client: Client, options: { jeton?: string; personnageId?: number }) {
     const id = verifierJeton(options?.jeton, this.secret);
     const compte = id === null ? undefined : this.db.select().from(comptes).where(eq(comptes.id, id)).get();
     if (!compte) throw new ServerError(401, "Non authentifié");
+    // le personnage doit appartenir au compte ; sans choix, le premier emplacement
+    let perso;
+    try {
+      perso = chargerOuCreer(this.db, this.d, compte.id, compte.pseudo, options?.personnageId);
+    } catch (e) {
+      if (e instanceof ErreurPersonnage) throw new ServerError(e.statut, e.message);
+      throw e;
+    }
     // le serveur décide de la map : on ne peut pas se téléporter en rejoignant une autre salle
-    const perso = chargerOuCreer(this.db, this.d, compte.id, compte.pseudo);
     if (perso.map !== this.state.map) throw new ServerError(403, "Ce personnage n'est pas sur cette map");
-    return { compteId: compte.id, pseudo: compte.pseudo };
+    return { compteId: compte.id, pseudo: compte.pseudo, personnageId: perso.id };
   }
 
-  override onJoin(client: Client, _options: unknown, auth: { compteId: number; pseudo: string }) {
+  override onJoin(client: Client, _options: unknown, auth: { compteId: number; pseudo: string; personnageId: number }) {
     const ancienne = this.sessions.get(auth.compteId);
     if (ancienne && ancienne.client !== client) {
       // un changement de map n'est pas une seconde connexion : l'ancienne salle est quittée normalement
@@ -153,13 +162,15 @@ export class SalleMap extends Room<SalleEtat> {
     }
     this.sessions.set(auth.compteId, { client, salle: this });
 
-    const perso = chargerOuCreer(this.db, this.d, auth.compteId, auth.pseudo);
+    const perso = chargerOuCreer(this.db, this.d, auth.compteId, auth.pseudo, auth.personnageId);
     const j = this.monde.ajouterJoueur(client.sessionId, perso);
     client.userData = { compteId: auth.compteId };
     const e = new JoueurEtat();
     e.id = j.id;
-    e.pseudo = perso.pseudo;
+    e.pseudo = perso.nom;
     e.palette = perso.palette;
+    e.heros = perso.heros;
+    e.apparence = perso.apparence;
     this.copier(j, e);
     this.state.joueurs.set(j.id, e);
   }

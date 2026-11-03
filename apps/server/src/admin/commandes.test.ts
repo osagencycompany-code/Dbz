@@ -13,13 +13,19 @@ function installer(role: "joueur" | "admin", commandesActives: boolean) {
   db.insert(comptes).values({ email: "a@b.fr", pseudo: "Souley", motDePasse: "x", role, creeLe: 0 }).run();
   const s = d.formules.points.depart_par_stat;
   const perso: Personnage = {
+    id: 1,
     compteId: 1,
+    nom: "Test",
+    heros: "goku",
+    apparence: "normale",
+    rarete: 1,
     pseudo: "Souley",
     palette: "orange",
     niveau: 1,
     xp: 0,
     stats: { vitalite: s, force: s, puissance: s, agilite: s, energie: s },
     pointsLibres: 0,
+    zenies: 0,
     map: "ile-de-roshi/exterieur",
     spawn: "arrivee",
     x: null,
