@@ -2,7 +2,7 @@
   "$schema": "../../schemas/personnage.schema.json",
   "id": "gohan-ado",
   "nom": "Son Gohan (adolescent)",
-  "statut": "brouillon",
+  "statut": "valide",
   "role": "heros-jouable",
   "race": "saiyan",
   "disponibilite": "beta",

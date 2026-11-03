@@ -2,7 +2,7 @@
   "$schema": "../../schemas/personnage.schema.json",
   "id": "goku",
   "nom": "Son Goku",
-  "statut": "brouillon",
+  "statut": "valide",
   "role": "heros-jouable",
   "race": "saiyan",
   "disponibilite": "beta",

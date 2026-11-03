@@ -166,6 +166,15 @@ const echelle: EntreeApercuHeros["echelle"] = [
   { nom: "Grand singe (LoG1), face", planche: "log1/vegeta-grand-singe.png", x: 0, y: 64, l: 32, h: 64 },
 ];
 
+// PNJ convertis du projet RPG Maker (tools/convertir_rpgmaker.py)
+const pnjAnimes: EntreeApercuHeros["pnj"] = [];
+for (const id of ["krilin", "chichi", "chichi-inquiete", "yamcha", "tenshinhan", "piccolo", "gohan-enfant", "krilin-vol", "yamcha-vol"]) {
+  if (!existe(`assets/pnj/${id}/${id}.png`)) continue;
+  mkdirSync(dirname(sortie(`pnj/${id}.png`)), { recursive: true });
+  copyFileSync(chemin(`assets/pnj/${id}/${id}.png`), sortie(`pnj/${id}.png`));
+  pnjAnimes.push({ id, nom: id, planche: `pnj/${id}.png`, animations: lireJson(chemin(`assets/pnj/${id}/${id}.anims.json`)) as any });
+}
+
 // Portraits des héros (aperçu seulement)
 const portraits: EntreeApercuHeros["portraits"] = [];
 for (const h of heros) {
@@ -181,7 +190,7 @@ for (const h of heros) {
 const manifeste = { genereLe: new Date().toISOString(), joueurs: joueurs.map(({ animations: _a, ...reste }) => reste), sprites };
 writeFileSync(sortie("manifest.json"), `${JSON.stringify(manifeste, null, 2)}\n`);
 writeFileSync(sortie("apercu.html"), genererApercu({ joueurs, sprites }));
-writeFileSync(sortie("apercu-heros.html"), genererApercuHeros({ heros, creatures, eclairs: { fichier: "effets/eclairs-ssj2.png", taille: TAILLE_ECLAIRS, nombre: NOMBRE_ECLAIRS }, log1, echelle, portraits }));
+writeFileSync(sortie("apercu-heros.html"), genererApercuHeros({ heros, creatures, eclairs: { fichier: "effets/eclairs-ssj2.png", taille: TAILLE_ECLAIRS, nombre: NOMBRE_ECLAIRS }, log1, echelle, portraits, pnj: pnjAnimes }));
 console.log(
   `assets/build : ${heros.length} héros, ${joueurs.length} planches de joueur (transition), ${sprites.filter((s) => s.fichier).length} sprites, ${creatures.length} créatures animées. Ouvre assets/build/apercu.html et assets/build/apercu-heros.html`,
 );

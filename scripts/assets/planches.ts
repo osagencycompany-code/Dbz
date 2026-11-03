@@ -77,26 +77,25 @@ export function genererArcs(taille = 32, nombre = 8): PNG {
   const sortie = nouvelleImage(taille * nombre, taille);
   let graine = 12345;
   const alea = () => ((graine = (graine * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
-  const centre = { x: taille / 2, y: taille * 0.58 };
+  const cx = taille / 2;
   const vides = new Set([2, 5]);
   for (let k = 0; k < nombre; k++) {
     if (vides.has(k)) continue;
-    const nbArcs = 2 + Math.floor(alea() * 2);
+    const nbArcs = 4 + Math.floor(alea() * 3);
     for (let a = 0; a < nbArcs; a++) {
-      // départ sur le contour du corps (ellipse), plutôt sur les côtés et les jambes que sur la tête
-      const angle = alea() * Math.PI * 2;
-      let x = centre.x + Math.cos(angle) * 6;
-      let y = centre.y + Math.sin(angle) * 9;
-      if (y < taille * 0.3) y = taille * 0.3;
+      // départ autour du torse, des bras et des jambes (jamais à hauteur du visage), du côté gauche ou droit
+      const cote = alea() < 0.5 ? -1 : 1;
+      let y = taille * (0.42 + alea() * 0.5);
+      let x = cx + cote * (5 + alea() * 5);
       const longueur = 3 + Math.floor(alea() * 4);
-      const dx = Math.cos(angle) >= 0 ? 1 : -1;
       for (let i = 0; i < longueur; i++) {
         const px = Math.round(x), py = Math.round(y);
-        const couleur: [number, number, number, number] = i === 0 ? [255, 255, 255, 255] : [255, 240, 90, 255];
-        if (px >= 0 && px < taille && py >= 0 && py < taille) ecrirePixel(sortie, k * taille + px, py, couleur);
-        x += dx * (alea() < 0.7 ? 1 : 0);
+        // turquoise clair, cœur presque blanc
+        const couleur: [number, number, number, number] = i === 0 || (i === 1 && alea() < 0.5) ? [236, 255, 255, 255] : [120, 235, 240, 255];
+        if (px >= 0 && px < taille && py >= taille * 0.4 && py < taille) ecrirePixel(sortie, k * taille + px, py, couleur);
+        x += cote * (alea() < 0.65 ? 1 : 0);
         y += alea() < 0.5 ? -1 : 1;
-        if (alea() < 0.25) y += alea() < 0.5 ? -1 : 1;
+        if (alea() < 0.3) y += alea() < 0.5 ? -1 : 1;
       }
     }
   }

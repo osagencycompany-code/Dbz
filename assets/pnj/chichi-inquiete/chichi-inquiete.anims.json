@@ -1,0 +1,26 @@
+{
+  "frame": 32,
+  "rows": {
+    "face": 0,
+    "profil": 1,
+    "dos": 2
+  },
+  "gauche": "profil retourné",
+  "columns": 3,
+  "statut": "brouillon : conversion automatique du projet RPG Maker (marche = colonnes 1,0,1,2 de chaque bloc), à valider dans l'aperçu",
+  "source": [
+    "assets/raw/rpgmaker-dbz/dbz_clean2/characters/$ChichiWorried.png"
+  ],
+  "animations": {
+    "marche": {
+      "cols": [
+        1,
+        0,
+        1,
+        2
+      ],
+      "fps": 8,
+      "loop": true
+    }
+  }
+}

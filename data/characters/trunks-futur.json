@@ -2,7 +2,7 @@
   "$schema": "../../schemas/personnage.schema.json",
   "id": "trunks-futur",
   "nom": "Trunks du futur",
-  "statut": "brouillon",
+  "statut": "valide",
   "role": "heros-jouable",
   "race": "saiyan",
   "disponibilite": "beta",
@@ -78,5 +78,5 @@
     }
   ],
   "portrait": "assets/characters/trunks-futur/portrait.png",
-  "notes": "Deux apparences au choix à la création, stats identiques. Portrait provisoire : Trunks de Buu's Fury (Portraits.png), pas de portrait du Trunks du futur trouvé."
+  "notes": "Deux apparences au choix à la création, stats identiques. Malus affiché sur la carte : coups plus lents mais plus longs (duree_coups_pct). Portrait provisoire : Trunks de Buu's Fury (Portraits.png)."
 }

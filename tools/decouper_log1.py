@@ -78,9 +78,11 @@ VERT_CLAIR = (184, 255, 200, 255)
 
 
 def ajouter_scouter(image, ligne, nb_colonnes, cadre_l, cadre_h, vers_la_droite=None):
-    """Dessine un scouter vert (verre sur l'œil, branche vers l'oreille) sur les images d'une ligne de face ou de côté.
-    L'œil est repéré par les pixels de peau les plus hauts de la tête ; rien n'est dessiné si la tête est de dos."""
+    """Dessine un scouter vert sur l'œil (verre vert, comme celui de Raditz) avec une oreillette grise vers le côté de la tête,
+    sur les images d'une ligne de face ou de côté. L'œil est repéré par les pixels blancs sous la lisière de la peau ;
+    rien n'est dessiné si la tête est de dos (aucune peau)."""
     a = np.array(image)
+    GRIS = (150, 150, 150, 255)
     for i in range(nb_colonnes):
         x0, y0 = i * cadre_l, ligne * cadre_h
         cadre = a[y0:y0 + cadre_h, x0:x0 + cadre_l]
@@ -88,21 +90,27 @@ def ajouter_scouter(image, ligne, nb_colonnes, cadre_l, cadre_h, vers_la_droite=
         if len(peau) < 3:
             continue
         haut = min(y for _, y in peau)
-        rang = [x for x, y in peau if y <= haut + 1]
-        xmin, xmax = min(rang), max(rang)
-        if vers_la_droite:
-            # visage de profil tourné vers la droite : verre au bord avant, branche vers l'arrière
-            lentille = [(xmax - 1, haut), (xmax, haut), (xmax - 1, haut + 1), (xmax, haut + 1)]
-            branche = [(x, haut) for x in range(xmin - 1, xmax - 1)]
+        xs_peau = [x for x, y in peau if y <= haut + 4]
+        xmin, xmax = min(xs_peau), max(xs_peau)
+        blancs = [(x, y) for y in range(haut, haut + 6) for x in range(xmin - 1, xmax + 2)
+                  if 0 <= x < cadre_l and cadre[y, x, 3] and all(int(v) >= 240 for v in cadre[y, x, :3])]
+        if blancs:
+            ex, ey = (max(blancs) if vers_la_droite else min(blancs))
         else:
-            lentille = [(xmin, haut), (xmin + 1, haut), (xmin, haut + 1), (xmin + 1, haut + 1)]
-            branche = [(xmin - 1, haut), (xmin - 1, haut + 1), (xmin - 1, haut - 1)]
-        for k, (x, y) in enumerate(lentille):
+            ex, ey = (xmax - 1 if vers_la_droite else xmin + 1), haut + 2
+        # verre : 3 px de large, 2 de haut, centré sur l'œil
+        verre = [(x, y) for y in (ey, ey + 1) for x in (ex - 1, ex, ex + 1)]
+        if vers_la_droite:
+            verre = [(x, y) for y in (ey, ey + 1) for x in (ex - 2, ex - 1, ex)]
+            oreillette = [(x, ey - 1) for x in range(xmin, ex - 2)] + [(xmin, ey), (xmin, ey + 1)]
+        else:
+            oreillette = [(x, ey - 1) for x in range(xmin - 1, ex - 1)] + [(xmin - 1, ey), (xmin - 1, ey + 1)]
+        for x, y in oreillette:
+            if 0 <= x < cadre_l and 0 <= y < cadre_h:
+                cadre[y, x] = GRIS
+        for k, (x, y) in enumerate(verre):
             if 0 <= x < cadre_l and 0 <= y < cadre_h:
                 cadre[y, x] = VERT_CLAIR if k == 0 else VERT
-        for x, y in branche:
-            if 0 <= x < cadre_l and 0 <= y < cadre_h and cadre[y, x, 3]:
-                cadre[y, x] = VERT
     return Image.fromarray(a, 'RGBA')
 
 

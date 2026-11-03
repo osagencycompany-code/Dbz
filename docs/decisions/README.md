@@ -31,3 +31,4 @@ Modèle : `docs/templates/decision.md`.
 | 0023 | [Rareté et évolution des héros](0023-rarete-et-evolution.md) |
 | 0024 | [PvP : duels dans la bêta, zones libres ensuite](0024-pvp.md) |
 | 0025 | [Petits arcs électriques pour le Super Saiyan 2](0025-arcs-electriques-du-super-saiyan-2.md) |
+| 0026 | [Couleur et densité des arcs du Super Saiyan 2](0026-couleur-des-arcs-du-super-saiyan-2.md) |

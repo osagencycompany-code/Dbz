@@ -34,6 +34,8 @@ export interface EntreeApercuHeros {
     animations: Record<string, { ligne: string; cols: number[]; fps?: number; loop?: boolean }>;
   }[];
   /** Images de référence pour comparer les échelles (zone découpée d'une planche). */
+  /** PNJ convertis du projet RPG Maker (même format d'animations que les héros). */
+  pnj: { id: string; nom: string; planche: string; animations: AnimationsFichier }[];
   portraits: { nom: string; fichier: string; source: string }[];
   echelle: { nom: string; planche: string; x: number; y: number; l: number; h: number }[];
 }
@@ -88,6 +90,10 @@ export function genererApercuHeros(donnees: EntreeApercuHeros): string {
 <h2>4. Legacy of Goku 1 : Raditz, Nappa, Vegeta boss et grand singe</h2>
 <p class="aide">Découpés de <code>Various.gif</code>, <code>Vegeta.png</code> et <code>Oozaru Gohan  Vegeta.png</code> (aucune mise à l'échelle). Les correspondances d'animations sont des brouillons. Le Saibaman n'existe pas dans ces planches.</p>
 <div class="grille" id="log1"></div>
+
+<h2>7. PNJ du projet RPG Maker (Krilin, Chichi…)</h2>
+<p class="aide">Convertis par <code>tools/convertir_rpgmaker.py</code> (cases de 60 px réduites à 32 px par recadrage, sans mise à l'échelle). La direction se règle plus haut. La course (« dash ») fait sautiller le personnage et le recadrage le coupe un peu.</p>
+<div class="grille" id="pnj"></div>
 
 <h2>6. Portraits des héros</h2>
 <div id="portraits" class="grille"></div>
@@ -253,7 +259,22 @@ async function echelle() {
   }
 }
 for (const p of D.portraits) { const c = document.createElement("div"); c.className = "carte"; c.innerHTML = '<img src="' + p.fichier + '" style="image-rendering:pixelated;height:206px"><br>' + p.nom + '<br><small>' + p.source + '</small>'; sel("portraits").append(c); }
-remplirApparences(); ssj2(); creatures(); log1(); echelle(); requestAnimationFrame(boucle);
+async function pnj() {
+  const zone = sel("pnj");
+  for (const n of D.pnj) {
+    const carte = document.createElement("div"); carte.className = "carte";
+    const t = document.createElement("h3"); t.textContent = n.nom; carte.append(t);
+    const img = await charger(n.planche); const F = n.animations.frame;
+    const ligne = document.createElement("div"); ligne.className = "ligne-crea"; ligne.style.flexWrap = "wrap";
+    for (const [nom, def] of Object.entries(n.animations.animations)) {
+      const c = document.createElement("canvas"); c.width = F * 3; c.height = F * 3;
+      const bloc = document.createElement("div"); bloc.append(c, document.createElement("br"), nom); ligne.append(bloc);
+      animateurs.push({ ctx: c.getContext("2d"), img, f: { animations: n.animations }, def, debut: performance.now(), z: 3, marge: 0 });
+    }
+    carte.append(ligne); zone.append(carte);
+  }
+}
+remplirApparences(); pnj(); ssj2(); creatures(); log1(); echelle(); requestAnimationFrame(boucle);
 </script>
 </body>
 </html>
