@@ -110,6 +110,7 @@ export class ScenePrincipale extends Phaser.Scene {
 
   preload() {
     const map = this.d.bienvenue.map;
+    this.cache.json.remove("tmj");
     this.load.json("manifest", "/assets/build/manifest.json");
     this.load.json("anims", "/assets/build/characters/goku.anims.json");
     this.load.json("tmj", `/maps/${map}.tmj`);
@@ -121,6 +122,8 @@ export class ScenePrincipale extends Phaser.Scene {
     this.manifest = (this.cache.json.get("manifest") as { sprites: SpriteManifest[] }).sprites;
     const dossier = this.d.bienvenue.map.split("/").slice(0, -1).join("/");
     // deuxième vague : fond de la map, planches des joueurs et des sprites
+    if (this.textures.exists("fond")) this.textures.remove("fond");
+    this.load.image("fond", `/maps/${dossier}/${this.carte.fond}`);
     this.load.image("fond", `/maps/${dossier}/${this.carte.fond}`);
     for (const p of ["orange", "bleu", "vert"]) this.load.spritesheet(`joueur-${p}`, `/assets/build/characters/goku-${p}.png`, { frameWidth: this.defAnims.frame, frameHeight: this.defAnims.frame });
     for (const s of this.manifest) {
@@ -337,14 +340,23 @@ export class ScenePrincipale extends Phaser.Scene {
     etat.joueurs.forEach((j: any, id: string) => {
       vus.add(id);
       let e = this.joueurs.get(id);
-      if (!e) {
+            if (!e) {
         e = this.creerEntite(`joueur-${j.palette}`, j.pseudo);
         e.x = id === this.moi ? this.predit.x : j.x;
         e.y = id === this.moi ? this.predit.y : j.y;
         this.joueurs.set(id, e);
       }
-      const cible = id === this.moi ? this.predit : { x: j.x as number, y: j.y as number };
-      this.deplacerVers(e, cible, dt);
+      if (id === this.moi) {
+        const dist = Math.hypot(this.predit.x - e.x, this.predit.y - e.y);
+        if (dist >= 0.75) {
+          e.x = this.predit.x;
+          e.y = this.predit.y;
+        }
+        const t = this.touches;
+        e.enMarche = t.haut!.isDown || t.bas!.isDown || t.gauche!.isDown || t.droite!.isDown;
+      } else {
+        this.deplacerVers(e, { x: j.x as number, y: j.y as number }, dt);
+      }
       const dir: Direction = id === this.moi ? this.dirLocale : (j.dir as Direction);
       this.dessinerJoueur(e, j, dir, dt);
     });

@@ -1,0 +1,30 @@
+{
+  "$schema": "../../schemas/zone.schema.json",
+  "id": "rpgmaker",
+  "nom": "Maps RPG Maker",
+  "statut": "brouillon",
+  "niveaux": [
+    1,
+    20
+  ],
+  "maps": [
+    "maps/rpgmaker/map038.tmj",
+    "maps/rpgmaker/map039.tmj",
+    "maps/rpgmaker/map040.tmj",
+    "maps/rpgmaker/map041.tmj",
+    "maps/rpgmaker/map004.tmj",
+    "maps/rpgmaker/map007.tmj",
+    "maps/rpgmaker/map046.tmj",
+    "maps/rpgmaker/map053.tmj",
+    "maps/rpgmaker/map063.tmj"
+  ],
+  "monstres": [],
+  "deblocage": null,
+  "point_de_soin": null,
+  "carte_du_monde": false,
+  "arrivee": {
+    "map": "rpgmaker/map038",
+    "spawn": "arrivee"
+  },
+  "a_verifier": "Collisions lues dans Tilesets.json, pas dessinées à l'estime."
+}
