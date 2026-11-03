@@ -1,0 +1,124 @@
+{
+  "frame": 32,
+  "rows": {
+    "face": 0,
+    "trois-quarts": 1,
+    "profil": 2,
+    "dos": 3
+  },
+  "gauche": "profil retourné",
+  "columns": 63,
+  "animations": {
+    "idle": {
+      "cols": [
+        0,
+        1
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "run": {
+      "cols": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "fps": 14,
+      "loop": true
+    },
+    "punch1": {
+      "cols": [
+        10,
+        11,
+        12
+      ],
+      "fps": 18
+    },
+    "punch2": {
+      "cols": [
+        13,
+        14,
+        15
+      ],
+      "fps": 18
+    },
+    "kick": {
+      "cols": [
+        16,
+        17,
+        18,
+        19
+      ],
+      "fps": 16
+    },
+    "kame-charge": {
+      "cols": [
+        22,
+        23
+      ],
+      "fps": 8
+    },
+    "kame-fire": {
+      "cols": [
+        24,
+        25
+      ],
+      "fps": 12
+    },
+    "teleport": {
+      "cols": [
+        26,
+        27
+      ],
+      "fps": 16
+    },
+    "blast": {
+      "cols": [
+        28,
+        29,
+        30
+      ],
+      "fps": 16
+    },
+    "hurt": {
+      "cols": [
+        32,
+        33
+      ],
+      "fps": 10
+    },
+    "fly": {
+      "cols": [
+        40,
+        41,
+        42,
+        43
+      ],
+      "fps": 10,
+      "loop": true
+    },
+    "transform-ssj": {
+      "row": "face",
+      "cols": [
+        54,
+        55,
+        56,
+        57,
+        58
+      ],
+      "durations_ms": [
+        1050,
+        320,
+        180,
+        180,
+        200
+      ],
+      "note": "ne pas utiliser 50-53 (accroupi) ni 52-62 de profil (danse de fusion)"
+    }
+  }
+}
