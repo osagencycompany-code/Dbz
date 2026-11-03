@@ -3,3 +3,5 @@ dist/
 .env
 *.sqlite
 assets/build/
+data-runtime/
+.dev-secret

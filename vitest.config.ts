@@ -4,5 +4,6 @@ export default defineConfig({
   test: {
     include: ["packages/**/*.test.ts", "apps/**/*.test.ts", "scripts/**/*.test.ts", "tests/**/*.test.ts"],
     environment: "node",
+    pool: "threads",
   },
 });
