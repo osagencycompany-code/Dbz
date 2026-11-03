@@ -18,7 +18,7 @@ Mis à jour à la fin de chaque session.
 ```
 npm install
 npm run assets:build
-npm run jouer          # affiche une clé d'invitation, lance serveur + client ; ouvrir http://localhost:5173
+npm run jouer          # prend d'autres ports si 2567/5173 sont occupés ; affiche une clé d'invitation, lance serveur + client ; ouvrir http://localhost:5173
 npm run test:e2e       # deux navigateurs (Playwright), captures dans assets/build/e2e/
 ```
 
