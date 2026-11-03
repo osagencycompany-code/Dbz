@@ -1,0 +1,20 @@
+{
+  "$schema": "../../schemas/transformation.schema.json",
+  "id": "nom",
+  "nom": "Nom VF",
+  "statut": "brouillon",
+  "race": "saiyan",
+  "niveau_requis": 20,
+  "quete_requise": "id-quete",
+  "bonus_combat": {
+    "vitalite_pct": 20
+  },
+  "vitesse_mult": 1.0,
+  "multiplicateur_affiche": 50,
+  "ki_requis_pct": 30,
+  "cout_ki_pct_s": 2,
+  "cout_activation_ki_pct": 10,
+  "duree_transformation_s": 1.9,
+  "forme": "nom-de-forme",
+  "cinematique_deblocage": true
+}

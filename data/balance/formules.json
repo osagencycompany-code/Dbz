@@ -1,0 +1,59 @@
+{
+  "$schema": "../../schemas/balance.schema.json",
+  "version": 1,
+  "stats": [
+    "vitalite",
+    "force",
+    "puissance",
+    "agilite",
+    "energie"
+  ],
+  "points": {
+    "depart_par_stat": 5,
+    "par_niveau": 5
+  },
+  "base_niveau": {
+    "facteur": 1.045
+  },
+  "specialisation": {
+    "coef": 2,
+    "exposant": 0.8
+  },
+  "pv": {
+    "base": 120
+  },
+  "degats_melee": {
+    "base": 12
+  },
+  "degats_ki": {
+    "base": 14
+  },
+  "ki_max": {
+    "base": 100
+  },
+  "esquive": {
+    "max_pct": 30,
+    "max_pvp_pct": 20,
+    "exposant": 0.7
+  },
+  "vitesse": {
+    "base_px_s": 100,
+    "bonus": 0.5,
+    "exposant": 0.7,
+    "course": 1.5,
+    "vol": 1.5,
+    "super_saiyan": 1.25
+  },
+  "critique": {
+    "chance": 0.12,
+    "multiplicateur": 1.8
+  },
+  "alea_degats": {
+    "min": 0.9,
+    "max": 1.1
+  },
+  "puissance_affichee": {
+    "coef": 50,
+    "exposant_base": 1.5
+  }
+}

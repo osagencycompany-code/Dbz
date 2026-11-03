@@ -1,0 +1,28 @@
+{
+  "$schema": "../../schemas/personnage.schema.json",
+  "id": "goku",
+  "nom": "Son Goku",
+  "statut": "valide",
+  "role": "modele-joueur",
+  "race": "saiyan",
+  "formes": {
+    "normal": {
+      "planche": "assets/characters/goku/goku.png",
+      "animations": "assets/characters/goku/goku.anims.json",
+      "portrait": "assets/raw/graphics/faces/char/1.png",
+      "provenance": "buus-fury"
+    },
+    "super-saiyan": {
+      "planche": "assets/characters/goku-ssj/goku-ssj.png",
+      "animations": "assets/characters/goku-ssj/goku-ssj.anims.json",
+      "portrait": "assets/raw/graphics/faces/char/6.png",
+      "provenance": "buus-fury"
+    }
+  },
+  "palettes_joueur": [
+    "orange",
+    "bleu",
+    "vert"
+  ],
+  "notes": "Sert de base aux personnages joueurs de la bêta (recoloration de la tenue)."
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "../../schemas/monstre.schema.json",
+  "id": "mannequin",
+  "nom": "Mannequin d'entraînement",
+  "statut": "brouillon",
+  "rang": "commun",
+  "niveau": [
+    1,
+    1
+  ],
+  "sprite": {
+    "source": "a-creer",
+    "fichier": null,
+    "format": "image-unique"
+  },
+  "comportement": {
+    "type": "immobile",
+    "invincible": true
+  },
+  "zones": [
+    "ile-de-roshi"
+  ],
+  "butin": [],
+  "a_verifier": "Pas de sprite : générer ou utiliser assets/raw/graphics/resources/5.png."
+}

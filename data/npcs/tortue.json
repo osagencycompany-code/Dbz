@@ -1,0 +1,13 @@
+{
+  "$schema": "../../schemas/pnj.schema.json",
+  "id": "tortue",
+  "nom": "Tortue (Umigame)",
+  "statut": "brouillon",
+  "sprite": {
+    "source": "dbz-online",
+    "fichier": "assets/raw/graphics/characters/18.png",
+    "format": "4-directions-1-image"
+  },
+  "zone": "ile-de-roshi",
+  "dialogues": "data/dialogues/tortue.json"
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "../../schemas/boss.schema.json",
+  "id": "nom-du-boss",
+  "nom": "Nom affiché",
+  "statut": "brouillon",
+  "niveau": 10,
+  "sprite": {
+    "source": "dbz-online | buus-fury | maison | a-creer | a-choisir",
+    "fichier": "assets/raw/graphics/... ou null",
+    "format": "4-directions-1-image | grille-buus-fury | 4-directions-64x64 | image-unique"
+  },
+  "zone": "id-de-zone",
+  "respawn_s": 720,
+  "echelle_sprite": 1.25,
+  "contribution_min_pct": 5,
+  "phases": [
+    {
+      "pv_pct": [
+        100,
+        60
+      ],
+      "attaques": [
+        {
+          "nom": "Nom de l'attaque (canon si possible)",
+          "type": "melee | projectile | rayons-en-v | charge | zone-sous-joueur | zone-autour",
+          "annonce_s": 0.8
+        }
+      ]
+    },
+    {
+      "pv_pct": [
+        60,
+        0
+      ],
+      "aura": "couleur",
+      "vitesse_bonus_pct": 30,
+      "invocations": [
+        {
+          "monstre": "id-monstre",
+          "nombre": 2
+        }
+      ],
+      "attaques": [
+        {
+          "nom": "...",
+          "type": "melee"
+        }
+      ]
+    }
+  ],
+  "butin": [
+    {
+      "objet": "id-objet",
+      "chance": 0.25
+    }
+  ],
+  "notes": "Référence canon : épisode / scène"
+}

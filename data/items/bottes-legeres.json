@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schemas/objet.schema.json",
+  "id": "bottes-legeres",
+  "nom": "Bottes légères",
+  "statut": "brouillon",
+  "emplacement": "bottes",
+  "rarete": "commun",
+  "stats": {
+    "agilite": 3
+  },
+  "prix": 800,
+  "icone": null,
+  "empilable": false,
+  "a_verifier": "Icône à choisir dans assets/raw/graphics/items/."
+}

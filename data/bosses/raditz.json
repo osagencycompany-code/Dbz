@@ -1,0 +1,81 @@
+{
+  "$schema": "../../schemas/boss.schema.json",
+  "id": "raditz",
+  "nom": "Raditz",
+  "statut": "brouillon",
+  "niveau": 12,
+  "sprite": {
+    "source": "dbz-online",
+    "fichier": "assets/raw/graphics/characters/12.png",
+    "format": "4-directions-1-image"
+  },
+  "zone": "mont-paozu",
+  "respawn_s": 720,
+  "echelle_sprite": 1.25,
+  "phases": [
+    {
+      "pv_pct": [
+        100,
+        60
+      ],
+      "attaques": [
+        {
+          "nom": "Combo",
+          "type": "melee",
+          "coups": 3
+        },
+        {
+          "nom": "Boule de ki",
+          "type": "projectile",
+          "recharge_s": 3
+        }
+      ]
+    },
+    {
+      "pv_pct": [
+        60,
+        25
+      ],
+      "attaques": [
+        {
+          "nom": "Double Sunday",
+          "type": "rayons-en-v",
+          "annonce_s": 0.8
+        },
+        {
+          "nom": "Ruée",
+          "type": "charge",
+          "cible": "plus-eloigne"
+        }
+      ]
+    },
+    {
+      "pv_pct": [
+        25,
+        0
+      ],
+      "aura": "rouge",
+      "vitesse_bonus_pct": 30,
+      "invocations": [
+        {
+          "monstre": "saibaman",
+          "nombre": 2
+        }
+      ],
+      "attaques": [
+        {
+          "nom": "Combo",
+          "type": "melee",
+          "coups": 3
+        }
+      ]
+    }
+  ],
+  "butin": [
+    {
+      "objet": "gants-de-combat",
+      "chance": 0.25
+    }
+  ],
+  "contribution_min_pct": 5
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "../../schemas/balance.schema.json",
+  "version": 1,
+  "reference_joueur_equilibre": {
+    "multiplicateur_specialisation": 1.552
+  },
+  "rangs": {
+    "commun": {
+      "pv_x_degats_joueur": 6,
+      "attaque_pct_pv_joueur": 6,
+      "respawn_s": [
+        45,
+        90
+      ]
+    },
+    "elite": {
+      "pv_x_degats_joueur": 25,
+      "attaque_pct_pv_joueur": 12,
+      "respawn_s": [
+        240,
+        240
+      ]
+    },
+    "boss": {
+      "pv_x_degats_joueur": 60,
+      "attaque_pct_pv_joueur": 15,
+      "respawn_s": [
+        720,
+        900
+      ]
+    }
+  },
+  "annonce_min_s_si_degats_sup_20pct": 0.8
+}

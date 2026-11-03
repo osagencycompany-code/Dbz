@@ -1,0 +1,14 @@
+{
+  "$schema": "../../schemas/pnj.schema.json",
+  "id": "nom-du-pnj",
+  "nom": "Nom affiché",
+  "statut": "brouillon",
+  "sprite": {
+    "source": "dbz-online | buus-fury | maison | a-creer | a-choisir",
+    "fichier": "assets/raw/graphics/... ou null",
+    "format": "4-directions-1-image | grille-buus-fury | 4-directions-64x64 | image-unique"
+  },
+  "zone": "id-de-zone",
+  "dialogues": "data/dialogues/nom-du-pnj.json",
+  "notes": "Personnalité, tics de langage VF"
+}

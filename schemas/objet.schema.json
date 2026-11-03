@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Objet",
+  "type": "object",
+  "required": [
+    "id",
+    "nom",
+    "statut",
+    "emplacement",
+    "rarete",
+    "stats",
+    "prix"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "nom": {
+      "type": "string",
+      "description": "Nom affiché en jeu, conforme à docs/lore/glossaire.md"
+    },
+    "statut": {
+      "enum": [
+        "brouillon",
+        "valide",
+        "obsolete"
+      ],
+      "description": "brouillon = en attente de validation par Souleymen"
+    },
+    "a_verifier": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "emplacement": {
+      "enum": [
+        "tete",
+        "torse",
+        "gants",
+        "bottes",
+        "accessoire",
+        "consommable",
+        "quete"
+      ]
+    },
+    "rarete": {
+      "enum": [
+        "commun",
+        "rare",
+        "epique",
+        "legendaire",
+        "relique"
+      ]
+    },
+    "stats": {
+      "type": "object",
+      "propertyNames": {
+        "enum": [
+          "vitalite",
+          "force",
+          "puissance",
+          "agilite",
+          "energie"
+        ]
+      },
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "prix": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "icone": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "empilable": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

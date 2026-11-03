@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Personnage jouable ou modèle",
+  "type": "object",
+  "required": [
+    "id",
+    "nom",
+    "statut",
+    "role",
+    "race",
+    "formes"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "nom": {
+      "type": "string",
+      "description": "Nom affiché en jeu, conforme à docs/lore/glossaire.md"
+    },
+    "statut": {
+      "enum": [
+        "brouillon",
+        "valide",
+        "obsolete"
+      ],
+      "description": "brouillon = en attente de validation par Souleymen"
+    },
+    "a_verifier": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "role": {
+      "enum": [
+        "modele-joueur",
+        "pnj-combattant"
+      ]
+    },
+    "race": {
+      "enum": [
+        "saiyan",
+        "namek",
+        "humain",
+        "changelin",
+        "majin"
+      ]
+    },
+    "formes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "planche",
+          "animations",
+          "provenance"
+        ],
+        "properties": {
+          "planche": {
+            "type": "string"
+          },
+          "animations": {
+            "type": "string"
+          },
+          "portrait": {
+            "type": "string"
+          },
+          "provenance": {
+            "enum": [
+              "dbz-online",
+              "buus-fury",
+              "maison"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "palettes_joueur": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

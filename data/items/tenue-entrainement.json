@@ -1,0 +1,16 @@
+{
+  "$schema": "../../schemas/objet.schema.json",
+  "id": "tenue-entrainement",
+  "nom": "Tenue d'entraînement",
+  "statut": "brouillon",
+  "emplacement": "torse",
+  "rarete": "commun",
+  "stats": {
+    "vitalite": 2,
+    "agilite": 2
+  },
+  "prix": 900,
+  "icone": null,
+  "empilable": false,
+  "a_verifier": "Icône à choisir dans assets/raw/graphics/items/."
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "../../schemas/objet.schema.json",
+  "id": "haricot-magique",
+  "nom": "Haricot magique",
+  "statut": "brouillon",
+  "emplacement": "consommable",
+  "rarete": "commun",
+  "stats": {},
+  "prix": 200,
+  "icone": null,
+  "empilable": true,
+  "a_verifier": "Icône à choisir dans assets/raw/graphics/items/."
+}

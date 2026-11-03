@@ -1,0 +1,14 @@
+{
+  "$schema": "../../schemas/technique.schema.json",
+  "id": "esquive",
+  "nom": "Esquive",
+  "statut": "valide",
+  "touche_defaut": "F",
+  "cout": "balance",
+  "multiplicateur": null,
+  "apprentissage": {
+    "type": "depart"
+  },
+  "description": "Téléportation courte, invulnérable un instant.",
+  "parametres": "data/balance/combat.json#esquive"
+}

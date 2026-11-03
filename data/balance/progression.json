@@ -1,0 +1,35 @@
+{
+  "$schema": "../../schemas/balance.schema.json",
+  "version": 1,
+  "xp_requise": {
+    "base": 100,
+    "exposant": 1.87
+  },
+  "xp_monstre": {
+    "base": 9,
+    "exposant": 1.25,
+    "multiplicateur_elite": 5,
+    "multiplicateur_boss": 30
+  },
+  "niveau_max": 25,
+  "ecart_niveau": {
+    "xp_reduite_au_dela": 5,
+    "xp_reduite_pct": 10,
+    "coups_rates_au_dela": 8,
+    "coups_rates_pct": 50
+  },
+  "ko": {
+    "pv_retour_pct": 50,
+    "perte_xp_niveau_pct": 3
+  },
+  "zenkai": {
+    "bonus_xp_pct": 20,
+    "duree_s": 3600,
+    "recharge_s": 3600
+  },
+  "regeneration": {
+    "pv_pct_s": 3,
+    "pv_delai_s": 5,
+    "ki_pct_s": 2
+  }
+}

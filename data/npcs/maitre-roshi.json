@@ -1,0 +1,13 @@
+{
+  "$schema": "../../schemas/pnj.schema.json",
+  "id": "maitre-roshi",
+  "nom": "Tortue Géniale",
+  "statut": "brouillon",
+  "sprite": {
+    "source": "dbz-online",
+    "fichier": "assets/raw/graphics/characters/3.png",
+    "format": "4-directions-1-image"
+  },
+  "zone": "ile-de-roshi",
+  "dialogues": "data/dialogues/maitre-roshi.json"
+}

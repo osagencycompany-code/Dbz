@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Technique",
+  "type": "object",
+  "required": [
+    "id",
+    "nom",
+    "statut",
+    "touche_defaut",
+    "apprentissage",
+    "description"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "nom": {
+      "type": "string",
+      "description": "Nom affiché en jeu, conforme à docs/lore/glossaire.md"
+    },
+    "statut": {
+      "enum": [
+        "brouillon",
+        "valide",
+        "obsolete"
+      ],
+      "description": "brouillon = en attente de validation par Souleymen"
+    },
+    "a_verifier": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "touche_defaut": {
+      "type": "string"
+    },
+    "cout": {},
+    "multiplicateur": {},
+    "parametres": {
+      "type": "string"
+    },
+    "apprentissage": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "depart",
+            "quete",
+            "niveau"
+          ]
+        }
+      }
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Transformation",
+  "type": "object",
+  "required": [
+    "id",
+    "nom",
+    "statut",
+    "race",
+    "niveau_requis",
+    "bonus_combat",
+    "multiplicateur_affiche"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "nom": {
+      "type": "string",
+      "description": "Nom affiché en jeu, conforme à docs/lore/glossaire.md"
+    },
+    "statut": {
+      "enum": [
+        "brouillon",
+        "valide",
+        "obsolete"
+      ],
+      "description": "brouillon = en attente de validation par Souleymen"
+    },
+    "a_verifier": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "race": {
+      "type": "string"
+    },
+    "niveau_requis": {
+      "type": "integer"
+    },
+    "quete_requise": {
+      "type": "string"
+    },
+    "bonus_combat": {
+      "type": "object"
+    },
+    "vitesse_mult": {
+      "type": "number"
+    },
+    "multiplicateur_affiche": {
+      "type": "number"
+    },
+    "ki_requis_pct": {
+      "type": "number"
+    },
+    "cout_ki_pct_s": {
+      "type": "number"
+    },
+    "cout_activation_ki_pct": {
+      "type": "number"
+    },
+    "duree_transformation_s": {
+      "type": "number"
+    },
+    "forme": {
+      "type": "string"
+    },
+    "cinematique_deblocage": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

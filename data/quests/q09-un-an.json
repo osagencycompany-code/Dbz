@@ -1,0 +1,27 @@
+{
+  "$schema": "../../schemas/quete.schema.json",
+  "id": "q09-un-an",
+  "nom": "Un an pour se préparer",
+  "statut": "brouillon",
+  "arc": "saiyan",
+  "niveau_conseille": 14,
+  "donneur": "bulma",
+  "prerequis": "q08-capsule-corp",
+  "objectifs": [
+    {
+      "type": "survivre-vagues",
+      "monstre": "saibaman",
+      "vagues": 3
+    }
+  ],
+  "recompenses": {
+    "xp": 4000,
+    "objets": [
+      {
+        "objet": "tenue-entrainement",
+        "nombre": 1
+      }
+    ],
+    "debloque_zone": "desert-du-diable"
+  }
+}

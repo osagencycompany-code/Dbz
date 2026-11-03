@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Monstre",
+  "type": "object",
+  "required": [
+    "id",
+    "nom",
+    "statut",
+    "rang",
+    "niveau",
+    "sprite",
+    "comportement",
+    "zones"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "nom": {
+      "type": "string",
+      "description": "Nom affiché en jeu, conforme à docs/lore/glossaire.md"
+    },
+    "statut": {
+      "enum": [
+        "brouillon",
+        "valide",
+        "obsolete"
+      ],
+      "description": "brouillon = en attente de validation par Souleymen"
+    },
+    "a_verifier": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "rang": {
+      "enum": [
+        "commun",
+        "elite"
+      ]
+    },
+    "niveau": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "sprite": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "source",
+        "fichier",
+        "format"
+      ],
+      "properties": {
+        "source": {
+          "enum": [
+            "dbz-online",
+            "buus-fury",
+            "maison",
+            "a-creer",
+            "a-choisir"
+          ]
+        },
+        "fichier": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "format": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "comportement": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "immobile",
+            "poursuite",
+            "meute",
+            "charge",
+            "bond"
+          ]
+        }
+      }
+    },
+    "zones": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "butin": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "objet",
+          "chance"
+        ],
+        "properties": {
+          "objet": {
+            "type": "string",
+            "description": "id dans data/items"
+          },
+          "chance": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

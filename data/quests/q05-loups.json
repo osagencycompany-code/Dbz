@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schemas/quete.schema.json",
+  "id": "q05-loups",
+  "nom": "Les loups du Mont Paozu",
+  "statut": "brouillon",
+  "arc": "saiyan",
+  "niveau_conseille": 5,
+  "donneur": "chichi",
+  "prerequis": "q04-mont-paozu",
+  "objectifs": [
+    {
+      "type": "vaincre",
+      "monstre": "loup",
+      "nombre": 12
+    }
+  ],
+  "recompenses": {
+    "xp": 600,
+    "zenies": 300
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "../../schemas/monstre.schema.json",
+  "id": "tigre-bandit",
+  "nom": "Tigre bandit",
+  "statut": "brouillon",
+  "rang": "commun",
+  "niveau": [
+    8,
+    12
+  ],
+  "sprite": {
+    "source": "dbz-online",
+    "fichier": "assets/raw/graphics/characters/40.png",
+    "format": "4-directions-1-image"
+  },
+  "comportement": {
+    "type": "poursuite",
+    "aggro_px": 150,
+    "vitesse_px_s": 65
+  },
+  "zones": [
+    "mont-paozu"
+  ],
+  "butin": [
+    {
+      "objet": "gants-de-combat",
+      "chance": 0.02
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "../../schemas/balance.schema.json",
+  "version": 1,
+  "zenies_par_monstre": {
+    "min_x_niveau": 3,
+    "max_x_niveau": 6
+  },
+  "boutique": {
+    "hausse_prix_haricot_pct": 50,
+    "haricots_par_jour": 5
+  },
+  "vente_pnj_pct": 30
+}

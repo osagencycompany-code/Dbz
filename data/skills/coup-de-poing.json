@@ -1,0 +1,14 @@
+{
+  "$schema": "../../schemas/technique.schema.json",
+  "id": "coup-de-poing",
+  "nom": "Coup de poing",
+  "statut": "valide",
+  "touche_defaut": "Ctrl",
+  "cout": null,
+  "multiplicateur": "voir balance",
+  "apprentissage": {
+    "type": "depart"
+  },
+  "description": "Combo de 3 coups, le 3ᵉ projette l'ennemi.",
+  "parametres": "data/balance/combat.json#coup_de_poing"
+}

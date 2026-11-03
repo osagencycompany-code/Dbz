@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schemas/objet.schema.json",
+  "id": "gants-de-combat",
+  "nom": "Gants de combat",
+  "statut": "brouillon",
+  "emplacement": "gants",
+  "rarete": "commun",
+  "stats": {
+    "force": 3
+  },
+  "prix": 600,
+  "icone": null,
+  "empilable": false,
+  "a_verifier": "Icône à choisir dans assets/raw/graphics/items/."
+}

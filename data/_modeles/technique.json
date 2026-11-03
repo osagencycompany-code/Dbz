@@ -1,0 +1,16 @@
+{
+  "$schema": "../../schemas/technique.schema.json",
+  "id": "nom-technique",
+  "nom": "Nom VF",
+  "statut": "brouillon",
+  "touche_defaut": "V",
+  "cout": "balance",
+  "multiplicateur": "balance",
+  "apprentissage": {
+    "type": "depart | quete | niveau",
+    "quete": "id-quete",
+    "maitre": "id-pnj"
+  },
+  "description": "Une phrase",
+  "parametres": "data/balance/combat.json#cle"
+}

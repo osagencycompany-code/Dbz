@@ -1,0 +1,38 @@
+{
+  "$schema": "../../schemas/quete.schema.json",
+  "id": "q02-bases",
+  "nom": "Les bases du combat",
+  "statut": "brouillon",
+  "arc": "saiyan",
+  "niveau_conseille": 1,
+  "donneur": "krilin",
+  "prerequis": "q01-bienvenue",
+  "objectifs": [
+    {
+      "type": "frapper",
+      "cible": "mannequin",
+      "nombre": 10
+    },
+    {
+      "type": "utiliser",
+      "technique": "garde"
+    },
+    {
+      "type": "utiliser",
+      "technique": "esquive"
+    },
+    {
+      "type": "utiliser",
+      "technique": "boule-de-ki"
+    }
+  ],
+  "recompenses": {
+    "xp": 100,
+    "objets": [
+      {
+        "objet": "haricot-magique",
+        "nombre": 2
+      }
+    ]
+  }
+}

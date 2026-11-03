@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schemas/zone.schema.json",
+  "id": "ile-de-roshi",
+  "nom": "Île de Roshi",
+  "statut": "brouillon",
+  "niveaux": [
+    1,
+    5
+  ],
+  "maps": [
+    "maps/ile-de-roshi/exterieur.tmj",
+    "maps/ile-de-roshi/kame-house-rdc.tmj",
+    "maps/ile-de-roshi/kame-house-etage.tmj"
+  ],
+  "monstres": [
+    "mannequin",
+    "crabe"
+  ],
+  "deblocage": null,
+  "point_de_soin": "kame-house",
+  "carte_du_monde": true
+}

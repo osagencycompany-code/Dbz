@@ -1,0 +1,14 @@
+{
+  "$schema": "../../schemas/technique.schema.json",
+  "id": "charge-ki",
+  "nom": "Charge du ki",
+  "statut": "valide",
+  "touche_defaut": "C",
+  "cout": null,
+  "multiplicateur": null,
+  "apprentissage": {
+    "type": "depart"
+  },
+  "description": "Recharge le ki, immobile et vulnérable.",
+  "parametres": "data/balance/combat.json#charge_ki"
+}

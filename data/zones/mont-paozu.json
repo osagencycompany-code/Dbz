@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schemas/zone.schema.json",
+  "id": "mont-paozu",
+  "nom": "Mont Paozu",
+  "statut": "brouillon",
+  "niveaux": [
+    4,
+    14
+  ],
+  "maps": [],
+  "monstres": [
+    "loup",
+    "sanglier",
+    "tigre-bandit",
+    "dinosaure"
+  ],
+  "deblocage": "q04-mont-paozu",
+  "point_de_soin": "maison-de-goku",
+  "carte_du_monde": true,
+  "a_verifier": "Maps à générer depuis Southwest Forest (planche en grille)."
+}

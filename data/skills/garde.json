@@ -1,0 +1,14 @@
+{
+  "$schema": "../../schemas/technique.schema.json",
+  "id": "garde",
+  "nom": "Garde",
+  "statut": "valide",
+  "touche_defaut": "B",
+  "cout": "balance",
+  "multiplicateur": null,
+  "apprentissage": {
+    "type": "depart"
+  },
+  "description": "Réduit les dégâts ; lancée au dernier moment, elle contre.",
+  "parametres": "data/balance/combat.json#garde"
+}

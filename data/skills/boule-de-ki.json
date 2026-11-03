@@ -1,0 +1,14 @@
+{
+  "$schema": "../../schemas/technique.schema.json",
+  "id": "boule-de-ki",
+  "nom": "Boule de ki",
+  "statut": "valide",
+  "touche_defaut": "X",
+  "cout": "balance",
+  "multiplicateur": "balance",
+  "apprentissage": {
+    "type": "depart"
+  },
+  "description": "Projectile rapide basé sur la Puissance.",
+  "parametres": "data/balance/combat.json#boule_de_ki"
+}

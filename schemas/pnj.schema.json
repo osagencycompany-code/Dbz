@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Personnage non joueur",
+  "type": "object",
+  "required": [
+    "id",
+    "nom",
+    "statut",
+    "zone"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "nom": {
+      "type": "string",
+      "description": "Nom affiché en jeu, conforme à docs/lore/glossaire.md"
+    },
+    "statut": {
+      "enum": [
+        "brouillon",
+        "valide",
+        "obsolete"
+      ],
+      "description": "brouillon = en attente de validation par Souleymen"
+    },
+    "a_verifier": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "sprite": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "source",
+        "fichier",
+        "format"
+      ],
+      "properties": {
+        "source": {
+          "enum": [
+            "dbz-online",
+            "buus-fury",
+            "maison",
+            "a-creer",
+            "a-choisir"
+          ]
+        },
+        "fichier": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "format": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "zone": {
+      "type": "string"
+    },
+    "dialogues": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

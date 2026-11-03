@@ -1,5 +1,7 @@
 # Bêta 0 – Spécification
 
+> Les chiffres de ce document sont les valeurs de départ. La référence est `data/` : en cas d'écart, `data/` fait foi.
+
 Objectif : une version en ligne jouable par 10 à 20 testeurs, qui couvre le début de l'arc Saiyan, de Kame House jusqu'au combat contre Nappa, niveaux 1 à 25.
 
 ## 1. Périmètre
@@ -148,7 +150,7 @@ Barre de boss en haut de l'écran pour tous les joueurs proches. Tous les joueur
 | 5 | Les loups du Mont Paozu | 5 | Chi-Chi | Vaincre 12 loups | 600 XP, 300 zénies |
 | 6 | Le Kamehameha | 8 | Maître Roshi | Réussir 3 Kamehameha chargés au maximum sur le rocher d'entraînement | Apprend le Kamehameha |
 | 7 | Une étoile tombée du ciel | 10 | Chi-Chi | Enquêter au cratère, cinématique d'arrivée, vaincre Raditz | 3 000 XP, gants de combat |
-| 8 | Capsule Corp | 12 | Bulma (West City) | Rejoindre West City, parler à Bulma | Débloque la boutique, 500 zénies |
+| 8 | Capsule Corp | 12 | Chichi | Rejoindre West City, parler à Bulma | Débloque la boutique, 500 zénies |
 | 9 | Un an pour se préparer | 14 | Bulma | Désert du Diable : survivre à 3 vagues de Saibamen | 4 000 XP, tenue d'entraînement |
 | 10 | Le cri de colère | 20 | Krilin | Pendant le combat, Krilin tombe face à Nappa ; tenir 60 s | Débloque le Super Saiyan (cinématique) |
 | 11 | Nappa | 22 | Krilin | Vaincre Nappa | 12 000 XP, armure de combat, écran de fin de bêta |

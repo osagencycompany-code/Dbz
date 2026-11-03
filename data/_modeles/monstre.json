@@ -1,0 +1,32 @@
+{
+  "$schema": "../../schemas/monstre.schema.json",
+  "id": "nom-en-minuscules-avec-tirets",
+  "nom": "Nom affiché (voir glossaire)",
+  "statut": "brouillon",
+  "rang": "commun | elite",
+  "niveau": [
+    1,
+    5
+  ],
+  "sprite": {
+    "source": "dbz-online | buus-fury | maison | a-creer | a-choisir",
+    "fichier": "assets/raw/graphics/... ou null",
+    "format": "4-directions-1-image | grille-buus-fury | 4-directions-64x64 | image-unique"
+  },
+  "comportement": {
+    "type": "immobile | poursuite | meute | charge | bond",
+    "aggro_px": 140,
+    "vitesse_px_s": 60
+  },
+  "zones": [
+    "id-de-zone"
+  ],
+  "butin": [
+    {
+      "objet": "id-objet",
+      "chance": 0.05
+    }
+  ],
+  "a_verifier": "Ce qui reste à confirmer",
+  "notes": "Intention de design, référence canon"
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "../../schemas/monstre.schema.json",
+  "id": "loup",
+  "nom": "Loup",
+  "statut": "brouillon",
+  "rang": "commun",
+  "niveau": [
+    4,
+    8
+  ],
+  "sprite": {
+    "source": "dbz-online",
+    "fichier": "assets/raw/graphics/characters/45.png",
+    "format": "4-directions-1-image"
+  },
+  "comportement": {
+    "type": "meute",
+    "aggro_px": 140,
+    "vitesse_px_s": 70
+  },
+  "zones": [
+    "mont-paozu"
+  ],
+  "butin": [
+    {
+      "objet": "bandeau",
+      "chance": 0.03
+    }
+  ],
+  "a_verifier": "Sprite 45 à confirmer visuellement."
+}

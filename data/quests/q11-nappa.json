@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schemas/quete.schema.json",
+  "id": "q11-nappa",
+  "nom": "Nappa",
+  "statut": "brouillon",
+  "arc": "saiyan",
+  "niveau_conseille": 22,
+  "donneur": "krilin",
+  "prerequis": "q10-cri-de-colere",
+  "objectifs": [
+    {
+      "type": "vaincre",
+      "boss": "nappa"
+    }
+  ],
+  "recompenses": {
+    "xp": 12000,
+    "objets": [
+      {
+        "objet": "armure-de-combat",
+        "nombre": 1
+      }
+    ],
+    "fin_beta": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "../../schemas/pnj.schema.json",
+  "id": "bulma",
+  "nom": "Bulma",
+  "statut": "brouillon",
+  "sprite": null,
+  "zone": "west-city",
+  "dialogues": "data/dialogues/bulma.json",
+  "a_verifier": "Sprite de Bulma à identifier (DBZ Online ou Buu's Fury non_playable_characters)."
+}

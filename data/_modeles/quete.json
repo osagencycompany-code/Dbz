@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schemas/quete.schema.json",
+  "id": "qNN-nom-court",
+  "nom": "Nom affiché",
+  "statut": "brouillon",
+  "arc": "saiyan | namek | cell | buu | annexe",
+  "niveau_conseille": 5,
+  "donneur": "id-pnj",
+  "prerequis": "id-quete ou null",
+  "objectifs": [
+    {
+      "type": "parler | aller | vaincre | frapper | utiliser | survivre-vagues | tenir | evenement",
+      "cible": "..."
+    }
+  ],
+  "recompenses": {
+    "xp": 100,
+    "zenies": 0,
+    "objets": [
+      {
+        "objet": "id",
+        "nombre": 1
+      }
+    ]
+  }
+}

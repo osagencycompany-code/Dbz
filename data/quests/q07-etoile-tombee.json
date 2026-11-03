@@ -1,0 +1,29 @@
+{
+  "$schema": "../../schemas/quete.schema.json",
+  "id": "q07-etoile-tombee",
+  "nom": "Une étoile tombée du ciel",
+  "statut": "brouillon",
+  "arc": "saiyan",
+  "niveau_conseille": 10,
+  "donneur": "chichi",
+  "prerequis": "q06-kamehameha",
+  "objectifs": [
+    {
+      "type": "aller",
+      "lieu": "cratere"
+    },
+    {
+      "type": "vaincre",
+      "boss": "raditz"
+    }
+  ],
+  "recompenses": {
+    "xp": 3000,
+    "objets": [
+      {
+        "objet": "gants-de-combat",
+        "nombre": 1
+      }
+    ]
+  }
+}

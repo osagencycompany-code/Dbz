@@ -1,0 +1,34 @@
+{
+  "$schema": "../../schemas/monstre.schema.json",
+  "id": "dinosaure",
+  "nom": "Dinosaure",
+  "statut": "brouillon",
+  "rang": "elite",
+  "niveau": [
+    12,
+    12
+  ],
+  "sprite": {
+    "source": "dbz-online",
+    "fichier": "assets/raw/graphics/characters/65.png",
+    "format": "4-directions-64x64"
+  },
+  "comportement": {
+    "type": "poursuite",
+    "aggro_px": 160,
+    "vitesse_px_s": 50,
+    "attaque_zone": {
+      "nom": "Morsure",
+      "annonce_s": 0.8
+    }
+  },
+  "zones": [
+    "mont-paozu"
+  ],
+  "butin": [
+    {
+      "objet": "tenue-entrainement",
+      "chance": 0.08
+    }
+  ]
+}

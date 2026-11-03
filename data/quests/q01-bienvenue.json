@@ -1,0 +1,27 @@
+{
+  "$schema": "../../schemas/quete.schema.json",
+  "id": "q01-bienvenue",
+  "nom": "Bienvenue à Kame House",
+  "statut": "brouillon",
+  "arc": "saiyan",
+  "niveau_conseille": 1,
+  "donneur": "maitre-roshi",
+  "prerequis": null,
+  "objectifs": [
+    {
+      "type": "parler",
+      "pnj": "maitre-roshi"
+    },
+    {
+      "type": "parler",
+      "pnj": "krilin"
+    },
+    {
+      "type": "parler",
+      "pnj": "tortue"
+    }
+  ],
+  "recompenses": {
+    "xp": 60
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "../../schemas/boss.schema.json",
+  "id": "nappa",
+  "nom": "Nappa",
+  "statut": "brouillon",
+  "niveau": 25,
+  "sprite": {
+    "source": "dbz-online",
+    "fichier": "assets/raw/graphics/characters/14.png",
+    "format": "4-directions-1-image"
+  },
+  "zone": "desert-du-diable",
+  "respawn_s": 900,
+  "echelle_sprite": 1.25,
+  "phases": [
+    {
+      "pv_pct": [
+        100,
+        50
+      ],
+      "attaques": [
+        {
+          "nom": "Coup lourd",
+          "type": "melee",
+          "annonce_s": 0.6
+        },
+        {
+          "nom": "Charge d'épaule",
+          "type": "charge",
+          "annonce_s": 0.8
+        }
+      ]
+    },
+    {
+      "pv_pct": [
+        50,
+        20
+      ],
+      "attaques": [
+        {
+          "nom": "Explosion au sol",
+          "type": "zone-sous-joueur",
+          "annonce_s": 1.0
+        }
+      ],
+      "invocations": [
+        {
+          "monstre": "saibaman",
+          "nombre": 3,
+          "recharge_s": 25
+        }
+      ]
+    },
+    {
+      "pv_pct": [
+        20,
+        0
+      ],
+      "attaques": [
+        {
+          "nom": "Bakuhatsuha",
+          "type": "zone-autour",
+          "rayon_px": 120,
+          "annonce_s": 1.5
+        }
+      ]
+    }
+  ],
+  "butin": [
+    {
+      "objet": "armure-de-combat",
+      "chance": 0.3
+    }
+  ],
+  "contribution_min_pct": 5
+}

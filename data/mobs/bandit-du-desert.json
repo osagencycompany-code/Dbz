@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schemas/monstre.schema.json",
+  "id": "bandit-du-desert",
+  "nom": "Bandit du désert",
+  "statut": "brouillon",
+  "rang": "commun",
+  "niveau": [
+    16,
+    24
+  ],
+  "sprite": {
+    "source": "dbz-online",
+    "fichier": "assets/raw/graphics/characters/41.png",
+    "format": "4-directions-1-image"
+  },
+  "comportement": {
+    "type": "poursuite",
+    "aggro_px": 150,
+    "vitesse_px_s": 65
+  },
+  "zones": [
+    "desert-du-diable"
+  ],
+  "butin": [],
+  "a_verifier": "Sprite 41 ou 42 à choisir."
+}

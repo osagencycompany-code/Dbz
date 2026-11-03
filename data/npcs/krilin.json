@@ -1,0 +1,13 @@
+{
+  "$schema": "../../schemas/pnj.schema.json",
+  "id": "krilin",
+  "nom": "Krilin",
+  "statut": "brouillon",
+  "sprite": {
+    "source": "dbz-online",
+    "fichier": "assets/raw/graphics/characters/7.png",
+    "format": "4-directions-1-image"
+  },
+  "zone": "ile-de-roshi",
+  "dialogues": "data/dialogues/krilin.json"
+}

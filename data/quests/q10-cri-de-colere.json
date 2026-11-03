@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/quete.schema.json",
+  "id": "q10-cri-de-colere",
+  "nom": "Le cri de colère",
+  "statut": "brouillon",
+  "arc": "saiyan",
+  "niveau_conseille": 20,
+  "donneur": "krilin",
+  "prerequis": "q09-un-an",
+  "objectifs": [
+    {
+      "type": "evenement",
+      "script": "krilin-tombe-face-a-nappa"
+    },
+    {
+      "type": "tenir",
+      "duree_s": 60
+    }
+  ],
+  "recompenses": {
+    "transformation": "super-saiyan"
+  }
+}

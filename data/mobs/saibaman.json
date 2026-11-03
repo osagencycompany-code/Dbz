@@ -1,0 +1,32 @@
+{
+  "$schema": "../../schemas/monstre.schema.json",
+  "id": "saibaman",
+  "nom": "Saibaman",
+  "statut": "brouillon",
+  "rang": "commun",
+  "niveau": [
+    14,
+    22
+  ],
+  "sprite": {
+    "source": "dbz-online",
+    "fichier": "assets/raw/graphics/characters/13.png",
+    "format": "4-directions-1-image"
+  },
+  "comportement": {
+    "type": "bond",
+    "aggro_px": 150,
+    "vitesse_px_s": 61,
+    "bond_px_s": 250,
+    "bond_recharge_s": 2.4
+  },
+  "zones": [
+    "desert-du-diable"
+  ],
+  "butin": [
+    {
+      "objet": "bottes-legeres",
+      "chance": 0.02
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schemas/objet.schema.json",
+  "id": "anneau-de-ki",
+  "nom": "Anneau de ki",
+  "statut": "brouillon",
+  "emplacement": "accessoire",
+  "rarete": "commun",
+  "stats": {
+    "energie": 3
+  },
+  "prix": 1200,
+  "icone": null,
+  "empilable": false,
+  "a_verifier": "Icône à choisir dans assets/raw/graphics/items/."
+}

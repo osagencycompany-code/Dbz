@@ -1,0 +1,73 @@
+{
+  "$schema": "../../schemas/balance.schema.json",
+  "version": 1,
+  "tic_serveur_hz": 20,
+  "combo": {
+    "coups": 3,
+    "multiplicateur_dernier": 1.9,
+    "fenetre_s": 0.6,
+    "recharge_s": 0.2,
+    "ki_rendu_pct": 3,
+    "recul_px": [
+      20,
+      20,
+      90
+    ],
+    "gel_impact_images": [
+      4,
+      4,
+      8
+    ]
+  },
+  "boule_de_ki": {
+    "cout_ki_pct": 4,
+    "multiplicateur": 1.1,
+    "vitesse_px_s": 330,
+    "recharge_s": 0.26
+  },
+  "kamehameha": {
+    "cout_ki_pct": [
+      25,
+      40
+    ],
+    "charge_s": [
+      0.4,
+      2
+    ],
+    "multiplicateur": [
+      2.5,
+      6.5
+    ],
+    "longueur_px": 300
+  },
+  "charge_ki": {
+    "gain_pct_s": 30
+  },
+  "vol": {
+    "cout_ki_pct_s": 3,
+    "altitude_px": 16
+  },
+  "garde": {
+    "reduction": 0.7,
+    "reduction_apres_s": 3,
+    "reduction_affaiblie": 0.5,
+    "cout_ki_pct_par_coup": 2,
+    "etourdi_si_brisee_s": 0.6
+  },
+  "contre": {
+    "fenetre_ms": 130,
+    "etourdi_s": 0.5,
+    "recul_px_s": 260
+  },
+  "esquive_active": {
+    "cout_ki_pct": 15,
+    "recharge_s": 2,
+    "distance_px": 64,
+    "invulnerable_s": 0.25
+  },
+  "haricot_magique": {
+    "recharge_s": 20,
+    "max_par_combat_de_boss": 5
+  },
+  "invulnerabilite_apres_coup_s": 0.5
+}

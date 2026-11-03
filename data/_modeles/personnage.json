@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/personnage.schema.json",
+  "id": "nom",
+  "nom": "Nom affiché",
+  "statut": "brouillon",
+  "role": "modele-joueur | pnj-combattant",
+  "race": "saiyan | namek | humain | changelin | majin",
+  "formes": {
+    "normal": {
+      "planche": "assets/characters/nom/nom.png",
+      "animations": "assets/characters/nom/nom.anims.json",
+      "portrait": "assets/raw/graphics/faces/...",
+      "provenance": "buus-fury"
+    }
+  },
+  "palettes_joueur": [
+    "orange"
+  ]
+}

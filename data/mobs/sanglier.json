@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schemas/monstre.schema.json",
+  "id": "sanglier",
+  "nom": "Sanglier",
+  "statut": "brouillon",
+  "rang": "commun",
+  "niveau": [
+    5,
+    9
+  ],
+  "sprite": {
+    "source": "dbz-online",
+    "fichier": "assets/raw/graphics/characters/72.png",
+    "format": "4-directions-1-image"
+  },
+  "comportement": {
+    "type": "charge",
+    "aggro_px": 120,
+    "vitesse_px_s": 60,
+    "charge_px_s": 220
+  },
+  "zones": [
+    "mont-paozu"
+  ],
+  "butin": []
+}

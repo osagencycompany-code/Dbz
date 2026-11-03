@@ -1,0 +1,24 @@
+{
+  "$schema": "../../schemas/quete.schema.json",
+  "id": "q08-capsule-corp",
+  "nom": "Capsule Corp",
+  "statut": "brouillon",
+  "arc": "saiyan",
+  "niveau_conseille": 12,
+  "donneur": "chichi",
+  "prerequis": "q07-etoile-tombee",
+  "objectifs": [
+    {
+      "type": "aller",
+      "zone": "west-city"
+    },
+    {
+      "type": "parler",
+      "pnj": "bulma"
+    }
+  ],
+  "recompenses": {
+    "zenies": 500,
+    "debloque_zone": "west-city"
+  }
+}

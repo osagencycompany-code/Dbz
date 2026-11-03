@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schemas/quete.schema.json",
+  "id": "q03-tour-de-l-ile",
+  "nom": "Le tour de l'île",
+  "statut": "brouillon",
+  "arc": "saiyan",
+  "niveau_conseille": 2,
+  "donneur": "tortue",
+  "prerequis": "q02-bases",
+  "objectifs": [
+    {
+      "type": "vaincre",
+      "monstre": "crabe",
+      "nombre": 6
+    }
+  ],
+  "recompenses": {
+    "xp": 200,
+    "objets": [
+      {
+        "objet": "bandeau",
+        "nombre": 1
+      }
+    ]
+  }
+}

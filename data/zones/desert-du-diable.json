@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zone.schema.json",
+  "id": "desert-du-diable",
+  "nom": "Désert du Diable",
+  "statut": "brouillon",
+  "niveaux": [
+    14,
+    25
+  ],
+  "maps": [],
+  "monstres": [
+    "saibaman",
+    "bandit-du-desert"
+  ],
+  "deblocage": "q09-un-an",
+  "point_de_soin": null,
+  "carte_du_monde": true,
+  "a_verifier": "Maps à générer depuis Diablo Desert (planche en grille)."
+}

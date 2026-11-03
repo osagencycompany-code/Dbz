@@ -1,0 +1,16 @@
+{
+  "$schema": "../../schemas/zone.schema.json",
+  "id": "west-city",
+  "nom": "West City",
+  "statut": "brouillon",
+  "niveaux": [
+    8,
+    25
+  ],
+  "maps": [],
+  "monstres": [],
+  "deblocage": "q08-capsule-corp",
+  "point_de_soin": "capsule-corp",
+  "carte_du_monde": true,
+  "a_verifier": "Maps à générer depuis West City."
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schemas/objet.schema.json",
+  "id": "bandeau",
+  "nom": "Bandeau",
+  "statut": "brouillon",
+  "emplacement": "tete",
+  "rarete": "commun",
+  "stats": {
+    "vitalite": 2
+  },
+  "prix": 300,
+  "icone": null,
+  "empilable": false,
+  "a_verifier": "Icône à choisir dans assets/raw/graphics/items/."
+}

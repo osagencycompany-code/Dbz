@@ -1,0 +1,14 @@
+{
+  "$schema": "../../schemas/objet.schema.json",
+  "id": "nom-objet",
+  "nom": "Nom affiché",
+  "statut": "brouillon",
+  "emplacement": "tete | torse | gants | bottes | accessoire | consommable | quete",
+  "rarete": "commun | rare | epique | legendaire | relique",
+  "stats": {
+    "vitalite": 2
+  },
+  "prix": 300,
+  "icone": "assets/raw/graphics/items/N.png",
+  "empilable": false
+}

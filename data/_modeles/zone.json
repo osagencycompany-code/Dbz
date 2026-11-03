@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zone.schema.json",
+  "id": "nom-zone",
+  "nom": "Nom affiché",
+  "statut": "brouillon",
+  "niveaux": [
+    1,
+    10
+  ],
+  "maps": [
+    "maps/dossier/map.tmj"
+  ],
+  "monstres": [
+    "id-monstre"
+  ],
+  "deblocage": "id-quete ou null",
+  "point_de_soin": "id-lieu ou null",
+  "carte_du_monde": true
+}

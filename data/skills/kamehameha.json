@@ -1,0 +1,16 @@
+{
+  "$schema": "../../schemas/technique.schema.json",
+  "id": "kamehameha",
+  "nom": "Kamehameha",
+  "statut": "valide",
+  "touche_defaut": "V",
+  "cout": "balance",
+  "multiplicateur": "balance",
+  "apprentissage": {
+    "type": "quete",
+    "quete": "q06-kamehameha",
+    "maitre": "maitre-roshi"
+  },
+  "description": "Rayon à charger qui traverse les ennemis.",
+  "parametres": "data/balance/combat.json#kamehameha"
+}

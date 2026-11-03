@@ -1,0 +1,13 @@
+{
+  "$schema": "../../schemas/pnj.schema.json",
+  "id": "chichi",
+  "nom": "Chichi",
+  "statut": "brouillon",
+  "sprite": {
+    "source": "dbz-online",
+    "fichier": "assets/raw/graphics/characters/5.png",
+    "format": "4-directions-1-image"
+  },
+  "zone": "mont-paozu",
+  "dialogues": "data/dialogues/chichi.json"
+}

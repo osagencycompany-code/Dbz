@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/quete.schema.json",
+  "id": "q06-kamehameha",
+  "nom": "Le Kamehameha",
+  "statut": "brouillon",
+  "arc": "saiyan",
+  "niveau_conseille": 8,
+  "donneur": "maitre-roshi",
+  "prerequis": "q05-loups",
+  "objectifs": [
+    {
+      "type": "kamehameha-charge-max",
+      "nombre": 3
+    }
+  ],
+  "recompenses": {
+    "technique": "kamehameha"
+  }
+}

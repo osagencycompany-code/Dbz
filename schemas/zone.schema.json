@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Zone",
+  "type": "object",
+  "required": [
+    "id",
+    "nom",
+    "statut",
+    "niveaux",
+    "maps",
+    "monstres"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "nom": {
+      "type": "string",
+      "description": "Nom affiché en jeu, conforme à docs/lore/glossaire.md"
+    },
+    "statut": {
+      "enum": [
+        "brouillon",
+        "valide",
+        "obsolete"
+      ],
+      "description": "brouillon = en attente de validation par Souleymen"
+    },
+    "a_verifier": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "niveaux": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "maps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "monstres": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "deblocage": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "point_de_soin": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "carte_du_monde": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

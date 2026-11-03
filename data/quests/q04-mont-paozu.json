@@ -1,0 +1,24 @@
+{
+  "$schema": "../../schemas/quete.schema.json",
+  "id": "q04-mont-paozu",
+  "nom": "Direction le Mont Paozu",
+  "statut": "brouillon",
+  "arc": "saiyan",
+  "niveau_conseille": 4,
+  "donneur": "maitre-roshi",
+  "prerequis": "q03-tour-de-l-ile",
+  "objectifs": [
+    {
+      "type": "aller",
+      "zone": "mont-paozu"
+    },
+    {
+      "type": "parler",
+      "pnj": "chichi"
+    }
+  ],
+  "recompenses": {
+    "xp": 250,
+    "debloque_zone": "mont-paozu"
+  }
+}

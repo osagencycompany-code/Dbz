@@ -1,0 +1,16 @@
+{
+  "$schema": "../../schemas/objet.schema.json",
+  "id": "armure-de-combat",
+  "nom": "Armure de combat",
+  "statut": "brouillon",
+  "emplacement": "torse",
+  "rarete": "commun",
+  "stats": {
+    "vitalite": 4,
+    "force": 2
+  },
+  "prix": 2500,
+  "icone": null,
+  "empilable": false,
+  "a_verifier": "Icône à choisir dans assets/raw/graphics/items/."
+}

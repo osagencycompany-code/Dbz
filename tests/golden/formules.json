@@ -1,0 +1,148 @@
+{
+  "tolerance": 0.01,
+  "note": "Valeurs de référence. Un changement de formule DOIT faire échouer ces tests ; on ne les met à jour qu'avec une décision dans docs/decisions/.",
+  "stats": [
+    {
+      "niveau": 1,
+      "stats": {
+        "vit": 5,
+        "force": 5,
+        "pui": 5,
+        "agi": 5,
+        "ene": 5
+      },
+      "super_saiyan": false,
+      "attendu": {
+        "pv_max": 186.23,
+        "degats_melee": 18.62,
+        "degats_ki": 21.73,
+        "ki_max": 155.19,
+        "esquive_pct": 9.72,
+        "vitesse_px_s": 116.21,
+        "puissance_affichee": 1250.0
+      }
+    },
+    {
+      "niveau": 20,
+      "stats": {
+        "vit": 24,
+        "force": 24,
+        "pui": 24,
+        "agi": 24,
+        "ene": 24
+      },
+      "super_saiyan": false,
+      "attendu": {
+        "pv_max": 429.79,
+        "degats_melee": 42.98,
+        "degats_ki": 50.14,
+        "ki_max": 155.19,
+        "esquive_pct": 9.72,
+        "vitesse_px_s": 116.21,
+        "puissance_affichee": 21036.0
+      }
+    },
+    {
+      "niveau": 20,
+      "stats": {
+        "vit": 24,
+        "force": 24,
+        "pui": 24,
+        "agi": 24,
+        "ene": 24
+      },
+      "super_saiyan": true,
+      "attendu": {
+        "pv_max": 515.74,
+        "degats_melee": 51.57,
+        "degats_ki": 60.17,
+        "ki_max": 155.19,
+        "esquive_pct": 9.72,
+        "vitesse_px_s": 116.21,
+        "puissance_affichee": 1262167.0
+      }
+    },
+    {
+      "niveau": 25,
+      "stats": {
+        "vit": 5,
+        "force": 110,
+        "pui": 5,
+        "agi": 5,
+        "ene": 20
+      },
+      "super_saiyan": false,
+      "attendu": {
+        "pv_max": 391.8,
+        "degats_melee": 89.85,
+        "degats_ki": 45.71,
+        "ki_max": 141.0,
+        "esquive_pct": 2.84,
+        "vitesse_px_s": 104.73,
+        "puissance_affichee": 35361.0
+      }
+    },
+    {
+      "niveau": 100,
+      "stats": {
+        "vit": 104,
+        "force": 104,
+        "pui": 104,
+        "agi": 104,
+        "ene": 104
+      },
+      "super_saiyan": false,
+      "attendu": {
+        "pv_max": 14539.7,
+        "degats_melee": 1453.97,
+        "degats_ki": 1696.3,
+        "ki_max": 155.19,
+        "esquive_pct": 9.72,
+        "vitesse_px_s": 116.21,
+        "puissance_affichee": 17936697.0
+      }
+    }
+  ],
+  "xp": [
+    {
+      "niveau": 1,
+      "xp_requise": 100,
+      "xp_monstre": 9
+    },
+    {
+      "niveau": 2,
+      "xp_requise": 366,
+      "xp_monstre": 21
+    },
+    {
+      "niveau": 5,
+      "xp_requise": 2028,
+      "xp_monstre": 67
+    },
+    {
+      "niveau": 10,
+      "xp_requise": 7413,
+      "xp_monstre": 160
+    },
+    {
+      "niveau": 20,
+      "xp_requise": 27097,
+      "xp_monstre": 381
+    },
+    {
+      "niveau": 25,
+      "xp_requise": 41129,
+      "xp_monstre": 503
+    },
+    {
+      "niveau": 50,
+      "xp_requise": 150340,
+      "xp_monstre": 1197
+    },
+    {
+      "niveau": 100,
+      "xp_requise": 549541,
+      "xp_monstre": 2846
+    }
+  ]
+}
