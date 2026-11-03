@@ -9,7 +9,8 @@
   ],
   "maps": [
     "maps/mont-paozu/maison-de-goku.tmj",
-    "maps/mont-paozu/foret.tmj",
+    "maps/mont-paozu/foret-sud.tmj",
+    "maps/mont-paozu/foret-nord.tmj",
     "maps/mont-paozu/cratere.tmj"
   ],
   "monstres": [

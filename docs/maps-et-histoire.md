@@ -7,7 +7,7 @@ Les 21 planches de maps sont celles de Buu's Fury (`graphics/maps/` dans les fic
 | Planche | Zone du jeu | Arc | Niveaux | Rôle | Bêta 0 |
 | --- | --- | --- | --- | --- | --- |
 | Roshi's Island | Île de Roshi, Kame House | Saiyan | 1 à 5 | Tutoriel | Oui, prête |
-| Southwest Forest | Mont Paozu (maison de Goku, forêt, cratère) | Saiyan | 4 à 14 | Arrivée de Raditz au cratère | Oui, à traiter |
+| Southwest Forest | Mont Paozu (maison de Goku, forêt sud, forêt nord, cratère) | Saiyan | 4 à 14 | Arrivée de Raditz au cratère | Oui, à traiter |
 | West City | West City, Capsule Corp | Hub | 8 et + | Boutiques, Bulma | Oui, à traiter |
 | Diablo Desert | Désert du Diable | Saiyan | 14 à 25 | Saibamen, Nappa | Oui, à traiter (planche en grille) |
 | Pilaf's Castle | Château de Pilaf | Saiyan (annexe) | 10 à 20 | Donjon secondaire | Non |
@@ -31,7 +31,7 @@ Les 21 planches de maps sont celles de Buu's Fury (`graphics/maps/` dans les fic
 ## État de préparation
 
 - **Roshi's Island** : découpée en 3 maps (`maps/ile-de-roshi/`), collisions automatiques (eau) + maison et palmiers ajoutés à la main, objets placés (départ, porte, escaliers, Roshi, Krilin, Tortue, ponton, zone d'entraînement). Positions approximatives : à vérifier dans Tiled.
-- **Mont Paozu** (3 maps), **West City** (3 maps), **Désert du Diable** (2 maps) : générées par `tools/build_maps.py`, collisions et objets placés à l'estime par `tools/remplir_maps.py` d'après les aperçus. Positions à vérifier dans Tiled. Aperçus : `python tools/apercu_maps.py` → `assets/build/maps/`.
+- **Mont Paozu** (4 maps ; la forêt est recollée par `tools/foret.py`, décision 0018 ; corrections de relecture : `tools/corriger_maps.py`), **West City** (3 maps), **Désert du Diable** (2 maps) : générées par `tools/build_maps.py`, collisions et objets placés à l'estime par `tools/remplir_maps.py` d'après les aperçus. Positions à vérifier dans Tiled. Aperçus : `python tools/apercu_maps.py` → `assets/build/maps/`.
 - Les autres planches : à traiter avec `tools/extract_map_regions.py` quand elles serviront.
 
 ## Planches « en grille »

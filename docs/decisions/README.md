@@ -23,3 +23,4 @@ Modèle : `docs/templates/decision.md`.
 | 0015 | [Bêta fermée avec clé d'invitation](0015-beta-fermee-cle-d-invitation.md) |
 | 0016 | [Cinq emplacements d'équipement](0016-cinq-emplacements-d-equipement.md) |
 | 0017 | [Son cliquable, carte sur M, touche alternative du coup de poing](0017-controles-son-carte-poing.md) |
+| 0018 | [La forêt du Mont Paozu en deux maps reliées](0018-foret-en-deux-maps.md) |

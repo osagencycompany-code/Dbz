@@ -186,7 +186,23 @@ for (const abs of cartes) {
       continue;
     }
     const props = Object.fromEntries(((o.properties ?? []) as Fiche[]).map((p) => [p.name, p.value]));
+    if (o.type === "spawn" || o.type === "npc" || o.type === "boss") {
+      // le point (ou le centre du rectangle) ne doit pas tomber dans une case bloquée
+      const grille = calques.find((c) => c.name === "collisions")?.data as number[] | undefined;
+      const px = o.x + (o.width ?? 0) / 2;
+      const py = o.y + (o.height ?? 0) / 2;
+      const col = Math.floor(px / carte.tilewidth);
+      const lig = Math.floor(py / carte.tileheight);
+      if (!grille || col < 0 || lig < 0 || col >= carte.width || lig >= carte.height) erreur(rel, `${o.type} « ${o.name} » : hors de la map`);
+      else if (grille[lig * carte.width + col]) erreur(rel, `${o.type} « ${o.name} » : placé dans une case bloquée (${Math.round(px)}, ${Math.round(py)})`);
+    }
     if (o.type === "portal") {
+      const grille = calques.find((c) => c.name === "collisions")?.data as number[] | undefined;
+      let libre = false;
+      for (let ty = Math.floor(o.y / carte.tileheight); ty <= Math.floor((o.y + o.height - 1) / carte.tileheight); ty++)
+        for (let tx = Math.floor(o.x / carte.tilewidth); tx <= Math.floor((o.x + o.width - 1) / carte.tilewidth); tx++)
+          if (grille?.[ty * carte.width + tx] === 0) libre = true;
+      if (!libre) erreur(rel, `portail « ${o.name} » : entièrement dans des cases bloquées, inatteignable`);
       const cible = String(props.map ?? "");
       if (!spawnsParCarte.has(cible)) erreur(rel, `portail « ${o.name} » : map « ${cible} » introuvable`);
       else if (!spawnsParCarte.get(cible)?.has(String(props.spawn))) erreur(rel, `portail « ${o.name} » : spawn « ${props.spawn} » absent de ${cible}`);

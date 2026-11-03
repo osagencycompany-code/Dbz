@@ -2,7 +2,7 @@
   "$schema": "../../schemas/boss.schema.json",
   "id": "nappa",
   "nom": "Nappa",
-  "statut": "brouillon",
+  "statut": "valide",
   "niveau": 25,
   "sprite": {
     "source": "dbz-online",
@@ -40,7 +40,7 @@
         {
           "nom": "Explosion au sol",
           "type": "zone-sous-joueur",
-          "annonce_s": 1.0
+          "annonce_s": 1
         }
       ],
       "invocations": [

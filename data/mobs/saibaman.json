@@ -2,7 +2,7 @@
   "$schema": "../../schemas/monstre.schema.json",
   "id": "saibaman",
   "nom": "Saibaman",
-  "statut": "brouillon",
+  "statut": "valide",
   "rang": "commun",
   "niveau": [
     14,

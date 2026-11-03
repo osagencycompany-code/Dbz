@@ -6,7 +6,7 @@ Objectif : une version en ligne jouable par 10 à 20 testeurs, qui couvre le dé
 
 ## 1. Périmètre
 
-**Inclus** : comptes, création de personnage, 4 zones (11 maps, détail au jalon Maps), combat complet du prototype 06, stats à points, techniques, Super Saiyan au niveau 20, 11 quêtes, monstres et 2 boss, inventaire et équipement simples (5 emplacements), boutique, zénies, chat de zone, sauvegarde, commandes d'administration, déploiement sur un serveur.
+**Inclus** : comptes, création de personnage, 4 zones (12 maps, détail au jalon Maps), combat complet du prototype 06, stats à points, techniques, Super Saiyan au niveau 20, 11 quêtes, monstres et 2 boss, inventaire et équipement simples (5 emplacements), boutique, zénies, chat de zone, sauvegarde, commandes d'administration, déploiement sur un serveur.
 
 **Exclus (plus tard)** : groupes, clans, échanges, PvP, Dragon Balls, races autres que Saiyan, arcs suivants, mobile.
 

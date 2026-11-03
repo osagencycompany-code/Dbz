@@ -136,28 +136,24 @@ export function crabe(): PNG {
   return planche4Directions({ dos: dessinerCrabe("dos"), face: dessinerCrabe("face"), gauche: dessinerCrabe("gauche") });
 }
 
-/** Mannequin d'entraînement : poteau de bois, traverse, sac de paille cerclé de corde. Image unique 32 × 32. */
+/** Mannequin d'entraînement en bois : poteau, traverse liée à la corde, tête en paille. Image unique 32 × 32. */
 export function mannequin(): PNG {
-  const bois = ton([96, 54, 20, 255], [140, 84, 36, 255], [186, 122, 62, 255]);
-  const paille = ton([176, 138, 52, 255], [224, 186, 84, 255], [250, 224, 130, 255]);
-  const rouge: Rgba = [200, 40, 40, 255];
+  const bois = ton([92, 62, 34, 255], [136, 96, 54, 255], [176, 132, 80, 255]);
+  const paille = ton([164, 134, 62, 255], [206, 176, 92, 255], [236, 210, 130, 255]);
+  const corde: Rgba = [120, 90, 50, 255];
   const t = new Toile();
-  t.rect(14, 18, 4, 9, bois(0)); // pied
-  t.rect(14, 18, 1, 9, bois(1));
-  t.rect(5, 13, 22, 3, bois(0)); // traverse (bras)
-  t.rect(5, 13, 22, 1, bois(1));
-  for (const x of [3, 28]) t.ellipse(x, 14, 2.2, 2.5, paille); // touffes de paille aux bouts
-  t.ellipse(16, 20, 6, 7, paille); // torse
-  t.ellipse(16, 8, 4, 4, paille); // tête
-  t.rect(13, 20, 7, 1, rouge); // cible sur le torse
-  t.rect(13, 22, 7, 1, rouge);
-  t.rect(13, 20, 1, 3, rouge);
-  t.rect(19, 20, 1, 3, rouge);
-  t.point(16, 21, rouge);
-  t.rect(10, 24, 13, 1, [150, 98, 40, 255]); // corde
-  t.rect(14, 12, 5, 1, [150, 98, 40, 255]); // cou
-  t.point(14, 7, NOIR);
-  t.point(18, 7, NOIR);
+  t.rect(14, 12, 5, 16, bois(0)); // poteau
+  t.rect(14, 12, 2, 16, bois(1));
+  t.rect(5, 14, 22, 3, bois(0)); // traverse
+  t.rect(5, 14, 22, 1, bois(1));
+  t.rect(5, 16, 22, 1, bois(-1));
+  for (const x of [4, 27]) for (let i = 0; i < 3; i++) t.ligne(x, 15, x + (x < 10 ? -1 : 1) * (1 + i), 13 + i * 2, paille(1)); // paille aux bouts
+  t.ellipse(16, 8, 4.5, 4.5, paille); // tête de paille
+  for (const [x, y] of [[11, 4], [21, 4], [10, 9], [22, 9], [16, 2]] as const) t.ligne(16, 8, x, y, paille(1)); // brins qui dépassent
+  t.rect(13, 12, 7, 1, corde); // cou lié
+  t.rect(14, 15, 5, 1, corde); // nœud sur la traverse
+  t.rect(14, 22, 5, 1, corde); // corde sur le poteau
+  t.rect(12, 27, 9, 2, [110, 84, 52, 255]); // base de terre
   t.contour(CONTOUR);
   t.ombre(17, 29, 9, 2);
   return t.image;

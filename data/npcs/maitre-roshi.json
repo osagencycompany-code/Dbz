@@ -2,7 +2,7 @@
   "$schema": "../../schemas/pnj.schema.json",
   "id": "maitre-roshi",
   "nom": "Tortue Géniale",
-  "statut": "brouillon",
+  "statut": "valide",
   "sprite": {
     "source": "dbz-online",
     "fichier": "assets/raw/graphics/characters/3.png",

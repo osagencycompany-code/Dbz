@@ -2,7 +2,7 @@
   "$schema": "../../schemas/monstre.schema.json",
   "id": "loup",
   "nom": "Loup",
-  "statut": "brouillon",
+  "statut": "valide",
   "rang": "commun",
   "niveau": [
     4,
@@ -26,6 +26,5 @@
       "objet": "bandeau",
       "chance": 0.03
     }
-  ],
-  "a_verifier": "Sprite 78 choisi par Souleymen ; en attente de validation sur la page d'aperçu."
+  ]
 }

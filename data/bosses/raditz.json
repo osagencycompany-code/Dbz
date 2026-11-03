@@ -2,7 +2,7 @@
   "$schema": "../../schemas/boss.schema.json",
   "id": "raditz",
   "nom": "Raditz",
-  "statut": "brouillon",
+  "statut": "valide",
   "niveau": 12,
   "sprite": {
     "source": "dbz-online",

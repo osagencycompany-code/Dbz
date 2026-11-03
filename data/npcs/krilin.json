@@ -2,7 +2,7 @@
   "$schema": "../../schemas/pnj.schema.json",
   "id": "krilin",
   "nom": "Krilin",
-  "statut": "brouillon",
+  "statut": "valide",
   "sprite": {
     "source": "dbz-online",
     "fichier": "assets/raw/graphics/characters/7.png",

@@ -2,7 +2,7 @@
   "$schema": "../../schemas/monstre.schema.json",
   "id": "bandit-du-desert",
   "nom": "Bandit du désert",
-  "statut": "brouillon",
+  "statut": "valide",
   "rang": "commun",
   "niveau": [
     16,
@@ -21,6 +21,5 @@
   "zones": [
     "desert-du-diable"
   ],
-  "butin": [],
-  "a_verifier": "Sprite 41 choisi par Souleymen ; en attente de validation sur la page d'aperçu."
+  "butin": []
 }

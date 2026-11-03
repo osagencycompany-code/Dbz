@@ -2,7 +2,7 @@
   "$schema": "../../schemas/monstre.schema.json",
   "id": "crabe",
   "nom": "Crabe",
-  "statut": "brouillon",
+  "statut": "valide",
   "rang": "commun",
   "niveau": [
     2,
@@ -26,6 +26,5 @@
       "objet": "haricot-magique",
       "chance": 0.02
     }
-  ],
-  "a_verifier": "Crabe dessiné par code (npm run assets:maison), à valider sur la page d'aperçu (npm run assets:build). S'il ne respecte pas la direction artistique : quête 3 en collecte de coquillages."
+  ]
 }

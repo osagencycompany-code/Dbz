@@ -116,8 +116,8 @@ describe("limiteur", () => {
 });
 
 describe("salle de map", () => {
-  it("ouvre une salle par map des zones (11 maps)", () => {
-    expect(mapsDesZones()).toHaveLength(11);
+  it("ouvre une salle par map des zones (12 maps)", () => {
+    expect(mapsDesZones()).toHaveLength(12);
   });
 
   it("refuse un joueur sans jeton, accepte un joueur connecté", async () => {
