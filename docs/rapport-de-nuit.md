@@ -35,6 +35,12 @@ Mode nuit autorisé : jalons 0 à 3 enchaînés, jalon 4 si le temps le permet, 
 - `npm run check` vérifie maintenant : calques, types d'objets, portails et spawns cibles, monstres de zone appartenant à la zone, boss dans leur zone, arrivée de chaque zone, point de soin existant, image de fond dans la grille. Il a trouvé un vrai oubli (point de soin « kame-house » absent), corrigé.
 - Le serveur ouvre une salle par map des zones (11).
 
+### Jalon 4 – Combat en ligne (PARTIEL : seulement les règles de progression)
+
+Fait : `packages/shared/src/progression.ts` (+ 13 tests) : montée de niveau avec report d'XP et plafond au niveau 25, XP sur monstre (écart de niveau → `multiplicateur_global` → Zenkai, dans cet ordre), coups ratés contre un monstre trop fort, perte d'XP et PV au retour d'un K.O., déclenchement du Zenkai. Aucun chiffre en dur : tout vient de `progression.json`.
+
+**Pas fait** (volontairement) : boucle de simulation du serveur, déplacement validé, IA des monstres, client Phaser, fenêtre P. Raisons : il faut des valeurs nouvelles à décider (taille de la boîte de collision, portées, délais d'IA…) qui doivent passer par `data/` et une décision, et un client pour que tu puisses tester quoi que ce soit. **Le jalon 5 (ressenti du combat) n'est pas commencé**, comme demandé.
+
 ## À tester au réveil
 
 Aperçus de maps (fond + grille + collisions rouges + objets) :
@@ -93,6 +99,16 @@ Attendu pour `npm run check` : vert, avec 5 avertissements sur les dialogues abs
 - Python absent de la machine : sans effet pour l'instant, mais `tools/*.py` (maps, planches) en aura besoin au jalon Maps (jalons 2 et 3 : outils portés en TypeScript, voir plus bas).
 - `esbuild` signale un script d'installation bloqué ; `tsx` et Vitest fonctionnent quand même.
 
-## Plan du jalon suivant
+## Plan du jalon suivant (reste du jalon 4 — à valider par toi avant de coder)
 
-Voir `docs/etat-du-projet.md`.
+1. **Valeurs à décider** (dans `data/balance/`, avec une décision) : boîte de collision du joueur et des monstres, portée des coups, rayon d'aggro par défaut, tolérance anti-triche (la spec dit +10 %).
+2. **Serveur** : lecture des `.tmj` en grille de collisions ; boucle à 20 Hz dans `SalleMap` ; déplacement validé (vitesse max, murs) ; apparition des monstres depuis les `mobzone` ; IA de base (poursuite, meute, charge, bond) ; coups et dégâts avec `formulas.ts` ; XP, butin, K.O. avec `progression.ts`.
+3. **Client** (Vite + Phaser 3.80, 480 × 270 entier) : connexion, chargement de la map et des sprites depuis `assets/build/`, déplacement avec prédiction, interpolation des autres joueurs, HUD minimal, fenêtre P.
+4. **Test Playwright** : deux navigateurs, deux comptes, ils se voient et combattent le même monstre (critère d'acceptation n°1).
+5. Estimation : environ 2 à 3 sessions de travail. Le jalon 5 (ressenti : gel d'impact, étincelles, contre, Kamehameha…) ne commence qu'après ta validation de ce jalon.
+
+## Rappel : ce qui attend ta décision
+
+- Valider/refuser : crabe, mannequin, sprites 78/41/82 (page d'aperçu).
+- Corriger les maps dans Tiled.
+- Valeurs `xp_niveaux` des quêtes, touche Z, noms de maps.

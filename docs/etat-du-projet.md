@@ -10,11 +10,11 @@ Mis à jour à la fin de chaque session.
 - **Jalon 1 terminé** : serveur Express + Colyseus, SQLite, comptes avec clé d'invitation, salles de map vides.
 - **Jalon 2 terminé** : palettes, crabe et mannequin « maison », page d'aperçu (`npm run assets:build`).
 - **Jalon 3 terminé** : 11 maps (collisions et objets à vérifier dans Tiled), contrôles de maps dans `npm run check`.
-- Aucune logique de jeu pour l'instant.
+- **Jalon 4 commencé (partiel)** : règles de progression en logique pure testée. Pas de boucle serveur ni de client. Jalon 5 non commencé.
 
 ## Prochaine étape
 
-Jalon 4 : combat en ligne (déplacement, techniques, monstres, IA, XP, niveaux, fenêtre P), jamais au-delà : le jalon 5 attend ta validation du ressenti.
+Reste du jalon 4 : valeurs de collision/portée à décider, simulation serveur, client Phaser, test à deux navigateurs (plan détaillé dans `docs/rapport-de-nuit.md`). Attendre ton accord.
 
 ## À valider par Souleymen
 

@@ -229,7 +229,7 @@ for (const [, { rel, data: z }] of get("zones")) {
 
 // ---------------------------------------------------------------- 6. nombres en dur dans la logique
 // Dossiers de logique de jeu (à compléter quand ils existent). Les nombres autorisés sont des constantes neutres.
-const DOSSIERS_LOGIQUE = [/^packages\/shared\/src\/formulas\.ts$/, /^apps\/[^/]+\/src\/(combat|ia|regles)\//];
+const DOSSIERS_LOGIQUE = [/^packages\/shared\/src\/(formulas|progression)\.ts$/,/^apps\/[^/]+\/src\/(combat|ia|regles)\//];
 const NOMBRES_AUTORISES = new Set(["0", "1", "2", "100", "1000"]);
 const sources = [...listerFichiers(chemin("packages"), ".ts"), ...listerFichiers(chemin("apps"), ".ts")]
   .map((abs) => ({ abs, rel: relatif(abs) }))
