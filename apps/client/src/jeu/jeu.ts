@@ -39,10 +39,12 @@ export async function demarrerJeu(conteneur: HTMLElement, client: Client, jeton:
       bienvenue,
       profil,
       fenetre,
+      depart: { enCours: false },
       allerVers: (salle) => void lancer(salle).catch(surErreur),
     };
+    // 4000 = le serveur nous remplace par une connexion plus récente ; un départ voulu (changement de map) n'est pas une erreur
     room.onLeave((code) => {
-      if (code === 4000) surErreur(new Error("Connexion ouverte ailleurs avec ce compte."));
+      if (code === 4000 && !donnees.depart.enCours) surErreur(new Error("Connexion ouverte ailleurs avec ce compte."));
     });
     if (!jeu) {
       jeu = new Phaser.Game({

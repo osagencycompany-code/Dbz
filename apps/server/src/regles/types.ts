@@ -46,6 +46,8 @@ export interface Joueur {
   budget: number;
   enTransit: boolean;
   sale: boolean;
+  /** Commande d'administration /invincible. */
+  invincible: boolean;
 }
 
 export type EtatMonstre = "errance" | "poursuite" | "annonce" | "charge" | "bond" | "retour" | "mort";
@@ -92,7 +94,7 @@ export interface Monstre {
 export type Evenement =
   | { type: "degats"; cible: "joueur" | "monstre"; id: string; valeur: number; critique: boolean; x: number; y: number }
   | { type: "rate" | "esquive"; cible: "joueur" | "monstre"; id: string; x: number; y: number }
-  | { type: "coup"; joueur: string; numero: number; x: number; y: number }
+  | { type: "coup"; joueur: string; numero: number; x: number; y: number; dir: number; zone: { x0: number; y0: number; x1: number; y1: number } }
   | { type: "annonce"; monstre: string; attaque: string }
   | { type: "mort-monstre"; id: string }
   | { type: "ko"; joueur: string }

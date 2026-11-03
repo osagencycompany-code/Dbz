@@ -59,13 +59,13 @@
         "portee_px": {
           "type": "number"
         },
-        "rayon_px": {
+        "largeur_px": {
           "type": "number"
         }
       },
       "required": [
         "portee_px",
-        "rayon_px"
+        "largeur_px"
       ],
       "additionalProperties": false
     },

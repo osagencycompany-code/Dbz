@@ -2,6 +2,7 @@ import { Room, ServerError, type Client } from "@colyseus/core";
 import { MapSchema, Schema, type } from "@colyseus/schema";
 import { puissanceAffichee, vitesseAvecModes, vitessePxS, xpRequise } from "@dbz/shared";
 import { eq } from "drizzle-orm";
+import { executerCommande } from "../admin/commandes.js";
 import { verifierJeton } from "../auth/jeton.js";
 import type { Base } from "../db/connexion.js";
 import { chargerOuCreer, sauver } from "../db/personnages.js";
@@ -57,6 +58,8 @@ export interface OptionsSalle {
   secret: string;
   donnees: Donnees;
   sessions: SessionsActives;
+  /** ADMIN_COMMANDS=on (la commande exige aussi le rôle admin en base). */
+  commandesAdmin?: boolean;
   /** Générateur aléatoire (tests). */
   alea?: () => number;
 }
@@ -70,6 +73,7 @@ export class SalleMap extends Room<SalleEtat> {
   private secret = "";
   private d!: Donnees;
   private sessions!: SessionsActives;
+  private commandesAdmin = false;
   monde!: Monde;
   private depuisSauvegarde = 0;
 
@@ -78,6 +82,7 @@ export class SalleMap extends Room<SalleEtat> {
     this.secret = options.secret;
     this.d = options.donnees;
     this.sessions = options.sessions;
+    this.commandesAdmin = options.commandesAdmin === true;
     this.setState(new SalleEtat());
     this.state.map = options.map;
     // la map existe même sans joueur : les monstres gardent leur place et leurs PV entre deux visites
@@ -105,6 +110,24 @@ export class SalleMap extends Room<SalleEtat> {
       client.send("bienvenue", { id: j.id, map: this.state.map, tic_hz: this.d.combat.tic_serveur_hz, boite: this.monde.boiteJoueur, boiteMonstre: this.monde.boiteMonstre });
       this.envoyerProfil(client);
     });
+    this.onMessage("commande", (client, texte: unknown) => {
+      const j = this.monde.joueurs.get(client.sessionId);
+      const compteId = (client.userData as { compteId?: number } | undefined)?.compteId;
+      if (!j || compteId === undefined || typeof texte !== "string") return;
+      const reponse = executerCommande(
+        {
+          db: this.db,
+          d: this.d,
+          commandesActives: this.commandesAdmin,
+          compteId,
+          monde: this.monde,
+          joueur: j,
+          teleporter: (map, dest) => this.teleporter(j, map, dest),
+        },
+        texte,
+      );
+      client.send("message", { texte: reponse });
+    });
     this.onMessage("attaquer", (client) => this.monde.attaquer(client.sessionId));
     this.onMessage("depenser", (client, r: Record<string, unknown>) => {
       if (this.monde.depenser(client.sessionId, r ?? {})) this.envoyerProfil(client);
@@ -123,7 +146,11 @@ export class SalleMap extends Room<SalleEtat> {
 
   override onJoin(client: Client, _options: unknown, auth: { compteId: number; pseudo: string }) {
     const ancienne = this.sessions.get(auth.compteId);
-    if (ancienne && ancienne.client !== client) ancienne.client.leave(4000);
+    if (ancienne && ancienne.client !== client) {
+      // un changement de map n'est pas une seconde connexion : l'ancienne salle est quittée normalement
+      const enTransit = ancienne.salle.monde.joueurs.get(ancienne.client.sessionId)?.enTransit === true;
+      ancienne.client.leave(enTransit ? undefined : 4000);
+    }
     this.sessions.set(auth.compteId, { client, salle: this });
 
     const perso = chargerOuCreer(this.db, this.d, auth.compteId, auth.pseudo);
@@ -235,12 +262,34 @@ export class SalleMap extends Room<SalleEtat> {
   }
 
   private sauvegarder(j: JoueurSim) {
-    sauver(this.db, j.perso, j.enTransit ? null : { x: j.x, y: j.y });
+    // en transit, la position de départ (spawn ou coordonnées) est déjà fixée dans le personnage
+    const enTransit = j.perso.x !== null && j.perso.y !== null ? { x: j.perso.x, y: j.perso.y } : null;
+    sauver(this.db, j.perso, j.enTransit ? enTransit : { x: j.x, y: j.y });
+  }
+
+  /** Commande /tp : même map → on déplace sur place ; autre map → le client est envoyé vers l'autre salle. */
+  private teleporter(j: JoueurSim, map: string, dest: { spawn: string } | { x: number; y: number }) {
+    if (map === this.state.map) {
+      const p = "spawn" in dest ? this.d.carte(map).objets.find((o) => o.type === "spawn" && o.nom === dest.spawn) : dest;
+      if (p) this.monde.placer(j, p.x, p.y);
+      return;
+    }
+    if ("spawn" in dest) return this.changerMap(j, map, dest.spawn);
+    j.enTransit = true;
+    j.perso.map = map;
+    j.perso.spawn = null;
+    j.perso.x = dest.x;
+    j.perso.y = dest.y;
+    sauver(this.db, j.perso, { x: dest.x, y: dest.y });
+    this.clients.find((c) => c.sessionId === j.id)?.send("changer_map", { salle: nomSalle(map), map });
   }
 
   private changerMap(j: JoueurSim, map: string, spawn: string) {
+    j.enTransit = true;
     j.perso.map = map;
     j.perso.spawn = spawn;
+    j.perso.x = null;
+    j.perso.y = null;
     sauver(this.db, j.perso, null);
     this.clients.find((c) => c.sessionId === j.id)?.send("changer_map", { salle: nomSalle(map), map });
   }

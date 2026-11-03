@@ -37,6 +37,15 @@ const MIGRATIONS: string[] = [
      y REAL,
      maj_le INTEGER NOT NULL
    );`,
+  `CREATE TABLE journal_admin (
+     id INTEGER PRIMARY KEY AUTOINCREMENT,
+     quand INTEGER NOT NULL,
+     compte_id INTEGER,
+     pseudo TEXT NOT NULL,
+     commande TEXT NOT NULL,
+     autorise INTEGER NOT NULL,
+     resultat TEXT NOT NULL
+   );`,
 ];
 
 export function ouvrirBase(chemin: string): Base {

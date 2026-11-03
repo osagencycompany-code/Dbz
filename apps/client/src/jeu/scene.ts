@@ -1,4 +1,4 @@
-import { boiteLibre, deplacer, directionDepuisVecteur, lireCarte, type Carte, type Direction } from "@dbz/shared";
+import { boiteLibre, corpsSolides, deplacer, directionDepuisVecteur, lireCarte, rectBoite, type Carte, type Direction, type Rect } from "@dbz/shared";
 import type { Room } from "colyseus.js";
 import Phaser from "phaser";
 import type { FenetrePersonnage, Profil } from "./fenetre-p.js";
@@ -10,6 +10,8 @@ export interface DonneesScene {
   profil: Record<string, unknown>;
   fenetre: FenetrePersonnage;
   allerVers: (salle: string) => void;
+  /** Passe à vrai quand on quitte la salle volontairement (portail, téléportation). */
+  depart: { enCours: boolean };
 }
 
 interface AnimDef {
@@ -40,6 +42,8 @@ interface Entite {
   y: number;
   t: number;
   enMarche: boolean;
+  /** Départage stable de la profondeur entre deux sprites à la même hauteur. */
+  tie: number;
 }
 
 interface Entree {
@@ -55,6 +59,7 @@ const ANIM_COUP = ["punch1", "punch2", "kick"];
 const LIGNE_MONSTRE = [1, 0, 2, 3];
 const ORIGINE_Y = 0.85;
 const LISSAGE = 18;
+const PROFONDEUR_ETIQUETTES = 100_000; // au-dessus de tout sprite (la map fait moins de 100 000 px de haut)
 
 export class ScenePrincipale extends Phaser.Scene {
   private d!: DonneesScene;
@@ -78,6 +83,13 @@ export class ScenePrincipale extends Phaser.Scene {
   private annonceTexte!: Phaser.GameObjects.Text;
   private collisions?: Phaser.GameObjects.Graphics;
   private journal: unknown[] = [];
+  private corps: Rect[] = [];
+  private pnj: Rect[] = [];
+  private compteurTie = 0;
+  private saisie!: HTMLInputElement;
+  private messages: { texte: string; jusqua: number }[] = [];
+  private messagesTexte!: Phaser.GameObjects.Text;
+  private zoneCoupDebug?: Phaser.GameObjects.Graphics;
 
   constructor() {
     super("jeu");
@@ -127,7 +139,10 @@ export class ScenePrincipale extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, W, H);
     this.cameras.main.setRoundPixels(true);
 
-    for (const o of this.carte.objets.filter((o) => o.type === "npc")) this.poserPnj(o.nom, o.x, o.y);
+    for (const o of this.carte.objets.filter((o) => o.type === "npc")) {
+      this.poserPnj(o.nom, o.x, o.y);
+      this.pnj.push(rectBoite(this.d.bienvenue.boiteMonstre, o.x, o.y));
+    }
 
     this.touches = this.input.keyboard!.addKeys({
       haut: Phaser.Input.Keyboard.KeyCodes.UP,
@@ -150,17 +165,21 @@ export class ScenePrincipale extends Phaser.Scene {
     window.addEventListener("keydown", bloquer);
     this.events.once("shutdown", () => window.removeEventListener("keydown", bloquer));
 
-    this.hud = this.add.graphics().setScrollFactor(0).setDepth(10_000);
-    this.hudTexte = this.add.text(4, 3, "", POLICE).setScrollFactor(0).setDepth(10_001);
-    this.annonceTexte = this.add.text(240, 110, "", { ...POLICE, fontSize: "16px", color: "#ff6b6b" }).setOrigin(0.5).setScrollFactor(0).setDepth(10_001);
+    this.hud = this.add.graphics().setScrollFactor(0).setDepth(300_000);
+    this.hudTexte = this.add.text(4, 3, "", POLICE).setScrollFactor(0).setDepth(300_001);
+    this.messagesTexte = this.add.text(4, 266, "", { ...POLICE, color: "#ffe9a8" }).setOrigin(0, 1).setScrollFactor(0).setDepth(300_001);
+    this.annonceTexte = this.add.text(240, 110, "", { ...POLICE, fontSize: "16px", color: "#ff6b6b" }).setOrigin(0.5).setScrollFactor(0).setDepth(300_001);
 
     this.d.fenetre.brancher((r) => this.d.room.send("depenser", r));
     this.appliquerProfil(this.d.profil);
     this.d.room.onMessage("profil", (p: Record<string, unknown>) => this.appliquerProfil(p));
     this.d.room.onMessage("evt", (e: Record<string, unknown>) => this.surEvenement(e));
     this.d.room.onMessage("changer_map", (m: { salle: string }) => {
+      this.d.depart.enCours = true;
       this.d.room.leave().finally(() => this.d.allerVers(m.salle));
     });
+    this.d.room.onMessage("message", (m: { texte: string }) => this.afficherMessage(m.texte));
+    this.brancherSaisie();
 
     const etat = this.d.room.state as any;
     const me = etat.joueurs.get(this.moi);
@@ -172,7 +191,7 @@ export class ScenePrincipale extends Phaser.Scene {
     const cle = `sprite-${id}`;
     if (!this.textures.exists(cle)) return;
     const s = this.add.sprite(x, y, cle, LIGNE_MONSTRE[0]).setOrigin(0.5, ORIGINE_Y).setDepth(y);
-    this.add.text(x, y - 34, id, POLICE).setOrigin(0.5).setDepth(y + 1);
+    this.add.text(x, y - 34, id, POLICE).setOrigin(0.5).setDepth(PROFONDEUR_ETIQUETTES + y);
     void s;
   }
 
@@ -194,8 +213,10 @@ export class ScenePrincipale extends Phaser.Scene {
       this.accumulateur -= pas;
       this.ticLocal(pas);
     }
+    this.recalculerCorps();
     this.reconcilier();
     this.synchroniser(dt);
+    this.majMessages();
     this.dessinerHud();
     const moi = this.joueurs.get(this.moi);
     if (moi) this.cameras.main.centerOn(Math.round(moi.x), Math.round(moi.y - 12));
@@ -231,7 +252,66 @@ export class ScenePrincipale extends Phaser.Scene {
     if (e.dx === 0 && e.dy === 0) return p;
     const n = Math.hypot(e.dx, e.dy);
     const v = (e.course ? this.vitesse.course : this.vitesse.marche) * pas;
-    return deplacer(this.carte.grille, this.d.bienvenue.boite, p.x, p.y, (e.dx / n) * v, (e.dy / n) * v);
+    const obstacle = corpsSolides(this.d.bienvenue.boite, p, this.corps);
+    return deplacer(this.carte.grille, this.d.bienvenue.boite, p.x, p.y, (e.dx / n) * v, (e.dy / n) * v, obstacle);
+  }
+
+  /** Corps solides pour le joueur : PNJ et monstres vivants (comme sur le serveur). Les joueurs se traversent. */
+  private recalculerCorps() {
+    const corps = [...this.pnj];
+    (this.d.room.state as any).monstres.forEach((m: any) => {
+      if (m.etat !== "mort") corps.push(rectBoite(this.d.bienvenue.boiteMonstre, m.x, m.y));
+    });
+    this.corps = corps;
+  }
+
+  // ---------------------------------------------------------------------------------- saisie (commandes)
+
+  /** Entrée ouvre une ligne de saisie ; Entrée l'envoie au serveur, Échap l'annule. Le client ne connaît aucune commande. */
+  private brancherSaisie() {
+    this.saisie = document.getElementById("ligne-commande") as HTMLInputElement;
+    const kb = this.input.keyboard!;
+    const fermer = () => {
+      this.saisie.hidden = true;
+      this.saisie.value = "";
+      this.saisie.blur();
+      kb.enabled = true;
+    };
+    const ouvrir = () => {
+      kb.resetKeys();
+      kb.enabled = false;
+      this.saisie.hidden = false;
+      this.saisie.value = "/";
+      this.saisie.focus();
+    };
+    const surTouche = (e: KeyboardEvent) => {
+      if (e.key === "Enter" && this.saisie.hidden) {
+        e.preventDefault();
+        ouvrir();
+      } else if (e.target === this.saisie) {
+        e.stopPropagation();
+        if (e.key === "Enter") {
+          const texte = this.saisie.value.trim();
+          if (texte.length > 1) this.d.room.send("commande", texte);
+          fermer();
+        } else if (e.key === "Escape") fermer();
+      }
+    };
+    window.addEventListener("keydown", surTouche, true);
+    this.events.once("shutdown", () => {
+      window.removeEventListener("keydown", surTouche, true);
+      fermer();
+    });
+  }
+
+  private afficherMessage(texte: string) {
+    this.messages.push({ texte, jusqua: this.time.now + 8000 });
+    if (this.messages.length > 5) this.messages.shift();
+  }
+
+  private majMessages() {
+    this.messages = this.messages.filter((m) => m.jusqua > this.time.now);
+    this.messagesTexte.setText(this.messages.map((m) => m.texte).join("\n"));
   }
 
   /** Réconciliation : on repart de la position du serveur et on rejoue les entrées pas encore acquittées. */
@@ -291,7 +371,7 @@ export class ScenePrincipale extends Phaser.Scene {
     const etiquette = this.add.text(0, 0, nom, POLICE).setOrigin(0.5);
     const barre = this.add.graphics();
     const alerte = this.add.text(0, 0, "!", { ...POLICE, fontSize: "14px", color: "#ff3030" }).setOrigin(0.5).setVisible(false);
-    return { sprite, nom: etiquette, barre, alerte, x: 0, y: 0, t: 0, enMarche: false };
+    return { sprite, nom: etiquette, barre, alerte, x: 0, y: 0, t: 0, enMarche: false, tie: ++this.compteurTie * 0.001 };
   }
 
   private detruire(e: Entite) {
@@ -346,10 +426,14 @@ export class ScenePrincipale extends Phaser.Scene {
   private placer(e: Entite, texte: string, ratioPv: number, barre: boolean) {
     const x = Math.round(e.x);
     const y = Math.round(e.y);
-    e.sprite.setPosition(x, y).setDepth(y);
-    e.nom.setText(texte).setPosition(x, y - 40).setDepth(y + 1);
-    e.alerte.setPosition(x, y - 46).setDepth(y + 2);
-    e.barre.clear().setDepth(y + 1);
+    // les sprites se trient par hauteur des pieds, avec un départage stable (jamais deux profondeurs égales) ;
+    // noms, barres de vie et alertes passent toujours au-dessus de tous les sprites
+    // (profondeur calculée sur la position non arrondie : l'arrondi créait des égalités qui basculaient d'une image à l'autre)
+    const profondeur = e.y + e.tie;
+    e.sprite.setPosition(x, y).setDepth(profondeur);
+    e.nom.setText(texte).setPosition(x, y - 40).setDepth(PROFONDEUR_ETIQUETTES + profondeur);
+    e.alerte.setPosition(x, y - 46).setDepth(PROFONDEUR_ETIQUETTES + profondeur);
+    e.barre.clear().setDepth(PROFONDEUR_ETIQUETTES + profondeur);
     if (barre) {
       e.barre.fillStyle(0x000000, 0.8).fillRect(x - 12, y - 33, 24, 4);
       e.barre.fillStyle(0xd03030, 1).fillRect(x - 11, y - 32, Math.max(0, Math.round(22 * ratioPv)), 2);
@@ -378,7 +462,7 @@ export class ScenePrincipale extends Phaser.Scene {
       return;
     }
     const g = this.carte.grille;
-    this.collisions = this.add.graphics().setDepth(9000).setAlpha(0.45);
+    this.collisions = this.add.graphics().setDepth(200_000).setAlpha(0.45);
     this.collisions.fillStyle(0xff0000, 1);
     for (let ty = 0; ty < g.hauteur; ty++) for (let tx = 0; tx < g.largeur; tx++) if (g.bloque[ty * g.largeur + tx]) this.collisions.fillRect(tx * g.tuile, ty * g.tuile, g.tuile, g.tuile);
   }
@@ -388,12 +472,15 @@ export class ScenePrincipale extends Phaser.Scene {
   private surEvenement(e: Record<string, unknown>) {
     this.journal.push(e);
     const texte = (x: number, y: number, s: string, couleur = "#ffffff", taille = "8px") => {
-      const t = this.add.text(x, y - 30, s, { ...POLICE, color: couleur, fontSize: taille }).setOrigin(0.5).setDepth(20_000);
+      const t = this.add.text(x, y - 30, s, { ...POLICE, color: couleur, fontSize: taille }).setOrigin(0.5).setDepth(250_000);
       this.tweens.add({ targets: t, y: t.y - 18, alpha: 0, duration: 800, onComplete: () => t.destroy() });
     };
     switch (e.type) {
       case "degats":
         texte(Number(e.x), Number(e.y), String(e.valeur), e.critique ? "#ffd23f" : e.cible === "joueur" ? "#ff6b6b" : "#ffffff", e.critique ? "12px" : "8px");
+        break;
+      case "coup":
+        this.montrerZoneCoup(e.zone as Rect);
         break;
       case "rate":
         texte(Number(e.x), Number(e.y), "Raté", "#aaaaaa");
@@ -412,6 +499,16 @@ export class ScenePrincipale extends Phaser.Scene {
         break;
       }
     }
+  }
+
+  /** Avec F3 : la zone touchée par un coup (rectangle devant le joueur) s'affiche une fraction de seconde. */
+  private montrerZoneCoup(z: Rect) {
+    if (!this.collisions) return;
+    this.zoneCoupDebug?.destroy();
+    const g = this.add.graphics().setDepth(200_001);
+    g.fillStyle(0x30a0ff, 0.5).fillRect(z.x0, z.y0, z.x1 - z.x0, z.y1 - z.y0);
+    this.zoneCoupDebug = g;
+    this.time.delayedCall(250, () => g.destroy());
   }
 
   /** Lecture seule de l'état local, pour les tests Playwright. */

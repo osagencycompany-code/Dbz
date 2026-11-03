@@ -22,7 +22,9 @@ npm run jouer          # prend d'autres ports si 2567/5173 sont occupés ; affic
 npm run test:e2e       # deux navigateurs (Playwright), captures dans assets/build/e2e/
 ```
 
-Touches : flèches, Maj (courir), Z ou Ctrl (coup de poing, combo de 3), P (fenêtre Personnage), F3 (affiche les collisions). Le reste des techniques arrive au jalon 5.
+Touches : flèches, Maj (courir), Z ou Ctrl (coup de poing, combo de 3), P (fenêtre Personnage), F3 (affiche les collisions et, un instant, la zone touchée par chaque coup), Entrée (ligne de saisie : commandes d'administration uniquement).
+
+Commandes d'administration (décision 0020) : `npm run admin:grant -- <pseudo>` (une fois, hors du jeu en cours), puis relancer `npm run jouer` (qui active `ADMIN_COMMANDS=on` en local). Dans le jeu, Entrée puis par exemple `/tp foret-sud`, `/tp foret-nord`, `/tp cratere`, `/tp maison-de-goku`, `/tp ville`, `/tp desert-du-diable/sud`, `/niveau 10`, `/xp 500`, `/soin`, `/invincible`, `/boss raditz`, `/boss nappa`. Journal : table `journal_admin` de la base.
 
 ## Prochaine étape
 

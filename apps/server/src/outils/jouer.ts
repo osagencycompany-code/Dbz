@@ -92,7 +92,8 @@ const portClient = await portLibre(PORT_CLIENT);
 if (portServeur !== PORT_SERVEUR) console.log(`Le port ${PORT_SERVEUR} est occupé (un ancien serveur tourne ?) : le serveur utilisera le ${portServeur}.`);
 if (portClient !== PORT_CLIENT) console.log(`Le port ${PORT_CLIENT} est occupé (un ancien Vite tourne ?) : le client utilisera le ${portClient}.`);
 
-lancer("dev", { PORT: String(portServeur) });
+// en local, les commandes d'administration sont actives (il faut aussi le rôle admin en base : npm run admin:grant -- <pseudo>)
+lancer("dev", { PORT: String(portServeur), ADMIN_COMMANDS: "on" });
 lancer("dev:client", { CLIENT_PORT: String(portClient), DBZ_API: `http://localhost:${portServeur}`, VITE_SERVEUR: `ws://localhost:${portServeur}` });
 
 try {

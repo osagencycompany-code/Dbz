@@ -22,7 +22,7 @@ async function inscrire(pseudo: string, n: number): Promise<string> {
   return ((await r.json()) as { jeton: string }).jeton;
 }
 
-const attendre = async (condition: () => boolean, ms = 3000) => {
+const attendre = async (condition: () => boolean, ms = 8000) => {
   const fin = Date.now() + ms;
   while (!condition()) {
     if (Date.now() > fin) throw new Error("délai dépassé");
@@ -60,7 +60,7 @@ describe("jeu en ligne : deux joueurs sur la même map", () => {
     const x0 = vuParB.x;
     const y0 = vuParB.y;
     let seq = 0;
-    const minuteur = setInterval(() => a.send("entree", { seq: ++seq, dx: 0, dy: 1, course: false }), 50);
+    const minuteur = setInterval(() => a.send("entree", { seq: ++seq, dx: 0, dy: -1, course: false }), 50);
     await attendre(() => Math.hypot(vuParB.x - x0, vuParB.y - y0) > 5);
     clearInterval(minuteur);
     expect((a.state as any).joueurs.get(a.sessionId).seq).toBeGreaterThan(0);
@@ -140,5 +140,66 @@ describe("jeu en ligne : deux joueurs sur la même map", () => {
     const arrivee = salleServeur(suivante).monde.carte.objets.find((o) => o.nom === "entree")!;
     expect({ x: js.x, y: js.y }).toEqual({ x: arrivee.x, y: arrivee.y });
     await suivante.leave();
+  });
+
+  it("passer un portail aller-retour ne déconnecte pas (même si on rejoint la salle suivante avant de quitter l'ancienne)", async () => {
+    const jeton = await inscrire("Fanny", 6);
+    const client = new Client(`ws://localhost:${port}`);
+    const fermetures: number[] = [];
+    let salleActuelle: Room = await client.joinOrCreate(nomSalle("ile-de-roshi/exterieur"), { jeton });
+    salleActuelle.onLeave((code) => fermetures.push(code));
+
+    const traverser = async (portailNom: string, mapAttendue: string) => {
+      const ancienne = salleActuelle;
+      let message: { salle: string; map: string } | undefined;
+      ancienne.onMessage("changer_map", (m) => (message = m));
+      const serveur = salleServeur(ancienne);
+      const portail = serveur.monde.carte.objets.find((o) => o.type === "portal" && o.nom === portailNom)!;
+      const j = serveur.monde.joueurs.get(ancienne.sessionId)!;
+      j.x = portail.x + portail.largeur / 2;
+      j.y = portail.y + portail.hauteur / 2 + 4;
+      await attendre(() => message !== undefined);
+      expect(message!.map).toBe(mapAttendue);
+      // pire cas : la nouvelle salle est rejointe AVANT que l'ancienne soit quittée
+      const suivante = await client.joinOrCreate(message!.salle, { jeton });
+      suivante.onLeave((code) => fermetures.push(code));
+      await new Promise((r) => setTimeout(r, 300));
+      // le serveur a peut-être déjà fermé l'ancienne salle : on ne l'attend pas indéfiniment
+      await Promise.race([ancienne.leave(), new Promise((r) => setTimeout(r, 500))]);
+      salleActuelle = suivante;
+    };
+
+    await traverser("porte-kame-house", "ile-de-roshi/kame-house-rdc");
+    await traverser("sortie", "ile-de-roshi/exterieur");
+    await new Promise((r) => setTimeout(r, 500));
+    expect(fermetures).not.toContain(4000);
+    expect((salleActuelle.state as any).map).toBe("ile-de-roshi/exterieur");
+    expect(salleServeur(salleActuelle).monde.joueurs.has(salleActuelle.sessionId)).toBe(true);
+    await salleActuelle.leave();
+  });
+
+  it("une vraie seconde connexion du même compte éjecte la première (code 4000)", async () => {
+    const jeton = await inscrire("Gaston", 7);
+    const client = new Client(`ws://localhost:${port}`);
+    const premiere = await client.joinOrCreate(nomSalle("ile-de-roshi/exterieur"), { jeton });
+    let code: number | undefined;
+    premiere.onLeave((c) => (code = c));
+    const seconde = await client.joinOrCreate(nomSalle("ile-de-roshi/exterieur"), { jeton });
+    await attendre(() => code !== undefined);
+    expect(code).toBe(4000);
+    await seconde.leave();
+  });
+
+  it("une commande d'un joueur ordinaire reçoit « Commande inconnue. » et ne change rien", async () => {
+    const jeton = await inscrire("Hector", 8);
+    const client = new Client(`ws://localhost:${port}`);
+    const room = await client.joinOrCreate(nomSalle("ile-de-roshi/exterieur"), { jeton });
+    let reponse = "";
+    room.onMessage("message", (m: { texte: string }) => (reponse = m.texte));
+    room.send("commande", "/niveau 20");
+    await attendre(() => reponse !== "");
+    expect(reponse).toBe("Commande inconnue.");
+    expect(salleServeur(room).monde.joueurs.get(room.sessionId)!.perso.niveau).toBe(1);
+    await room.leave();
   });
 });

@@ -5,7 +5,7 @@
     "joueur": { "largeur_px": 12, "hauteur_px": 6 },
     "monstre": { "largeur_px": 14, "hauteur_px": 6 }
   },
-  "coup": { "portee_px": 18, "rayon_px": 22 },
+  "coup": { "portee_px": 20, "largeur_px": 28 },
   "aggro_px": { "commun": 150, "elite": 150, "boss": 210 },
   "anti_triche": { "tolerance_vitesse_pct": 10, "reserve_max_s": 0.25 },
   "ia": {

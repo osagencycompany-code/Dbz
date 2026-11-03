@@ -85,7 +85,7 @@ export const balanceMonde = z.strictObject({
     joueur: z.strictObject({ largeur_px: z.number(), hauteur_px: z.number() }),
     monstre: z.strictObject({ largeur_px: z.number(), hauteur_px: z.number() }),
   }),
-  coup: z.strictObject({ portee_px: z.number(), rayon_px: z.number() }),
+  coup: z.strictObject({ portee_px: z.number(), largeur_px: z.number() }),
   aggro_px: z.strictObject({ commun: z.number(), elite: z.number(), boss: z.number() }),
   anti_triche: z.strictObject({ tolerance_vitesse_pct: z.number(), reserve_max_s: z.number() }),
   ia: z.strictObject({

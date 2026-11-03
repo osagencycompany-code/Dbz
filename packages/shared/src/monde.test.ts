@@ -2,8 +2,8 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { boiteDansObjet, boiteLibre, deplacer, lireCarte, type Grille } from "./carte.js";
-import { coupToucheCible, degatsCoup, degatsMonstre, directionDepuisVecteur, numeroCombo, pointImpact } from "./combat.js";
+import { boiteDansObjet, boiteLibre, corpsSolides, deplacer, lireCarte, rectBoite, type Grille } from "./carte.js";
+import { coupToucheCible, degatsCoup, degatsMonstre, directionDepuisVecteur, numeroCombo, zoneCoup } from "./combat.js";
 import { degatsMelee, bonusNiveau } from "./formulas.js";
 import { attaqueMonstre, pvMonstre } from "./monstres.js";
 import { balanceCombat, balanceFormules, balanceMonde, balanceMonstres } from "./schemas/balance.js";
@@ -73,14 +73,60 @@ describe("lecture des maps du jeu", () => {
   });
 });
 
-describe("coups", () => {
-  it("le point d'impact est devant le joueur, à la portée réglée", () => {
-    expect(pointImpact(monde, 100, 100, 3)).toEqual({ x: 100 + monde.coup.portee_px, y: 100 });
-    expect(pointImpact(monde, 100, 100, 1)).toEqual({ x: 100, y: 100 - monde.coup.portee_px });
+describe("corps solides", () => {
+  const g: Grille = { largeur: 20, hauteur: 20, tuile: 16, bloque: new Uint8Array(400) };
+  const boite = { largeur: 12, hauteur: 6 };
+  const corps = [rectBoite({ largeur: 14, hauteur: 6 }, 100, 60)];
+  it("on s'arrête contre un corps solide", () => {
+    const p = { x: 100, y: 40 };
+    const r = deplacer(g, boite, p.x, p.y, 0, 30, corpsSolides(boite, p, corps));
+    expect(r.y).toBeLessThanOrEqual(54 + 1e-3); // le haut du corps est à y = 54
+    expect(r.y).toBeGreaterThan(50);
   });
-  it("touche dans le rayon, pas au-delà", () => {
-    expect(coupToucheCible(monde, 100, 100, 100 + monde.coup.rayon_px, 100)).toBe(true);
-    expect(coupToucheCible(monde, 100, 100, 100 + monde.coup.rayon_px + 1, 100)).toBe(false);
+  it("on peut s'éloigner d'un corps déjà en contact (né dessus)", () => {
+    const p = { x: 100, y: 60 };
+    const r = deplacer(g, boite, p.x, p.y, 0, -10, corpsSolides(boite, p, corps));
+    expect(r.y).toBeCloseTo(50, 6);
+  });
+  it("sans obstacle, le déplacement est inchangé", () => {
+    expect(deplacer(g, boite, 100, 40, 0, 30).y).toBe(70);
+  });
+});
+
+describe("coups", () => {
+  const joueur = { largeur: monde.boites.joueur.largeur_px, hauteur: monde.boites.joueur.hauteur_px };
+  const cible = { largeur: monde.boites.monstre.largeur_px, hauteur: monde.boites.monstre.hauteur_px };
+  const portee = monde.coup.portee_px;
+  // direction : 0 bas, 1 haut, 2 gauche, 3 droite ; la cible est posée juste contre le bord du joueur, du bon côté
+  const contre = (d: number, ecart: number): [number, number] => {
+    const c = rectBoite(joueur, 100, 100);
+    if (d === 0) return [100, c.y1 + ecart + cible.hauteur];
+    if (d === 1) return [100, c.y0 - ecart];
+    if (d === 2) return [c.x0 - ecart - cible.largeur / 2, 100];
+    return [c.x1 + ecart + cible.largeur / 2, 100];
+  };
+  it("touche ce qui est devant, dans la portée, pour chaque direction", () => {
+    for (const d of [0, 1, 2, 3] as const) {
+      const [cx, cy] = contre(d, portee - 1);
+      expect(coupToucheCible(zoneCoup(monde, joueur, 100, 100, d), cible, cx, cy), `dir ${d}`).toBe(true);
+    }
+  });
+  it("ne touche pas au-delà de la portée", () => {
+    for (const d of [0, 1, 2, 3] as const) {
+      const [cx, cy] = contre(d, portee + 1);
+      expect(coupToucheCible(zoneCoup(monde, joueur, 100, 100, d), cible, cx, cy), `dir ${d}`).toBe(false);
+    }
+  });
+  it("ne touche jamais ce qui est derrière le joueur", () => {
+    const derriere: Record<number, number> = { 0: 1, 1: 0, 2: 3, 3: 2 };
+    for (const d of [0, 1, 2, 3] as const) {
+      const [cx, cy] = contre(derriere[d]!, 0);
+      expect(coupToucheCible(zoneCoup(monde, joueur, 100, 100, d), cible, cx, cy), `dir ${d}`).toBe(false);
+    }
+  });
+  it("ne touche pas ce qui est loin sur le côté", () => {
+    const zone = zoneCoup(monde, joueur, 100, 100, 3);
+    expect(coupToucheCible(zone, cible, 100 + joueur.largeur / 2 + 4, 100 + monde.coup.largeur_px)).toBe(false);
   });
   it("la direction suit l'axe dominant et garde l'ancienne à l'arrêt", () => {
     expect(directionDepuisVecteur(1, 0.2, 0)).toBe(3);

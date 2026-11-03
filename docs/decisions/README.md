@@ -25,3 +25,4 @@ Modèle : `docs/templates/decision.md`.
 | 0017 | [Son cliquable, carte sur M, touche alternative du coup de poing](0017-controles-son-carte-poing.md) |
 | 0018 | [La forêt du Mont Paozu en deux maps reliées](0018-foret-en-deux-maps.md) |
 | 0019 | [Valeurs du monde du jalon 4 (collision, portée, aggro, anti-triche, IA)](0019-valeurs-du-monde-jalon-4.md) |
+| 0020 | [Zone du coup devant le joueur, corps solides, commandes d'administration](0020-zone-du-coup-et-corps-solides.md) |

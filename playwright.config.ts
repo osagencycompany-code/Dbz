@@ -19,7 +19,7 @@ export default defineConfig({
       url: `http://localhost:${PORT_SERVEUR}/api/sante`,
       timeout: 60_000,
       reuseExistingServer: false,
-      env: { PORT: String(PORT_SERVEUR), DB_PATH: process.env.DBZ_E2E_DB, ESSAIS_PAR_MINUTE: "1000" },
+      env: { PORT: String(PORT_SERVEUR), DB_PATH: process.env.DBZ_E2E_DB, ESSAIS_PAR_MINUTE: "1000", ADMIN_COMMANDS: "on" },
     },
     {
       command: "npm run dev:client",

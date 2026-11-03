@@ -7,6 +7,8 @@ import {
   boiteDansObjet,
   boiteLibre,
   coupRate,
+  centreZone,
+  corpsSolides,
   coupToucheCible,
   deplacer,
   degatsCoup,
@@ -15,7 +17,8 @@ import {
   esquivePct,
   gagnerXp,
   attaqueMonstre,
-  pointImpact,
+  rectBoite,
+  zoneCoup,
   numeroCombo,
   pvApresKo,
   pvMax,
@@ -26,6 +29,7 @@ import {
   xpGagneeSurMonstre,
   type Carte,
   type ObjetCarte,
+  type Rect,
   type Stats,
 } from "@dbz/shared";
 import type { Donnees } from "../donnees.js";
@@ -68,6 +72,17 @@ export class Monde {
     readonly alea: Aleatoire = Math.random,
   ) {
     this.peupler();
+    this.pnj = carte.objets.filter((o) => o.type === "npc").map((o) => rectBoite(this.boiteMonstre, o.x, o.y));
+  }
+
+  /** Corps fixes des PNJ (solides pour les joueurs). */
+  private readonly pnj: Rect[];
+
+  /** Tout ce qui arrête un joueur en dehors des murs : PNJ, monstres vivants et mannequin. Les joueurs se traversent. */
+  private corpsSolidesPour(j: Joueur) {
+    const corps = [...this.pnj];
+    for (const m of this.monstres.values()) if (m.etat !== "mort") corps.push(rectBoite(this.boiteMonstre, m.x, m.y));
+    return corpsSolides(this.boiteJoueur, { x: j.x, y: j.y }, corps);
   }
 
   get dt(): number {
@@ -204,6 +219,7 @@ export class Monde {
       budget: this.dt + this.d.monde.anti_triche.reserve_max_s,
       enTransit: false,
       sale: false,
+      invincible: false,
     };
     perso.spawn = null;
     this.joueurs.set(id, j);
@@ -262,7 +278,7 @@ export class Monde {
     j.pv = soignerTout ? j.pvMax : Math.min(j.pvMax, j.pv + Math.max(0, j.pvMax - ancien));
   }
 
-  /** Coup de poing du joueur : combo, point d'impact devant lui, rayon de touche. */
+  /** Coup de poing du joueur : combo et zone de touche devant lui. */
   attaquer(id: string) {
     const j = this.joueurs.get(id);
     const c = this.d.combat;
@@ -271,10 +287,12 @@ export class Monde {
     j.dernierCoupT = this.t;
     j.anim = `coup${j.combo}`;
     j.animJusqua = this.t + c.combo.recharge_s;
-    const impact = pointImpact(this.d.monde, j.x, j.y, j.dir);
-    this.rappels.evenement({ type: "coup", joueur: j.id, numero: j.combo, x: impact.x, y: impact.y });
+    // le coup n'atteint que ce qui est dans la zone devant le joueur, du côté où il regarde
+    const zone = zoneCoup(this.d.monde, this.boiteJoueur, j.x, j.y, j.dir);
+    const centre = centreZone(zone);
+    this.rappels.evenement({ type: "coup", joueur: j.id, numero: j.combo, x: centre.x, y: centre.y, dir: j.dir, zone });
     for (const m of this.monstres.values()) {
-      if (m.etat === "mort" || !coupToucheCible(this.d.monde, impact.x, impact.y, m.x, m.y)) continue;
+      if (m.etat === "mort" || !coupToucheCible(zone, this.boiteMonstre, m.x, m.y)) continue;
       if (coupRate(this.d.progression, j.perso.niveau, m.niveau, this.alea())) {
         this.rappels.evenement({ type: "rate", cible: "monstre", id: m.id, x: m.x, y: m.y });
         continue;
@@ -312,25 +330,51 @@ export class Monde {
     this.rappels.evenement({ type: "mort-monstre", id: m.id });
     for (const id of m.contributeurs) {
       const j = this.joueurs.get(id);
-      if (!j) continue;
-      const gain = xpGagneeSurMonstre(this.d.progression, j.perso.niveau, m.niveau, m.rang);
-      const r = gagnerXp(this.d.progression, { niveau: j.perso.niveau, xp: j.perso.xp }, gain);
-      j.perso.niveau = r.niveau;
-      j.perso.xp = r.xp;
-      j.sale = true;
-      this.rappels.evenement({ type: "xp", joueur: j.id, gain }, j.id);
-      if (r.niveauxGagnes > 0) {
-        j.perso.pointsLibres += r.niveauxGagnes * this.d.formules.points.par_niveau;
-        this.recalculer(j, true);
-        this.rappels.evenement({ type: "niveau", joueur: j.id, niveau: r.niveau });
-      }
+      if (j) this.crediterXp(j, xpGagneeSurMonstre(this.d.progression, j.perso.niveau, m.niveau, m.rang));
     }
     m.contributeurs.clear();
   }
 
+  /** Ajoute de l'XP à un joueur (montée de niveau, points à répartir, soin complet). */
+  crediterXp(j: Joueur, gain: number) {
+    const r = gagnerXp(this.d.progression, { niveau: j.perso.niveau, xp: j.perso.xp }, gain);
+    j.perso.niveau = r.niveau;
+    j.perso.xp = r.xp;
+    j.sale = true;
+    this.rappels.evenement({ type: "xp", joueur: j.id, gain }, j.id);
+    if (r.niveauxGagnes > 0) {
+      j.perso.pointsLibres += r.niveauxGagnes * this.d.formules.points.par_niveau;
+      this.recalculer(j, true);
+      this.rappels.evenement({ type: "niveau", joueur: j.id, niveau: r.niveau });
+    }
+  }
+
+  /** Commande d'administration : fixe le niveau (les points ne sont accordés qu'en montée). */
+  fixerNiveau(j: Joueur, niveau: number) {
+    const n = Math.min(this.d.progression.niveau_max, Math.max(1, Math.floor(niveau)));
+    if (n > j.perso.niveau) j.perso.pointsLibres += (n - j.perso.niveau) * this.d.formules.points.par_niveau;
+    j.perso.niveau = n;
+    j.perso.xp = 0;
+    this.recalculer(j, true);
+    j.sale = true;
+    this.rappels.evenement({ type: "niveau", joueur: j.id, niveau: n });
+  }
+
+  /** Place un joueur à un endroit précis (téléportation sur la même map). */
+  placer(j: Joueur, x: number, y: number) {
+    j.x = x;
+    j.y = y;
+    j.file.length = 0;
+  }
+
+  soigner(j: Joueur) {
+    j.pv = j.pvMax;
+    j.sale = true;
+  }
+
   /** Dégâts d'un monstre sur un joueur (esquive passive, invulnérabilité courte après un coup). */
   blesserJoueur(j: Joueur, m: Monstre) {
-    if (j.ko || this.t < j.invulnerableJusqua) return;
+    if (j.ko || j.invincible || this.t < j.invulnerableJusqua) return;
     const esquive = esquivePct(this.d.formules, j.perso.niveau, j.perso.stats.agilite);
     if (this.alea() * POURCENT < esquive) {
       this.rappels.evenement({ type: "esquive", cible: "joueur", id: j.id, x: j.x, y: j.y });
@@ -416,7 +460,7 @@ export class Monde {
     if (e.dx === 0 && e.dy === 0) return;
     const norme = Math.hypot(e.dx, e.dy);
     const pas = this.vitesseJoueur(j, e.course) * dt;
-    const r = deplacer(this.carte.grille, this.boiteJoueur, j.x, j.y, (e.dx / norme) * pas, (e.dy / norme) * pas);
+    const r = deplacer(this.carte.grille, this.boiteJoueur, j.x, j.y, (e.dx / norme) * pas, (e.dy / norme) * pas, this.corpsSolidesPour(j));
     j.x = r.x;
     j.y = r.y;
     j.dir = directionDepuisVecteur(e.dx, e.dy, j.dir);
