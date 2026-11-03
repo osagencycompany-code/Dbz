@@ -10,7 +10,7 @@
   ],
   "sprite": {
     "source": "dbz-online",
-    "fichier": "assets/raw/graphics/characters/45.png",
+    "fichier": "assets/raw/graphics/characters/78.png",
     "format": "4-directions-1-image"
   },
   "comportement": {
@@ -27,5 +27,5 @@
       "chance": 0.03
     }
   ],
-  "a_verifier": "Sprite 45 à confirmer visuellement."
+  "a_verifier": "Sprite 78 choisi par Souleymen ; en attente de validation sur la page d'aperçu."
 }

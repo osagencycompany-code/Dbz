@@ -1,0 +1,15 @@
+{
+  "description": "Palettes de tenue des personnages joueurs, obtenues par recoloration de la planche de Goku (décision 0006). Seules les couleurs de `gi` changent de teinte ; peau, cheveux, ceinture et bottes restent intacts.",
+  "gi": [
+    [115, 57, 0],
+    [140, 74, 0],
+    [173, 74, 0],
+    [214, 99, 0],
+    [255, 115, 0]
+  ],
+  "palettes": {
+    "orange": null,
+    "bleu": { "teinte": 215 },
+    "vert": { "teinte": 125 }
+  }
+}

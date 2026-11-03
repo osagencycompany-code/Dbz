@@ -8,12 +8,13 @@ Mis à jour à la fin de chaque session.
 - Socle en place : règles, direction artistique, lore, décisions 0001 à 0017, schémas, données de la bêta en brouillon.
 - **Jalon 0 terminé** : monorepo, schémas zod, formules + tests de référence, `npm run check` au vert.
 - **Jalon 1 terminé** : serveur Express + Colyseus, SQLite, comptes avec clé d'invitation, salles de map vides.
+- **Jalon 2 terminé** : palettes, crabe et mannequin « maison », page d'aperçu (`npm run assets:build`).
 - Île de Roshi préparée pour Tiled (3 maps, collisions et objets à vérifier).
 - Aucune logique de jeu pour l'instant.
 
 ## Prochaine étape
 
-Jalon 2 : assets (découpe des planches, palettes, atlas, page d'aperçu des animations, crabe à valider). Voir `docs/rapport-de-nuit.md`.
+Jalon 3 : maps (4 zones traitées avec `tools/extract_map_regions.py`, collisions, objets, aperçus). Voir `docs/rapport-de-nuit.md`.
 
 ## À valider par Souleymen
 
@@ -23,5 +24,5 @@ Jalon 2 : assets (découpe des planches, palettes, atlas, page d'aperçu des ani
 
 ## Questions ouvertes
 
-- Sprite du crabe (à générer et valider sur la page d'aperçu ; sinon quête 3 en collecte de coquillages).
-- Sprite de Bulma.
+- Crabe dessiné par code : à valider sur la page d'aperçu (sinon quête 3 en collecte de coquillages).
+- Sprites 78, 41, 82 appliqués (loup, bandit, Bulma), à valider sur l'aperçu.

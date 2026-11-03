@@ -153,6 +153,11 @@ for (const [, { rel, data: p }] of get("characters")) {
   }
 }
 
+// Palettes de joueur : chaque palette citée doit exister dans assets/palettes.json.
+const palettesDefinies = new Set(Object.keys((lireJson(chemin("assets/palettes.json")) as { palettes: Record<string, unknown> }).palettes));
+for (const [, { rel, data: p }] of get("characters"))
+  for (const nom of p.palettes_joueur ?? []) if (!palettesDefinies.has(nom)) erreur(rel, `palette « ${nom} » absente de assets/palettes.json`);
+
 // ---------------------------------------------------------------- 5. maps Tiled
 const TYPES_OBJETS = new Set(["spawn", "portal", "npc", "mobzone", "travel", "heal", "boss"]);
 const cartes = listerFichiers(chemin("maps"), ".tmj");

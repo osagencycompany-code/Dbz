@@ -3,8 +3,12 @@
   "id": "bulma",
   "nom": "Bulma",
   "statut": "brouillon",
-  "sprite": null,
+  "sprite": {
+    "source": "dbz-online",
+    "fichier": "assets/raw/graphics/characters/82.png",
+    "format": "4-directions-1-image"
+  },
   "zone": "west-city",
   "dialogues": "data/dialogues/bulma.json",
-  "a_verifier": "Sprite de Bulma à identifier (DBZ Online ou Buu's Fury non_playable_characters)."
+  "a_verifier": "Sprite 82 choisi par Souleymen ; en attente de validation sur la page d'aperçu."
 }

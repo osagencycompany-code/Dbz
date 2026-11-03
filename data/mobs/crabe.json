@@ -9,8 +9,8 @@
     4
   ],
   "sprite": {
-    "source": "a-choisir",
-    "fichier": null,
+    "source": "maison",
+    "fichier": "assets/maison/crabe.png",
     "format": "4-directions-1-image"
   },
   "comportement": {
@@ -27,5 +27,5 @@
       "chance": 0.02
     }
   ],
-  "a_verifier": "Aucun sprite identifié. À défaut, la quête 3 devient une collecte de coquillages."
+  "a_verifier": "Crabe dessiné par code (npm run assets:maison), à valider sur la page d'aperçu (npm run assets:build). S'il ne respecte pas la direction artistique : quête 3 en collecte de coquillages."
 }

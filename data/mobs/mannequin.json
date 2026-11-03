@@ -9,8 +9,8 @@
     1
   ],
   "sprite": {
-    "source": "a-creer",
-    "fichier": null,
+    "source": "maison",
+    "fichier": "assets/maison/mannequin.png",
     "format": "image-unique"
   },
   "comportement": {
@@ -21,5 +21,5 @@
     "ile-de-roshi"
   ],
   "butin": [],
-  "a_verifier": "Pas de sprite : générer ou utiliser assets/raw/graphics/resources/5.png."
+  "a_verifier": "Mannequin dessiné par code (npm run assets:maison), à valider sur la page d'aperçu."
 }
