@@ -3,14 +3,14 @@
   "id": "vegeta-saga-saiyan",
   "nom": "Vegeta",
   "statut": "brouillon",
-  "niveau": 30,
+  "niveau": 28,
   "sprite": {
     "source": "legacy-of-goku-1",
     "fichier": "assets/bosses/vegeta-phase1.png",
     "format": "planche-decoupee",
     "cadre": [
-      40,
-      40
+      32,
+      32
     ],
     "animations": "assets/bosses/vegeta-phase1.anims.json"
   },
@@ -66,8 +66,8 @@
         "fichier": "assets/bosses/vegeta-grand-singe.png",
         "format": "planche-decoupee",
         "cadre": [
-          72,
-          72
+          32,
+          64
         ],
         "animations": "assets/bosses/vegeta-grand-singe.anims.json"
       },
@@ -100,5 +100,5 @@
     }
   ],
   "contribution_min_pct": 5,
-  "a_verifier": "Phase 1 = Vegeta de LoG1, très proche du Vegeta jouable (même combinaison bleue) : à rendre nettement distinct (armure, scouter) ou à remplacer par la planche vegeta-saga-saiyan.png annoncée. Niveau, PV, butin et attaques à fixer ; la transformation est la première ligne de vegeta-grand-singe.png."
+  "a_verifier": "Planche vegeta-saga-saiyan.png utilisée (armure de la saga Saiyan) avec scouter vert ajouté par tools/decouper_log1.py : à comparer au Vegeta jouable. Niveau 28 (joueurs plafonnés à 25) ; PV, butin et attaques à fixer."
 }

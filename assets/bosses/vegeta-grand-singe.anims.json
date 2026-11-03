@@ -1,16 +1,18 @@
 {
   "cadre": [
-    72,
-    72
+    32,
+    64
   ],
-  "colonnes": 5,
+  "colonnes": 9,
   "lignes": {
     "transformation": 0,
-    "singe": 1
+    "face": 1,
+    "dos": 2,
+    "cote": 3
   },
   "statut": "brouillon : cases numérotées dans l'ordre de lecture de la planche, correspondance proposée par Claude à valider dans l'aperçu",
-  "source": "assets/raw/legacy-of-goku-1/Oozaru Gohan  Vegeta.png",
-  "note": "Ligne 0 : 4 images de transformation ; ligne 1 : singe géant de profil (5 images). La version « en cadre vert » de la planche d'origine est exclue (retouche non officielle). Faces et dos du singe : voir Various.gif.",
+  "source": "assets/raw/legacy-of-goku-1/vegeta-saga-saiyan.png",
+  "note": "Bloc « Great Ape » (cases 32×64) ; la transformation vient du bloc « Saiyan Saga ».",
   "animations": {
     "transformation": {
       "ligne": "transformation",
@@ -23,17 +25,85 @@
       "fps": 5,
       "loop": false
     },
-    "singe-marche": {
-      "ligne": "singe",
+    "idle": {
+      "ligne": "face",
       "cols": [
         0,
-        1,
+        1
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "marche": {
+      "ligne": "face",
+      "cols": [
         2,
         3,
-        4
+        4,
+        5
       ],
       "fps": 6,
       "loop": true
+    },
+    "attaque": {
+      "ligne": "face",
+      "cols": [
+        6,
+        7,
+        8
+      ],
+      "fps": 6,
+      "loop": false
+    },
+    "idle-dos": {
+      "ligne": "dos",
+      "cols": [
+        0,
+        1
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "marche-dos": {
+      "ligne": "dos",
+      "cols": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "fps": 6,
+      "loop": true
+    },
+    "idle-cote": {
+      "ligne": "cote",
+      "cols": [
+        0,
+        1
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "marche-cote": {
+      "ligne": "cote",
+      "cols": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "fps": 6,
+      "loop": true
+    },
+    "attaque-cote": {
+      "ligne": "cote",
+      "cols": [
+        6,
+        7,
+        8
+      ],
+      "fps": 6,
+      "loop": false
     }
   }
 }

@@ -54,6 +54,58 @@ def bande_coupee(a, bg, y0, y1, coupes):
     return boites
 
 
+def planche_cases(a, magenta, lignes, cadre_l, cadre_h):
+    """Comme `planche`, mais pour des cases à fond magenta (le magenta devient transparent) : la case entière est conservée, centrée et posée en bas, pour ne pas décaler les images d'une animation."""
+    colonnes = max(len(l) for l in lignes)
+    sortie = np.zeros((len(lignes) * cadre_h, colonnes * cadre_l, 4), dtype=np.uint8)
+    for j, ligne in enumerate(lignes):
+        for i, (x0, y0, x1, y1) in enumerate(ligne):
+            sprite = a[y0:y1, x0:x1]
+            h, l = sprite.shape[:2]
+            alpha = np.any(sprite != np.array(magenta), axis=-1)
+            if h > cadre_h or l > cadre_l:
+                raise SystemExit(f'sprite {l}×{h} plus grand que la case {cadre_l}×{cadre_h} (ligne {j}, colonne {i})')
+            rgba = np.zeros((h, l, 4), dtype=np.uint8)
+            rgba[..., :3] = sprite
+            rgba[..., 3] = np.where(alpha, 255, 0)
+            sortie[j * cadre_h + (cadre_h - h):(j + 1) * cadre_h, i * cadre_l + (cadre_l - l) // 2:i * cadre_l + (cadre_l - l) // 2 + l] = rgba
+    return Image.fromarray(sortie, 'RGBA'), colonnes
+
+
+PEAU = {(232, 176, 88), (248, 200, 144)}
+VERT = (48, 208, 96, 255)
+VERT_CLAIR = (184, 255, 200, 255)
+
+
+def ajouter_scouter(image, ligne, nb_colonnes, cadre_l, cadre_h, vers_la_droite=None):
+    """Dessine un scouter vert (verre sur l'œil, branche vers l'oreille) sur les images d'une ligne de face ou de côté.
+    L'œil est repéré par les pixels de peau les plus hauts de la tête ; rien n'est dessiné si la tête est de dos."""
+    a = np.array(image)
+    for i in range(nb_colonnes):
+        x0, y0 = i * cadre_l, ligne * cadre_h
+        cadre = a[y0:y0 + cadre_h, x0:x0 + cadre_l]
+        peau = [(x, y) for y in range(min(cadre_h, 20)) for x in range(cadre_l) if cadre[y, x, 3] and tuple(int(v) for v in cadre[y, x, :3]) in PEAU]
+        if len(peau) < 3:
+            continue
+        haut = min(y for _, y in peau)
+        rang = [x for x, y in peau if y <= haut + 1]
+        xmin, xmax = min(rang), max(rang)
+        if vers_la_droite:
+            # visage de profil tourné vers la droite : verre au bord avant, branche vers l'arrière
+            lentille = [(xmax - 1, haut), (xmax, haut), (xmax - 1, haut + 1), (xmax, haut + 1)]
+            branche = [(x, haut) for x in range(xmin - 1, xmax - 1)]
+        else:
+            lentille = [(xmin, haut), (xmin + 1, haut), (xmin, haut + 1), (xmin + 1, haut + 1)]
+            branche = [(xmin - 1, haut), (xmin - 1, haut + 1), (xmin - 1, haut - 1)]
+        for k, (x, y) in enumerate(lentille):
+            if 0 <= x < cadre_l and 0 <= y < cadre_h:
+                cadre[y, x] = VERT_CLAIR if k == 0 else VERT
+        for x, y in branche:
+            if 0 <= x < cadre_l and 0 <= y < cadre_h and cadre[y, x, 3]:
+                cadre[y, x] = VERT
+    return Image.fromarray(a, 'RGBA')
+
+
 def planche(a, bg, boites_par_ligne, cadre_l, cadre_h):
     """Assemble les sprites en cases de cadre_l × cadre_h : centrés, pieds en bas, fond transparent."""
     lignes = len(boites_par_ligne)
@@ -113,34 +165,69 @@ def main():
         'ko': {'ligne': 'ligne', 'cols': [11], 'fps': 6},
     }, 'assets/raw/legacy-of-goku-1/Various.gif', 'Nappa : 12 cases (la 6e planche d\'origine est coupée en deux) ; correspondance à vérifier.')
 
-    # ---- Vegeta boss, phase 1 : « Vegeta.png » (quatre bandes : face, côté, dos, divers)
-    v, vbg = charger('Vegeta.png')
-    bandes = [bande(v, vbg, 0, y0, 513, y1) for y0, y1 in [(5, 46), (46, 86), (86, 126), (126, 168)]]
-    p = planche(v, vbg, bandes, 40, 40)
-    ecrire('assets/bosses', 'vegeta-phase1', p[0], p[1], 40, 40,
-           {'face': 0, 'cote': 1, 'dos': 2, 'divers': 3}, {
-        'idle': {'ligne': 'face', 'cols': [0, 1], 'fps': 3, 'loop': True},
-        'marche-face': {'ligne': 'face', 'cols': [2, 3, 4, 5], 'fps': 8, 'loop': True},
-        'attaque-face': {'ligne': 'face', 'cols': [6, 7, 8], 'fps': 10},
-        'blesse': {'ligne': 'face', 'cols': [12, 13, 14], 'fps': 8},
-        'marche-cote': {'ligne': 'cote', 'cols': [2, 3, 4, 5], 'fps': 8, 'loop': True},
-        'attaque-cote': {'ligne': 'cote', 'cols': [6, 7, 8, 9], 'fps': 10},
-        'tir-cote': {'ligne': 'cote', 'cols': [10, 11, 12, 13], 'fps': 10},
-        'marche-dos': {'ligne': 'dos', 'cols': [2, 3, 4, 5], 'fps': 8, 'loop': True},
-        'ko': {'ligne': 'divers', 'cols': [2, 3], 'fps': 4},
-    }, 'assets/raw/legacy-of-goku-1/Vegeta.png',
-        'Vegeta de LoG1 (armure blanche et combinaison bleue), à comparer à la version jouable (voir apercu-heros.html). Les lignes face/côté/dos ne sont pas alignées par colonnes avec les animations : à valider.')
+    # ---- Vegeta boss : « vegeta-saga-saiyan.png » (blocs « Saiyan Saga » et « Great Ape », cases sur fond magenta)
+    sg, _ = charger('vegeta-saga-saiyan.png')
+    MAGENTA = (248, 0, 248)
 
-    # ---- Grand singe et transformation : « Oozaru Gohan  Vegeta.png » (fond magenta)
-    o, obg = charger('Oozaru Gohan  Vegeta.png')
-    singe = bande_coupee(o, obg, 0, 65, [160, 196, 229, 262, 295, 332])
-    trans = bande_coupee(o, obg, 125, 194, [205, 231, 265, 298, 332])
-    g = planche(o, obg, [trans, singe], 72, 72)
-    ecrire('assets/bosses', 'vegeta-grand-singe', g[0], g[1], 72, 72, {'transformation': 0, 'singe': 1}, {
+    def case(x, y, l, h):
+        return (x, y, x + l, y + h)
+
+    def groupe(x0, y, l, nb, pas=None):
+        pas = pas or l + 8
+        return [case(x0 + i * pas, y, l, 32) for i in range(nb)]
+
+    # Saiyan Saga : face x=760, dos x=968, côté x=1176 ; mêmes lignes dans les trois colonnes
+    def lignes_vegeta(x0, cote):
+        l = 32 if cote else 16
+        idle = [case(x0 + i * 24, 56, 16, 32) for i in range(2)]
+        marche = [case(x0 + i * 24, 120, 16, 32) for i in range(4)]
+        if cote:
+            coups = [case(x0 + i * 40, 184, 32, 32) for i in range(8)]
+            coups = [case(x0 + (i if i < 4 else i) * 40 + (8 if i >= 4 else 0), 184, 32, 32) for i in range(8)]
+            tir = [case(x0 + i * 40, 248, 32, 32) for i in range(3)]
+        else:
+            coups = [case(x0 + i * 24 + (8 if i >= 4 else 0), 184, 16, 32) for i in range(8)]
+            tir = [case(x0 + i * 24, 248, 16, 32) for i in range(3)]
+        colere = [case(x0 + i * 24, 312, 16, 32) for i in range(4)]
+        return idle + marche + coups + tir + colere
+
+    face = lignes_vegeta(760, False) + [case(760 + i * 24, 376, 16, 32) for i in range(4)]
+    dos = lignes_vegeta(968, False)
+    cote = lignes_vegeta(1176, True)
+    p = planche_cases(sg, MAGENTA, [face, dos, cote], 32, 32)
+    img = ajouter_scouter(p[0], 0, len(face), 32, 32)
+    img = ajouter_scouter(img, 2, len(cote), 32, 32, vers_la_droite=True)
+    p = (img, p[1])
+    anims_saga = {
+        'idle': ('face', [0, 1], 3, True), 'marche': ('face', [2, 3, 4, 5], 8, True), 'coup': ('face', list(range(6, 14)), 12, False),
+        'tir': ('face', [14, 15, 16], 8, False), 'colere': ('face', [17, 18, 19, 20], 6, True), 'vaincu': ('face', [21, 22, 23, 24], 5, False),
+        'marche-dos': ('dos', [2, 3, 4, 5], 8, True), 'coup-dos': ('dos', list(range(6, 14)), 12, False),
+        'idle-cote': ('cote', [0, 1], 3, True), 'marche-cote': ('cote', [2, 3, 4, 5], 8, True), 'coup-cote': ('cote', list(range(6, 14)), 12, False),
+        'tir-cote': ('cote', [14, 15, 16], 8, False), 'colere-cote': ('cote', [17, 18, 19, 20], 6, True),
+    }
+    ecrire('assets/bosses', 'vegeta-phase1', p[0], p[1], 32, 32, {'face': 0, 'dos': 1, 'cote': 2}, {
+        n: {'ligne': l, 'cols': c, 'fps': f, 'loop': b} for n, (l, c, f, b) in anims_saga.items()
+    }, 'assets/raw/legacy-of-goku-1/vegeta-saga-saiyan.png', 'Bloc « Saiyan Saga » (armure de la saga Saiyan), cases de 32×32, avec un scouter vert ajouté par ce script sur les images de face et de côté (pas de scouter de dos).')
+
+    # Great Ape : face x=1512, dos x=1680, côté x=1848 (cases 32×64) ; transformation (4 images) dans le bloc Saiyan Saga
+    def ape(x0, ys):
+        return [case(x0 + i * 40, y, 32, 64) for y, nb in ys for i in range(nb)]
+    transformation = [case(1304 + i * 40, 248, 32, 64) for i in range(4)]
+    singe_face = [case(1512 + i * 40, 56, 32, 64) for i in range(2)] + [case(1512 + i * 40, 152, 32, 64) for i in range(4)] + [case(1512 + i * 40, 248, 32, 64) for i in range(3)]
+    singe_dos = [case(1680 + i * 40, 56, 32, 64) for i in range(2)] + [case(1680 + i * 40, 152, 32, 64) for i in range(4)] + [case(1680 + i * 40, 248, 32, 64) for i in range(3)]
+    singe_cote = [case(1848 + i * 40, 56, 32, 64) for i in range(2)] + [case(1848 + i * 40, 152, 32, 64) for i in range(4)] + [case(1848 + i * 40, 248, 32, 64) for i in range(3)]
+    g = planche_cases(sg, MAGENTA, [transformation, singe_face, singe_dos, singe_cote], 32, 64)
+    ecrire('assets/bosses', 'vegeta-grand-singe', g[0], g[1], 32, 64, {'transformation': 0, 'face': 1, 'dos': 2, 'cote': 3}, {
         'transformation': {'ligne': 'transformation', 'cols': [0, 1, 2, 3], 'fps': 5, 'loop': False},
-        'singe-marche': {'ligne': 'singe', 'cols': [0, 1, 2, 3, 4], 'fps': 6, 'loop': True},
-    }, 'assets/raw/legacy-of-goku-1/Oozaru Gohan  Vegeta.png',
-        "Ligne 0 : 4 images de transformation ; ligne 1 : singe géant de profil (5 images). La version « en cadre vert » de la planche d'origine est exclue (retouche non officielle). Faces et dos du singe : voir Various.gif.")
+        'idle': {'ligne': 'face', 'cols': [0, 1], 'fps': 3, 'loop': True},
+        'marche': {'ligne': 'face', 'cols': [2, 3, 4, 5], 'fps': 6, 'loop': True},
+        'attaque': {'ligne': 'face', 'cols': [6, 7, 8], 'fps': 6, 'loop': False},
+        'idle-dos': {'ligne': 'dos', 'cols': [0, 1], 'fps': 3, 'loop': True},
+        'marche-dos': {'ligne': 'dos', 'cols': [2, 3, 4, 5], 'fps': 6, 'loop': True},
+        'idle-cote': {'ligne': 'cote', 'cols': [0, 1], 'fps': 3, 'loop': True},
+        'marche-cote': {'ligne': 'cote', 'cols': [2, 3, 4, 5], 'fps': 6, 'loop': True},
+        'attaque-cote': {'ligne': 'cote', 'cols': [6, 7, 8], 'fps': 6, 'loop': False},
+    }, 'assets/raw/legacy-of-goku-1/vegeta-saga-saiyan.png', 'Bloc « Great Ape » (cases 32×64) ; la transformation vient du bloc « Saiyan Saga ».')
 
 
 if __name__ == '__main__':

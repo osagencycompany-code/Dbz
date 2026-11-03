@@ -1,18 +1,17 @@
 {
   "cadre": [
-    40,
-    40
+    32,
+    32
   ],
-  "colonnes": 17,
+  "colonnes": 25,
   "lignes": {
     "face": 0,
-    "cote": 1,
-    "dos": 2,
-    "divers": 3
+    "dos": 1,
+    "cote": 2
   },
   "statut": "brouillon : cases numérotées dans l'ordre de lecture de la planche, correspondance proposée par Claude à valider dans l'aperçu",
-  "source": "assets/raw/legacy-of-goku-1/Vegeta.png",
-  "note": "Vegeta de LoG1 (armure blanche et combinaison bleue), à comparer à la version jouable (voir apercu-heros.html). Les lignes face/côté/dos ne sont pas alignées par colonnes avec les animations : à valider.",
+  "source": "assets/raw/legacy-of-goku-1/vegeta-saga-saiyan.png",
+  "note": "Bloc « Saiyan Saga » (armure de la saga Saiyan), cases de 32×32, avec un scouter vert ajouté par ce script sur les images de face et de côté (pas de scouter de dos).",
   "animations": {
     "idle": {
       "ligne": "face",
@@ -23,7 +22,7 @@
       "fps": 3,
       "loop": true
     },
-    "marche-face": {
+    "marche": {
       "ligne": "face",
       "cols": [
         2,
@@ -34,54 +33,52 @@
       "fps": 8,
       "loop": true
     },
-    "attaque-face": {
+    "coup": {
       "ligne": "face",
-      "cols": [
-        6,
-        7,
-        8
-      ],
-      "fps": 10
-    },
-    "blesse": {
-      "ligne": "face",
-      "cols": [
-        12,
-        13,
-        14
-      ],
-      "fps": 8
-    },
-    "marche-cote": {
-      "ligne": "cote",
-      "cols": [
-        2,
-        3,
-        4,
-        5
-      ],
-      "fps": 8,
-      "loop": true
-    },
-    "attaque-cote": {
-      "ligne": "cote",
       "cols": [
         6,
         7,
         8,
-        9
-      ],
-      "fps": 10
-    },
-    "tir-cote": {
-      "ligne": "cote",
-      "cols": [
+        9,
         10,
         11,
         12,
         13
       ],
-      "fps": 10
+      "fps": 12,
+      "loop": false
+    },
+    "tir": {
+      "ligne": "face",
+      "cols": [
+        14,
+        15,
+        16
+      ],
+      "fps": 8,
+      "loop": false
+    },
+    "colere": {
+      "ligne": "face",
+      "cols": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "fps": 6,
+      "loop": true
+    },
+    "vaincu": {
+      "ligne": "face",
+      "cols": [
+        21,
+        22,
+        23,
+        24
+      ],
+      "fps": 5,
+      "loop": false
     },
     "marche-dos": {
       "ligne": "dos",
@@ -94,13 +91,76 @@
       "fps": 8,
       "loop": true
     },
-    "ko": {
-      "ligne": "divers",
+    "coup-dos": {
+      "ligne": "dos",
+      "cols": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "fps": 12,
+      "loop": false
+    },
+    "idle-cote": {
+      "ligne": "cote",
+      "cols": [
+        0,
+        1
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "marche-cote": {
+      "ligne": "cote",
       "cols": [
         2,
-        3
+        3,
+        4,
+        5
       ],
-      "fps": 4
+      "fps": 8,
+      "loop": true
+    },
+    "coup-cote": {
+      "ligne": "cote",
+      "cols": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "fps": 12,
+      "loop": false
+    },
+    "tir-cote": {
+      "ligne": "cote",
+      "cols": [
+        14,
+        15,
+        16
+      ],
+      "fps": 8,
+      "loop": false
+    },
+    "colere-cote": {
+      "ligne": "cote",
+      "cols": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "fps": 6,
+      "loop": true
     }
   }
 }
