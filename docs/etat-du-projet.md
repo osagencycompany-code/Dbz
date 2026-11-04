@@ -63,3 +63,12 @@ Les fiches de monstres communs gardent leurs sprites actuels : le client n'affic
 - Choix du personnage : `POST /api/personnages/:id/jouer` (plus de GET).
 - **À SUPPRIMER dans ce jalon 5, dès que l'écran de création existe** : la création d'office de Son Goku (`chargerOuCreer` dans `apps/server/src/db/personnages.ts`, route `GET /api/personnage`). Dans la bêta : chaque joueur choisit son héros et son apparence à la création et son personnage parmi ses 5 emplacements à chaque connexion ; un compte sans personnage arrive sur l'écran de création. Un test `it.todo` est prêt dans `emplacements.test.ts`.
 - **Effets (décision du 2026-11-03)** : pas d'effets dessinés de zéro. On reprend ceux du prototype 06 : graphics/animations 20 (charge du ki), 1 (aura Super Saiyan), 8 (étincelle), 3 et 2 (traînées de coup), 9 (poussière), 11 et 13 (explosions), 24 (onde de choc), mêmes réglages que le prototype. Super Saiyan 2 : arcs turquoise générés. Aucun extrait d'effets-swl dans le jeu.
+
+### Clignotement contre un mur et script de vue (fait)
+
+- Correctif de réconciliation déjà présent dans `apps/client/src/jeu/scene.ts` (champ `aBouge`, recalage seulement au-delà de 6 px, `enMarche = aBouge` pour le joueur local) : non réécrit.
+- Ajout de `scripts/voir.mjs` : `DBZ_MDP=<mot de passe> node scripts/voir.mjs ["/tp rpgmaker/map062"]` ouvre le jeu (960×540), se connecte (pseudo `Souley`, ou `DBZ_PSEUDO`), active F3, tape la commande et enregistre `docs/captures/vue.png`.
+- Le mot de passe n'est stocké nulle part : il se passe par `DBZ_MDP`.
+- Fichier client seul : `npm run check` non relancé. Capture pas encore prise (mot de passe manquant).
+- À vérifier par Souleymen : Ctrl+F5, courir contre un mur sur `/tp rpgmaker/map062`, répondre « ça saute » ou « ça ne saute plus ».
+- Le « saut » en courant venait de l'animation, pas de la position : le dos de Goku sautait la colonne 1 de la planche (corrigé dans `dessinerJoueur`, `scene.ts` : colonne 1 du dos remplacée par la 0). Position mesurée stable contre les murs de map062. On ne retouche plus la réconciliation pour ça.

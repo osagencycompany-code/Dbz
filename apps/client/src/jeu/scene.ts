@@ -70,6 +70,7 @@ export class ScenePrincipale extends Phaser.Scene {
   private monstres = new Map<string, Entite>();
   private moi = "";
   private predit = { x: 0, y: 0 };
+  private aBouge = false;
   private pending: Entree[] = [];
   private seq = 0;
   private instantaneeServeur = "";
@@ -247,7 +248,9 @@ export class ScenePrincipale extends Phaser.Scene {
     const e: Entree = { seq: ++this.seq, dx, dy, course: t.course!.isDown };
     this.d.room.send("entree", e);
     this.pending.push(e);
+    const avant = this.predit;
     this.predit = this.appliquer(this.predit, e, pas);
+    this.aBouge = Math.hypot(this.predit.x - avant.x, this.predit.y - avant.y) > 0.05;
     this.dirLocale = directionDepuisVecteur(dx, dy, this.dirLocale);
   }
 
@@ -329,7 +332,8 @@ export class ScenePrincipale extends Phaser.Scene {
     const pas = 1 / this.d.bienvenue.tic_hz;
     for (const e of this.pending) p = this.appliquer(p, e, pas);
     if (me.ko) this.pending = [];
-    this.predit = p;
+    // un écart de quelques pixels est le frottement contre un mur : on ne recale pas, sinon le sprite saute
+    if (Math.hypot(p.x - this.predit.x, p.y - this.predit.y) > 6) this.predit = p;
   }
 
   // ---------------------------------------------------------------------------------- affichage
@@ -347,13 +351,9 @@ export class ScenePrincipale extends Phaser.Scene {
         this.joueurs.set(id, e);
       }
       if (id === this.moi) {
-        const dist = Math.hypot(this.predit.x - e.x, this.predit.y - e.y);
-        if (dist >= 0.75) {
-          e.x = this.predit.x;
-          e.y = this.predit.y;
-        }
-        const t = this.touches;
-        e.enMarche = t.haut!.isDown || t.bas!.isDown || t.gauche!.isDown || t.droite!.isDown;
+        e.x = this.predit.x;
+        e.y = this.predit.y;
+        e.enMarche = this.aBouge;
       } else {
         this.deplacerVers(e, { x: j.x as number, y: j.y as number }, dt);
       }
@@ -417,7 +417,9 @@ export class ScenePrincipale extends Phaser.Scene {
       e.t = 0;
       (e as Entite & { dernier?: string }).dernier = nom;
     }
-    e.sprite.setFrame(ligne * this.defAnims.columns + def.cols[i]!);
+    let col = def.cols[i]!;
+    if (ligne === rangs.dos && col === 1) col = 0;
+    e.sprite.setFrame(ligne * this.defAnims.columns + col);
     e.sprite.setFlipX(dir === 2);
     e.sprite.setAlpha(j.ko ? 0.45 : 1);
     this.placer(e, `${j.pseudo} · Niv ${j.niveau}`, j.pv / Math.max(1, j.pvMax), j.id === this.moi ? false : true);
